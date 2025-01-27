@@ -37,7 +37,6 @@ async function prepare() {
           currentUser: {
             id: '1',
             email: 'gavin@hooli.com',
-            premium: true,
             memberships: [membershipWithPermissions],
             __typename: 'User',
           },

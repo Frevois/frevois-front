@@ -24,7 +24,6 @@ gql`
       id
       name
       logoUrl
-      premiumIntegrations
     }
   }
 `

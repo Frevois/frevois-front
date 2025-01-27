@@ -6,7 +6,6 @@ import { generatePath, useNavigate, useParams } from 'react-router-dom'
 import styled from 'styled-components'
 
 import { Button, Typography } from '~/components/designSystem'
-import { PremiumWarningDialog, PremiumWarningDialogRef } from '~/components/PremiumWarningDialog'
 import { WalletCodeSnippet } from '~/components/wallets/WalletCodeSnippet'
 import { WarningDialog, WarningDialogRef } from '~/components/WarningDialog'
 import { addToast } from '~/core/apolloClient'
@@ -109,7 +108,6 @@ const WalletForm = () => {
   const { organization } = useOrganizationInfos()
 
   const warningDialogRef = useRef<WarningDialogRef>(null)
-  const premiumWarningDialogRef = useRef<PremiumWarningDialogRef>(null)
   const formType = useMemo(() => {
     if (!!walletId) return FORM_TYPE_ENUM.edition
 
@@ -341,7 +339,6 @@ const WalletForm = () => {
                 customerData={customerData}
                 isRecurringTopUpEnabled={isRecurringTopUpEnabled}
                 setIsRecurringTopUpEnabled={setIsRecurringTopUpEnabled}
-                premiumWarningDialogRef={premiumWarningDialogRef}
               />
 
               <ButtonContainer className="!max-w-168">
@@ -382,8 +379,6 @@ const WalletForm = () => {
         continueText={translate('text_645388d5bdbd7b00abffa033')}
         onContinue={() => navigateToCustomerWalletTab()}
       />
-
-      <PremiumWarningDialog ref={premiumWarningDialogRef} />
     </>
   )
 }

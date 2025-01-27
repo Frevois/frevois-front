@@ -17,12 +17,10 @@ const AMOUNT = '100'
 
 jest.mock('~/hooks/useCurrentUser', () => ({
   useCurrentUser: () => ({
-    isPremium: true,
     loading: false,
     currentUser: {
       id: '1',
       email: 'currentUser@mail.com',
-      premium: true,
     },
   }),
 }))
@@ -149,26 +147,5 @@ describe('WalletTransactionListItem', () => {
     expect(screen.queryByTestId('caption-pending')).not.toBeInTheDocument()
     expect(screen.getByTestId('credits')).toHaveTextContent(CREDITS)
     expect(screen.getByTestId('amount')).toHaveTextContent(AMOUNT)
-  })
-
-  it('should render real time transaction with zero amount for non premium user', async () => {
-    jest.mock('~/hooks/useCurrentUser', () => ({
-      useCurrentUser: () => ({
-        isPremium: false,
-        loading: false,
-        currentUser: {
-          id: '1',
-          email: 'currentUser@mail.com',
-          premium: false,
-        },
-      }),
-    }))
-
-    await prepare(undefined, true)
-
-    expect(screen.getByTitle('pulse/medium')).toBeInTheDocument()
-    expect(screen.queryByTestId('caption-pending')).not.toBeInTheDocument()
-    expect(screen.getByTestId('credits')).toHaveTextContent('0')
-    expect(screen.getByTestId('amount')).toHaveTextContent('0')
   })
 })

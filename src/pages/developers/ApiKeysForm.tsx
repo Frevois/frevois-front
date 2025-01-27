@@ -1,19 +1,16 @@
 import { gql } from '@apollo/client'
 import { useFormik } from 'formik'
-import { useRef } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 
-import { Alert, Button, Icon, Skeleton, Table, Typography } from '~/components/designSystem'
+import { Alert, Button, Skeleton, Table, Typography } from '~/components/designSystem'
 import { Checkbox, TextInputField } from '~/components/form'
 import { CenteredPage } from '~/components/layouts/Pages'
-import { PremiumWarningDialog, PremiumWarningDialogRef } from '~/components/PremiumWarningDialog'
 import { addToast } from '~/core/apolloClient'
 import { API_KEYS_ROUTE } from '~/core/router'
 import { formatDateToTZ } from '~/core/timezone'
 import {
   ApiKeysPermissionsEnum,
   CreateApiKeyInput,
-  PremiumIntegrationTypeEnum,
   TimezoneEnum,
   UpdateApiKeyInput,
   useCreateApiKeyMutation,
@@ -21,7 +18,6 @@ import {
   useUpdateApiKeyMutation,
 } from '~/generated/graphql'
 import { useInternationalization } from '~/hooks/core/useInternationalization'
-import { useOrganizationInfos } from '~/hooks/useOrganizationInfos'
 import { FormLoadingSkeleton } from '~/styles/mainObjectsForm'
 
 export const STATE_KEY_ID_TO_REVEAL = 'keyIdToReveal'
@@ -100,12 +96,6 @@ const ApiKeysForm = () => {
   const navigate = useNavigate()
   const { apiKeyId = '' } = useParams()
   const { translate } = useInternationalization()
-  const premiumWarningDialogRef = useRef<PremiumWarningDialogRef>(null)
-  const { organization: { premiumIntegrations } = {} } = useOrganizationInfos()
-
-  const hasAccessToApiPermissionsPremiumAddOn = !!premiumIntegrations?.includes(
-    PremiumIntegrationTypeEnum.ApiPermissions,
-  )
 
   const { data: apiKeyData, loading: apiKeyLoading } = useGetApiKeyToEditQuery({
     variables: {
@@ -158,15 +148,13 @@ const ApiKeysForm = () => {
     validateOnMount: true,
     enableReinitialize: true,
     onSubmit: async ({ permissions, ...values }) => {
-      const formattedPermissions = hasAccessToApiPermissionsPremiumAddOn
-        ? permissions.reduce(
-            (acc, { id, canRead, canWrite }) => ({
-              ...acc,
-              [id]: [canRead ? 'read' : '', canWrite ? 'write' : ''].filter(Boolean),
-            }),
-            {},
-          )
-        : undefined
+      const formattedPermissions = permissions.reduce(
+        (acc, { id, canRead, canWrite }) => ({
+          ...acc,
+          [id]: [canRead ? 'read' : '', canWrite ? 'write' : ''].filter(Boolean),
+        }),
+        {},
+      )
 
       if (isEdition) {
         await updadeApiKey({
@@ -262,177 +250,144 @@ const ApiKeysForm = () => {
                   </Typography>
                 </div>
 
-                {!hasAccessToApiPermissionsPremiumAddOn ? (
-                  <div className="flex w-full flex-row items-center justify-between gap-2 rounded-xl bg-grey-100 px-6 py-4">
-                    <div className="flex flex-col">
-                      <div className="flex flex-row items-center gap-2">
-                        <Typography variant="bodyHl" color="grey700">
-                          {translate('text_17328950221712ase46l0iwq')}
+                <Table
+                  name="api-keys-permissions"
+                  data={formikProps.values.permissions}
+                  containerSize={0}
+                  isLoading={apiKeyLoading}
+                  columns={[
+                    {
+                      key: 'id',
+                      maxSpace: true,
+                      title: (
+                        <Typography variant="captionHl" color="grey600">
+                          {translate('text_1732895022171f9vnwh5gm3q')}
                         </Typography>
-                        <Icon name="sparkles" />
-                      </div>
+                      ),
+                      content: ({ id }) => (
+                        <Typography variant="body" color="grey700">
+                          {translate(resourseTypeTranslationKeys[id])}
+                        </Typography>
+                      ),
+                    },
+                    {
+                      key: 'canRead',
+                      minWidth: 176,
+                      title: (
+                        <Checkbox
+                          canBeIndeterminate
+                          label={
+                            <Typography variant="captionHl" color="grey600">
+                              {translate('text_1732893748379m7jh7zzz956')}
+                            </Typography>
+                          }
+                          value={
+                            formikProps.values.permissions.every(({ canRead }) => canRead === true)
+                              ? true
+                              : formikProps.values.permissions.every(
+                                    ({ canRead }) => canRead === false,
+                                  )
+                                ? false
+                                : undefined
+                          }
+                          onChange={() => {
+                            const nextValue = !formikProps.values.permissions.every(
+                              ({ canRead }) => canRead === true,
+                            )
 
-                      <Typography variant="caption" color="grey600">
-                        {translate('text_1732895022171dkdzjnjtk10')}
-                      </Typography>
-                    </div>
-                    <Button
-                      endIcon="sparkles"
-                      variant="tertiary"
-                      onClick={() =>
-                        premiumWarningDialogRef.current?.openDialog({
-                          title: translate('text_661ff6e56ef7e1b7c542b1ea'),
-                          description: translate('text_661ff6e56ef7e1b7c542b1f6'),
-                          mailtoSubject: translate('text_17328950221712tn2kbvuqrg'),
-                          mailtoBody: translate('text_1732895022171rrj3kk58023'),
-                        })
-                      }
-                    >
-                      {translate('text_65ae73ebe3a66bec2b91d72d')}
-                    </Button>
-                  </div>
-                ) : (
-                  <Table
-                    name="api-keys-permissions"
-                    data={formikProps.values.permissions}
-                    containerSize={0}
-                    isLoading={apiKeyLoading}
-                    columns={[
-                      {
-                        key: 'id',
-                        maxSpace: true,
-                        title: (
-                          <Typography variant="captionHl" color="grey600">
-                            {translate('text_1732895022171f9vnwh5gm3q')}
-                          </Typography>
-                        ),
-                        content: ({ id }) => (
-                          <Typography variant="body" color="grey700">
-                            {translate(resourseTypeTranslationKeys[id])}
-                          </Typography>
-                        ),
-                      },
-                      {
-                        key: 'canRead',
-                        minWidth: 176,
-                        title: (
+                            formikProps.setFieldValue(
+                              'permissions',
+                              formikProps.values.permissions.map((permission) => ({
+                                ...permission,
+                                canRead: nextValue,
+                              })),
+                            )
+                          }}
+                        />
+                      ),
+                      content: ({ id, canRead }) => {
+                        return (
                           <Checkbox
-                            canBeIndeterminate
-                            label={
-                              <Typography variant="captionHl" color="grey600">
-                                {translate('text_1732893748379m7jh7zzz956')}
-                              </Typography>
-                            }
-                            value={
-                              formikProps.values.permissions.every(
-                                ({ canRead }) => canRead === true,
-                              )
-                                ? true
-                                : formikProps.values.permissions.every(
-                                      ({ canRead }) => canRead === false,
-                                    )
-                                  ? false
-                                  : undefined
-                            }
+                            label={translate('text_17328934519835pubx8tx7k7')}
+                            value={canRead}
                             onChange={() => {
-                              const nextValue = !formikProps.values.permissions.every(
-                                ({ canRead }) => canRead === true,
-                              )
-
                               formikProps.setFieldValue(
                                 'permissions',
-                                formikProps.values.permissions.map((permission) => ({
-                                  ...permission,
-                                  canRead: nextValue,
-                                })),
+                                formikProps.values.permissions.map((permission) =>
+                                  permission.id === id
+                                    ? { ...permission, canRead: !permission.canRead }
+                                    : permission,
+                                ),
                               )
                             }}
                           />
-                        ),
-                        content: ({ id, canRead }) => {
-                          return (
-                            <Checkbox
-                              label={translate('text_17328934519835pubx8tx7k7')}
-                              value={canRead}
-                              onChange={() => {
-                                formikProps.setFieldValue(
-                                  'permissions',
-                                  formikProps.values.permissions.map((permission) =>
-                                    permission.id === id
-                                      ? { ...permission, canRead: !permission.canRead }
-                                      : permission,
-                                  ),
-                                )
-                              }}
-                            />
-                          )
-                        },
+                        )
                       },
-                      {
-                        key: 'canWrite',
-                        minWidth: 144,
-                        title: (
-                          <Checkbox
-                            canBeIndeterminate
-                            label={
-                              <Typography variant="captionHl" color="grey600">
-                                {translate('text_17328937483790tnuhasm2yr')}
-                              </Typography>
-                            }
-                            value={
-                              formikProps.values.permissions.every(
-                                ({ canWrite }) => canWrite === true,
-                              )
-                                ? true
-                                : formikProps.values.permissions.every(
-                                      ({ canWrite }) => canWrite === false,
-                                    )
-                                  ? false
-                                  : undefined
-                            }
-                            onChange={() => {
-                              const nextValue = !formikProps.values.permissions.every(
-                                ({ canWrite }) => canWrite === true,
-                              )
+                    },
+                    {
+                      key: 'canWrite',
+                      minWidth: 144,
+                      title: (
+                        <Checkbox
+                          canBeIndeterminate
+                          label={
+                            <Typography variant="captionHl" color="grey600">
+                              {translate('text_17328937483790tnuhasm2yr')}
+                            </Typography>
+                          }
+                          value={
+                            formikProps.values.permissions.every(
+                              ({ canWrite }) => canWrite === true,
+                            )
+                              ? true
+                              : formikProps.values.permissions.every(
+                                    ({ canWrite }) => canWrite === false,
+                                  )
+                                ? false
+                                : undefined
+                          }
+                          onChange={() => {
+                            const nextValue = !formikProps.values.permissions.every(
+                              ({ canWrite }) => canWrite === true,
+                            )
 
+                            formikProps.setFieldValue(
+                              'permissions',
+                              formikProps.values.permissions.map((permission) => ({
+                                ...permission,
+                                canWrite: nextValue,
+                              })),
+                            )
+                          }}
+                        />
+                      ),
+                      content: ({ id, canWrite }) => {
+                        if (
+                          id === ApiKeysPermissionsEnum.Analytic ||
+                          id === ApiKeysPermissionsEnum.CustomerUsage
+                        )
+                          return null
+
+                        return (
+                          <Checkbox
+                            label={translate('text_1732893451983ghftswenkuh')}
+                            value={canWrite}
+                            onChange={() => {
                               formikProps.setFieldValue(
                                 'permissions',
-                                formikProps.values.permissions.map((permission) => ({
-                                  ...permission,
-                                  canWrite: nextValue,
-                                })),
+                                formikProps.values.permissions.map((permission) =>
+                                  permission.id === id
+                                    ? { ...permission, canWrite: !permission.canWrite }
+                                    : permission,
+                                ),
                               )
                             }}
                           />
-                        ),
-                        content: ({ id, canWrite }) => {
-                          if (
-                            id === ApiKeysPermissionsEnum.Analytic ||
-                            id === ApiKeysPermissionsEnum.CustomerUsage
-                          )
-                            return null
-
-                          return (
-                            <Checkbox
-                              label={translate('text_1732893451983ghftswenkuh')}
-                              value={canWrite}
-                              onChange={() => {
-                                formikProps.setFieldValue(
-                                  'permissions',
-                                  formikProps.values.permissions.map((permission) =>
-                                    permission.id === id
-                                      ? { ...permission, canWrite: !permission.canWrite }
-                                      : permission,
-                                  ),
-                                )
-                              }}
-                            />
-                          )
-                        },
+                        )
                       },
-                    ]}
-                  />
-                )}
+                    },
+                  ]}
+                />
               </div>
             </>
           )}
@@ -453,8 +408,6 @@ const ApiKeysForm = () => {
           </Button>
         </CenteredPage.StickyFooter>
       </CenteredPage.Wrapper>
-
-      <PremiumWarningDialog ref={premiumWarningDialogRef} />
     </>
   )
 }

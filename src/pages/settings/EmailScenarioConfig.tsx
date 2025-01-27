@@ -1,10 +1,9 @@
-import { useRef, useState } from 'react'
+import { useState } from 'react'
 import { useParams } from 'react-router-dom'
 import styled from 'styled-components'
 
 import { Avatar, Button, Icon, Skeleton, Tooltip, Typography } from '~/components/designSystem'
 import { Switch } from '~/components/form'
-import { PremiumWarningDialog, PremiumWarningDialogRef } from '~/components/PremiumWarningDialog'
 import { LanguageSettingsButton } from '~/components/settings/LanguageSettingsButton'
 import { PreviewEmailLayout } from '~/components/settings/PreviewEmailLayout'
 import { EMAILS_SCENARIO_CONFIG_ROUTE, EMAILS_SETTINGS_ROUTE } from '~/core/router'
@@ -13,7 +12,6 @@ import { EmailSettingsEnum } from '~/generated/graphql'
 import { useContextualLocale } from '~/hooks/core/useContextualLocale'
 import { useInternationalization } from '~/hooks/core/useInternationalization'
 import { useLocationHistory } from '~/hooks/core/useLocationHistory'
-import { useCurrentUser } from '~/hooks/useCurrentUser'
 import { useEmailConfig } from '~/hooks/useEmailConfig'
 import { usePermissions } from '~/hooks/usePermissions'
 import { PageHeader, theme } from '~/styles'
@@ -59,15 +57,12 @@ const mapTranslationsKey = (type?: EmailSettingsEnum) => {
 }
 
 const EmailScenarioConfig = () => {
-  const premiumWarningDialogRef = useRef<PremiumWarningDialogRef>(null)
-
   const [invoiceLanguage, setInvoiceLanguage] = useState<LocaleEnum>(LocaleEnum.en)
   const [display, setDisplay] = useState<DisplayEnum>(DisplayEnum.desktop)
   const { translate } = useInternationalization()
   const { type } = useParams<{ type: EmailSettingsEnum }>()
   const { goBack } = useLocationHistory()
   const translationsKey = mapTranslationsKey(type)
-  const { isPremium } = useCurrentUser()
   const { hasPermissions } = usePermissions()
   const { loading, emailSettings, name, updateEmailSettings } = useEmailConfig()
   const { translateWithContextualLocal } = useContextualLocale(invoiceLanguage)
@@ -100,14 +95,9 @@ const EmailScenarioConfig = () => {
                 e.preventDefault()
                 e.stopPropagation()
 
-                if (isPremium) {
-                  await updateEmailSettings(type as EmailSettingsEnum, value)
-                } else {
-                  premiumWarningDialogRef.current?.openDialog()
-                }
+                await updateEmailSettings(type as EmailSettingsEnum, value)
               }}
             />
-            {!isPremium && <Icon name="sparkles" />}
           </HeaderRight>
         )}
       </PageHeader.Wrapper>
@@ -255,7 +245,6 @@ const EmailScenarioConfig = () => {
           </PreviewEmailLayout>
         </PreviewContent>
       </PreviewContainer>
-      <PremiumWarningDialog ref={premiumWarningDialogRef} />
     </Container>
   )
 }

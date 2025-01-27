@@ -54,12 +54,10 @@ jest.mock('~/hooks/usePermissions', () => ({
 
 jest.mock('~/hooks/useCurrentUser', () => ({
   useCurrentUser: () => ({
-    isPremium: true,
     loading: false,
     currentUser: {
       id: '1',
       email: 'currentUser@mail.com',
-      premium: false,
     },
   }),
 }))

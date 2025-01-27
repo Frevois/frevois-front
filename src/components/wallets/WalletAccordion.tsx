@@ -1,13 +1,11 @@
 import { gql } from '@apollo/client'
-import { Stack } from '@mui/material'
 import { DateTime } from 'luxon'
-import { forwardRef, RefObject } from 'react'
+import { forwardRef } from 'react'
 import styled, { css } from 'styled-components'
 
 import {
   Accordion,
   Avatar,
-  Button,
   Icon,
   Skeleton,
   Status,
@@ -28,15 +26,12 @@ import {
   WalletTransactionTransactionTypeEnum,
 } from '~/generated/graphql'
 import { useInternationalization } from '~/hooks/core/useInternationalization'
-import { useCurrentUser } from '~/hooks/useCurrentUser'
 import { useOrganizationInfos } from '~/hooks/useOrganizationInfos'
 import { theme } from '~/styles'
 
 import { TopupWalletDialogRef } from './TopupWalletDialog'
 import { WalletTransactionList } from './WalletTransactionList'
 import { WalletTransactionListItem } from './WalletTransactionListItem'
-
-import { PremiumWarningDialogRef } from '../PremiumWarningDialog'
 
 gql`
   fragment WalletAccordion on Wallet {
@@ -65,7 +60,6 @@ gql`
 
 interface WalletAccordionProps {
   wallet: WalletAccordionFragment
-  premiumWarningDialogRef: RefObject<PremiumWarningDialogRef>
   customerTimezone?: TimezoneEnum
 }
 
@@ -85,7 +79,7 @@ const mapStatus = (type?: WalletStatusEnum | undefined): StatusProps => {
 }
 
 export const WalletAccordion = forwardRef<TopupWalletDialogRef, WalletAccordionProps>(
-  ({ customerTimezone, premiumWarningDialogRef, wallet }: WalletAccordionProps, ref) => {
+  ({ customerTimezone, wallet }: WalletAccordionProps, ref) => {
     const {
       balanceCents,
       consumedAmountCents,
@@ -103,7 +97,6 @@ export const WalletAccordion = forwardRef<TopupWalletDialogRef, WalletAccordionP
       ongoingBalanceCents,
       creditsOngoingBalance,
     } = wallet
-    const { isPremium } = useCurrentUser()
     const { formatTimeOrgaTZ } = useOrganizationInfos()
     const statusMap = mapStatus(status)
     const [creditAmountUnit = '0', creditAmountCents = '00'] = String(creditsBalance).split('.')
@@ -147,29 +140,6 @@ export const WalletAccordion = forwardRef<TopupWalletDialogRef, WalletAccordionP
       >
         {({ isOpen }) => (
           <>
-            {!isPremium && (
-              <FreemiumWarningBlock>
-                <Stack direction="column">
-                  <Stack direction="row" spacing={1}>
-                    <Typography variant="bodyHl" color="grey700">
-                      {translate('text_65ae73ebe3a66bec2b91d721')}
-                    </Typography>
-
-                    <Icon name="sparkles" />
-                  </Stack>
-                  <Typography variant="caption" color="grey600">
-                    {translate('text_65ae73ebe3a66bec2b91d727')}
-                  </Typography>
-                </Stack>
-                <Button
-                  variant="tertiary"
-                  endIcon="sparkles"
-                  onClick={() => premiumWarningDialogRef.current?.openDialog()}
-                >
-                  {translate('text_65ae73ebe3a66bec2b91d72d')}
-                </Button>
-              </FreemiumWarningBlock>
-            )}
             <DetailSummary>
               <DetailSummaryBlock>
                 <DetailSummaryLine>
@@ -235,26 +205,20 @@ export const WalletAccordion = forwardRef<TopupWalletDialogRef, WalletAccordionP
                   </DetailSummaryLine>
                   <DetailSummaryLine $alignBaseLine>
                     <Typography
-                      blur={!isPremium}
                       color={isWalletActive ? 'grey700' : 'grey600'}
                       variant="subhead"
                       noWrap
                     >
-                      {isPremium ? consumedCreditUnit : '0'}
+                      {consumedCreditUnit}
                     </Typography>
                     <Typography
                       className="mr-1"
-                      blur={!isPremium}
                       color={isWalletActive ? 'grey700' : 'grey600'}
                       variant="captionHl"
                     >
-                      .{isPremium ? consumedCreditCents : '00'}
+                      .{consumedCreditCents}
                     </Typography>
-                    <Typography
-                      color={isWalletActive ? 'grey700' : 'grey600'}
-                      variant="captionHl"
-                      blur={!isPremium}
-                    >
+                    <Typography color={isWalletActive ? 'grey700' : 'grey600'} variant="captionHl">
                       {translate(
                         'text_62da6ec24a8e24e44f812884',
                         undefined,
@@ -263,14 +227,11 @@ export const WalletAccordion = forwardRef<TopupWalletDialogRef, WalletAccordionP
                     </Typography>
                   </DetailSummaryLine>
                   <DetailSummaryLine>
-                    <Typography color="grey600" variant="caption" blur={!isPremium}>
-                      {intlFormatNumber(
-                        deserializeAmount(isPremium ? ongoingBalanceCents : 0, currency),
-                        {
-                          currencyDisplay: 'symbol',
-                          currency,
-                        },
-                      )}
+                    <Typography color="grey600" variant="caption">
+                      {intlFormatNumber(deserializeAmount(ongoingBalanceCents, currency), {
+                        currencyDisplay: 'symbol',
+                        currency,
+                      })}
                     </Typography>
                   </DetailSummaryLine>
                 </DetailSummaryBlock>
@@ -443,17 +404,6 @@ const DetailSummaryLine = styled.div<{ $alignBaseLine?: boolean }>`
   > * {
     display: flex;
   }
-`
-
-const FreemiumWarningBlock = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: ${theme.spacing(4)};
-  background-color: ${theme.palette.grey[100]};
-  padding: ${theme.spacing(4)};
-  border-top: 1px solid ${theme.palette.grey[400]};
-  box-shadow: ${theme.shadows[7]};
 `
 
 WalletAccordion.displayName = 'WalletAccordion'

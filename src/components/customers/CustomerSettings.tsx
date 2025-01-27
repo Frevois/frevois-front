@@ -21,7 +21,6 @@ import {
   Typography,
 } from '~/components/designSystem'
 import { GenericPlaceholder } from '~/components/GenericPlaceholder'
-import { PremiumWarningDialog, PremiumWarningDialogRef } from '~/components/PremiumWarningDialog'
 import {
   EditFinalizeZeroAmountInvoiceDialog,
   EditFinalizeZeroAmountInvoiceDialogRef,
@@ -43,12 +42,9 @@ import {
   EditCustomerInvoiceGracePeriodFragmentDoc,
   EditCustomerVatRateFragmentDoc,
   FinalizeZeroAmountInvoiceEnum,
-  PremiumIntegrationTypeEnum,
   useGetCustomerSettingsQuery,
 } from '~/generated/graphql'
 import { useInternationalization } from '~/hooks/core/useInternationalization'
-import { useCurrentUser } from '~/hooks/useCurrentUser'
-import { useOrganizationInfos } from '~/hooks/useOrganizationInfos'
 import { usePermissions } from '~/hooks/usePermissions'
 import ErrorImage from '~/public/images/maneki/error.svg'
 import { MenuPopper } from '~/styles'
@@ -195,9 +191,7 @@ interface CustomerSettingsProps {
 
 export const CustomerSettings = ({ customerId }: CustomerSettingsProps) => {
   const { translate } = useInternationalization()
-  const { isPremium } = useCurrentUser()
   const { hasPermissions } = usePermissions()
-  const { organization: { premiumIntegrations } = {} } = useOrganizationInfos()
   const { data, loading, error } = useGetCustomerSettingsQuery({
     variables: { id: customerId as string },
     skip: !customerId,
@@ -213,7 +207,6 @@ export const CustomerSettings = ({ customerId }: CustomerSettingsProps) => {
   const editCustomerInvoiceCustomSectionsDialogRef =
     useRef<EditCustomerInvoiceCustomSectionsDialogRef>(null)
   const deleteCustomerDocumentLocale = useRef<DeleteCustomerDocumentLocaleDialogRef>(null)
-  const premiumWarningDialogRef = useRef<PremiumWarningDialogRef>(null)
   const editNetPaymentTermDialogRef = useRef<EditNetPaymentTermDialogRef>(null)
   const deleteOrganizationNetPaymentTermDialogRef =
     useRef<DeleteOrganizationNetPaymentTermDialogRef>(null)
@@ -235,9 +228,8 @@ export const CustomerSettings = ({ customerId }: CustomerSettingsProps) => {
     )
   }
 
-  const hasAutoDunningIntegration = premiumIntegrations?.includes(
-    PremiumIntegrationTypeEnum.AutoDunning,
-  )
+  // TODO(Frevois): Remove this flag
+  const hasAutoDunningIntegration = true
   const dunningCampaign =
     customer?.appliedDunningCampaign ?? organization?.appliedDunningCampaign ?? undefined
 
@@ -267,12 +259,7 @@ export const CustomerSettings = ({ customerId }: CustomerSettingsProps) => {
                           <Button
                             disabled={loading}
                             variant="quaternary"
-                            endIcon={isPremium ? undefined : 'sparkles'}
-                            onClick={() =>
-                              isPremium
-                                ? editCustomerDocumentLocale?.current?.openDialog()
-                                : premiumWarningDialogRef.current?.openDialog()
-                            }
+                            onClick={() => editCustomerDocumentLocale?.current?.openDialog()}
                           >
                             {translate('text_645bb193927b375079d28ad2')}
                           </Button>
@@ -499,12 +486,7 @@ export const CustomerSettings = ({ customerId }: CustomerSettingsProps) => {
                           <Button
                             disabled={loading}
                             variant="quaternary"
-                            endIcon={isPremium ? undefined : 'sparkles'}
-                            onClick={() =>
-                              isPremium
-                                ? editInvoiceGracePeriodDialogRef?.current?.openDialog()
-                                : premiumWarningDialogRef.current?.openDialog()
-                            }
+                            onClick={() => editInvoiceGracePeriodDialogRef?.current?.openDialog()}
                           >
                             {translate('text_645bb193927b375079d28ad2')}
                           </Button>
@@ -590,7 +572,6 @@ export const CustomerSettings = ({ customerId }: CustomerSettingsProps) => {
                       <Button
                         disabled={loading}
                         variant="quaternary"
-                        endIcon={isPremium ? undefined : 'sparkles'}
                         onClick={() =>
                           editCustomerInvoiceCustomSectionsDialogRef?.current?.openDialog()
                         }
@@ -867,7 +848,6 @@ export const CustomerSettings = ({ customerId }: CustomerSettingsProps) => {
           />
         </>
       )}
-      <PremiumWarningDialog ref={premiumWarningDialogRef} />
     </>
   )
 }

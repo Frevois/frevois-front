@@ -5,7 +5,6 @@ import { generatePath, useNavigate } from 'react-router-dom'
 import {
   Avatar,
   Button,
-  ButtonLink,
   Chip,
   Icon,
   InfiniteScroll,
@@ -34,12 +33,10 @@ import { addToast } from '~/core/apolloClient'
 import { CREATE_DUNNING_ROUTE, UPDATE_DUNNING_ROUTE } from '~/core/router'
 import {
   DeleteCampaignFragmentDoc,
-  PremiumIntegrationTypeEnum,
   useGetDunningCampaignsQuery,
   useUpdateDunningCampaignStatusMutation,
 } from '~/generated/graphql'
 import { useInternationalization } from '~/hooks/core/useInternationalization'
-import { useOrganizationInfos } from '~/hooks/useOrganizationInfos'
 import ErrorImage from '~/public/images/maneki/error.svg'
 
 gql`
@@ -80,15 +77,11 @@ const Dunnings = () => {
   const defaultCampaignDialogRef = useRef<DefaultCampaignDialogRef>(null)
   const deleteCampaignDialogRef = useRef<DeleteCampaignDialogRef>(null)
 
-  const { organization: { premiumIntegrations } = {} } = useOrganizationInfos()
-
   const { data, loading, error, fetchMore } = useGetDunningCampaignsQuery({
     variables: {
       limit: 20,
     },
   })
-
-  const hasAccessToFeature = premiumIntegrations?.includes(PremiumIntegrationTypeEnum.AutoDunning)
 
   const [updateStatus] = useUpdateDunningCampaignStatusMutation({
     refetchQueries: ['getDunningCampaigns'],
@@ -157,45 +150,20 @@ const Dunnings = () => {
                   label={translate('text_1728574726495w5aylnynne9')}
                   sublabel={translate('text_1728574726495kqlx1l8crvp')}
                   action={
-                    hasAccessToFeature ? (
-                      <Button
-                        variant="quaternary"
-                        disabled={loading}
-                        onClick={() => {
-                          navigate(CREATE_DUNNING_ROUTE)
-                        }}
-                        data-test="create-dunning-button"
-                      >
-                        {translate('text_645bb193927b375079d28ad2')}
-                      </Button>
-                    ) : undefined
+                    <Button
+                      variant="quaternary"
+                      disabled={loading}
+                      onClick={() => {
+                        navigate(CREATE_DUNNING_ROUTE)
+                      }}
+                      data-test="create-dunning-button"
+                    >
+                      {translate('text_645bb193927b375079d28ad2')}
+                    </Button>
                   }
                 />
 
-                {!hasAccessToFeature ? (
-                  <div className="flex items-center justify-between gap-4 rounded-lg bg-grey-100 px-6 py-4">
-                    <div>
-                      <Typography variant="bodyHl" color="textSecondary">
-                        {translate('text_1729263759370k8po52j4m2n')} <Icon name="sparkles" />
-                      </Typography>
-                      <Typography variant="caption">
-                        {translate('text_1729263759370rhgayszv6yq')}
-                      </Typography>
-                    </div>
-                    <ButtonLink
-                      buttonProps={{
-                        variant: 'tertiary',
-                        size: 'medium',
-                        endIcon: 'sparkles',
-                      }}
-                      type="button"
-                      external
-                      to={`mailto:hello@getlago.com?subject=${translate('text_1729263868504ljw2poh51w4')}&body=${translate('text_17292638685046z36ct98v0l')}`}
-                    >
-                      {translate('text_65ae73ebe3a66bec2b91d72d')}
-                    </ButtonLink>
-                  </div>
-                ) : !data?.dunningCampaigns.collection.length ? (
+                {!data?.dunningCampaigns.collection.length ? (
                   <Typography variant="body" color="grey500">
                     {translate('text_17285860642666dsgcx901iq')}
                   </Typography>

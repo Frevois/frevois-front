@@ -16,7 +16,6 @@ import {
   useGetTaxesForCommitmentsLazyQuery,
 } from '~/generated/graphql'
 import { useInternationalization } from '~/hooks/core/useInternationalization'
-import { useCurrentUser } from '~/hooks/useCurrentUser'
 import { NAV_HEIGHT, theme } from '~/styles'
 
 import { mapChargeIntervalCopy } from './ChargeAccordion'
@@ -24,7 +23,6 @@ import { PlanFormInput } from './types'
 
 import { AmountInputField, ComboBox, ComboboxItem } from '../form'
 import { EditInvoiceDisplayNameRef } from '../invoices/EditInvoiceDisplayName'
-import { PremiumWarningDialogRef } from '../PremiumWarningDialog'
 
 gql`
   query getTaxesForCommitments($limit: Int, $page: Int) {
@@ -44,15 +42,12 @@ gql`
 type CommitmentsSectionProps = {
   editInvoiceDisplayNameRef: RefObject<EditInvoiceDisplayNameRef>
   formikProps: FormikProps<PlanFormInput>
-  premiumWarningDialogRef: RefObject<PremiumWarningDialogRef>
 }
 
 export const CommitmentsSection = ({
   editInvoiceDisplayNameRef,
   formikProps,
-  premiumWarningDialogRef,
 }: CommitmentsSectionProps) => {
-  const { isPremium } = useCurrentUser()
   const { translate } = useInternationalization()
 
   const [shouldDisplayTaxesInput, setShouldDisplayTaxesInput] = useState<boolean>(false)
@@ -308,20 +303,15 @@ export const CommitmentsSection = ({
         <Button
           variant="quaternary"
           startIcon="plus"
-          endIcon={isPremium ? undefined : 'sparkles'}
           disabled={displayMinimumCommitment}
           onClick={() => {
-            if (isPremium) {
-              // Add default minimum commitment to the plan
-              formikProps.setFieldValue('minimumCommitment', {
-                commitmentType: CommitmentTypeEnum.MinimumCommitment,
-              })
+            // Add default minimum commitment to the plan
+            formikProps.setFieldValue('minimumCommitment', {
+              commitmentType: CommitmentTypeEnum.MinimumCommitment,
+            })
 
-              // Show the minimum commitment input
-              setDisplayMinimumCommitment(true)
-            } else {
-              premiumWarningDialogRef.current?.openDialog()
-            }
+            // Show the minimum commitment input
+            setDisplayMinimumCommitment(true)
           }}
         >
           {translate('text_6661ffe746c680007e2df0e1')}

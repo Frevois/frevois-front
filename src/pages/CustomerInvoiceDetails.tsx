@@ -32,7 +32,6 @@ import {
   FinalizeInvoiceDialogRef,
 } from '~/components/invoices/FinalizeInvoiceDialog'
 import { VoidInvoiceDialog, VoidInvoiceDialogRef } from '~/components/invoices/VoidInvoiceDialog'
-import { PremiumWarningDialog, PremiumWarningDialogRef } from '~/components/PremiumWarningDialog'
 import { addToast, LagoGQLError } from '~/core/apolloClient'
 import { CustomerInvoiceDetailsTabsOptionsEnum } from '~/core/constants/NavigationEnum'
 import { invoiceStatusMapping, paymentStatusMapping } from '~/core/constants/statusInvoiceMapping'
@@ -85,7 +84,6 @@ import {
 } from '~/generated/graphql'
 import { useInternationalization } from '~/hooks/core/useInternationalization'
 import { useLocationHistory } from '~/hooks/core/useLocationHistory'
-import { useCurrentUser } from '~/hooks/useCurrentUser'
 import { usePermissions } from '~/hooks/usePermissions'
 import { CustomerDetailsTabsOptions } from '~/pages/CustomerDetails'
 import InvoiceCreditNoteList from '~/pages/InvoiceCreditNoteList'
@@ -272,10 +270,8 @@ const CustomerInvoiceDetails = () => {
   const { customerId, invoiceId } = useParams()
   const navigate = useNavigate()
   const { goBack } = useLocationHistory()
-  const { isPremium } = useCurrentUser()
   const { hasPermissions } = usePermissions()
   const finalizeInvoiceRef = useRef<FinalizeInvoiceDialogRef>(null)
-  const premiumWarningDialogRef = useRef<PremiumWarningDialogRef>(null)
   const updateInvoicePaymentStatusDialog = useRef<UpdateInvoicePaymentStatusDialogRef>(null)
   const addMetadataDrawerDialogRef = useRef<AddMetadataDrawerRef>(null)
   const voidInvoiceDialogRef = useRef<VoidInvoiceDialogRef>(null)
@@ -654,52 +650,42 @@ const CustomerInvoiceDetails = () => {
                       {status !== InvoiceStatusTypeEnum.Voided &&
                         hasPermissions(['creditNotesCreate']) && (
                           <>
-                            {isPremium ? (
-                              <Tooltip
-                                PopperProps={{
-                                  popperOptions: {
-                                    modifiers: [
-                                      {
-                                        name: 'offset',
-                                        options: {
-                                          offset: [0, 8],
-                                        },
+                            <Tooltip
+                              PopperProps={{
+                                popperOptions: {
+                                  modifiers: [
+                                    {
+                                      name: 'offset',
+                                      options: {
+                                        offset: [0, 8],
                                       },
-                                    ],
-                                  },
-                                }}
-                                title={
-                                  disabledIssueCreditNoteButtonLabel &&
-                                  translate(disabledIssueCreditNoteButtonLabel)
-                                }
-                                placement="left"
-                              >
-                                <Button
-                                  className="w-full"
-                                  variant="quaternary"
-                                  align="left"
-                                  disabled={disabledIssueCreditNoteButton}
-                                  onClick={async () => {
-                                    navigate(
-                                      generatePath(CUSTOMER_INVOICE_CREATE_CREDIT_NOTE_ROUTE, {
-                                        customerId: customerId as string,
-                                        invoiceId: invoiceId as string,
-                                      }),
-                                    )
-                                  }}
-                                >
-                                  {translate('text_6386589e4e82fa85eadcaa7a')}
-                                </Button>
-                              </Tooltip>
-                            ) : (
+                                    },
+                                  ],
+                                },
+                              }}
+                              title={
+                                disabledIssueCreditNoteButtonLabel &&
+                                translate(disabledIssueCreditNoteButtonLabel)
+                              }
+                              placement="left"
+                            >
                               <Button
+                                className="w-full"
                                 variant="quaternary"
-                                onClick={() => premiumWarningDialogRef.current?.openDialog()}
-                                endIcon="sparkles"
+                                align="left"
+                                disabled={disabledIssueCreditNoteButton}
+                                onClick={async () => {
+                                  navigate(
+                                    generatePath(CUSTOMER_INVOICE_CREATE_CREDIT_NOTE_ROUTE, {
+                                      customerId: customerId as string,
+                                      invoiceId: invoiceId as string,
+                                    }),
+                                  )
+                                }}
                               >
                                 {translate('text_6386589e4e82fa85eadcaa7a')}
                               </Button>
-                            )}
+                            </Tooltip>
                           </>
                         )}
                     </>
@@ -942,7 +928,6 @@ const CustomerInvoiceDetails = () => {
         </Content>
       )}
       <FinalizeInvoiceDialog ref={finalizeInvoiceRef} />
-      <PremiumWarningDialog ref={premiumWarningDialogRef} />
       <UpdateInvoicePaymentStatusDialog ref={updateInvoicePaymentStatusDialog} />
       <VoidInvoiceDialog ref={voidInvoiceDialogRef} />
       <DisputeInvoiceDialog ref={disputeInvoiceDialogRef} />

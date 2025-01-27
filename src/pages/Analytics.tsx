@@ -1,5 +1,5 @@
 /* eslint-disable tailwindcss/no-custom-classname */
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import styled from 'styled-components'
 
 import { Button, Icon, Popper, Typography } from '~/components/designSystem'
@@ -13,7 +13,6 @@ import MonthSelectorDropdown, {
 import Mrr from '~/components/graphs/Mrr'
 import Overview from '~/components/graphs/Overview'
 import Usage from '~/components/graphs/Usage'
-import { PremiumWarningDialog, PremiumWarningDialogRef } from '~/components/PremiumWarningDialog'
 import { CurrencyEnum } from '~/generated/graphql'
 import { useInternationalization } from '~/hooks/core/useInternationalization'
 import { useCurrentUser } from '~/hooks/useCurrentUser'
@@ -22,9 +21,8 @@ import { MenuPopper, PageHeader, theme } from '~/styles'
 
 const Analytics = () => {
   const { translate } = useInternationalization()
-  const { isPremium, currentUser, loading: currentUserDataLoading } = useCurrentUser()
+  const { currentUser, loading: currentUserDataLoading } = useCurrentUser()
   const { organization, loading: currentOrganizationDataLoading } = useOrganizationInfos()
-  const premiumWarningDialogRef = useRef<PremiumWarningDialogRef>(null)
 
   const [periodScope, setPeriodScope] = useState<TPeriodScopeTranslationLookupValue>(
     AnalyticsPeriodScopeEnum.Year,
@@ -133,70 +131,38 @@ const Analytics = () => {
               </CurrencyMenuPopper>
             )}
           </Popper>
-          <MonthSelectorDropdown
-            periodScope={periodScope}
-            setPeriodScope={setPeriodScope}
-            premiumWarningDialogRef={premiumWarningDialogRef}
-          />
+          <MonthSelectorDropdown periodScope={periodScope} setPeriodScope={setPeriodScope} />
         </PageHeader.Group>
       </PageHeader.Wrapper>
-
-      {!isPremium && !!currentUser && (
-        <UpgradeBlock>
-          <UpgradeBlockLeft>
-            <UpgradeBlockLeftFirstLine>
-              <Typography variant="bodyHl" color="grey700">
-                {translate('text_6556309ded468200b9debbd4')}
-              </Typography>
-              <Icon name="sparkles" />
-            </UpgradeBlockLeftFirstLine>
-            <Typography variant="caption" color="grey600">
-              {translate('text_6556309ded468200b9debbd5')}
-            </Typography>
-          </UpgradeBlockLeft>
-
-          <Button
-            variant="tertiary"
-            endIcon="sparkles"
-            onClick={() => {
-              premiumWarningDialogRef.current?.openDialog()
-            }}
-          >
-            {translate('text_65ae73ebe3a66bec2b91d72d')}
-          </Button>
-        </UpgradeBlock>
-      )}
 
       <ContentWrapper>
         <Overview currency={selectedCurrency} period={periodScope} />
         <Gross className="analytics-graph" currency={selectedCurrency} period={periodScope} />
         <Mrr
-          blur={!isPremium || !currentUser}
+          blur={!currentUser}
           className="analytics-graph"
           currency={selectedCurrency}
-          demoMode={!isPremium || !currentUser}
+          demoMode={!currentUser}
           forceLoading={currentUserDataLoading || currentOrganizationDataLoading}
           period={periodScope}
         />
         <Usage
-          demoMode={!isPremium || !currentUser}
+          demoMode={!currentUser}
           className="analytics-graph"
-          blur={!isPremium || !currentUser}
+          blur={!currentUser}
           currency={selectedCurrency}
           forceLoading={currentUserDataLoading || currentOrganizationDataLoading}
           period={periodScope}
         />
         <Invoices
-          demoMode={!isPremium || !currentUser}
+          demoMode={!currentUser}
           className="analytics-graph"
-          blur={!isPremium || !currentUser}
+          blur={!currentUser}
           currency={selectedCurrency}
           forceLoading={currentUserDataLoading || currentOrganizationDataLoading}
           period={periodScope}
         />
       </ContentWrapper>
-
-      <PremiumWarningDialog ref={premiumWarningDialogRef} />
     </>
   )
 }
@@ -227,28 +193,6 @@ const ContentWrapper = styled.div`
       }
     }
   }
-`
-
-const UpgradeBlock = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  min-height: 148px;
-  gap: ${theme.spacing(4)};
-  padding: ${theme.spacing(12)};
-  box-sizing: border-box;
-  background-color: ${theme.palette.secondary[100]};
-`
-
-const UpgradeBlockLeft = styled.div`
-  display: flex;
-  flex-direction: column;
-`
-
-const UpgradeBlockLeftFirstLine = styled.div`
-  display: flex;
-  align-items: center;
-  gap: ${theme.spacing(2)};
 `
 
 const CurrencyMenuPopper = styled(MenuPopper)`

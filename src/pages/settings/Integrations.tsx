@@ -11,7 +11,6 @@ import {
   SettingsPaddedContainer,
   SettingsPageHeaderContainer,
 } from '~/components/layouts/Settings'
-import { PremiumWarningDialog, PremiumWarningDialogRef } from '~/components/PremiumWarningDialog'
 import {
   AddAdyenDialog,
   AddAdyenDialogRef,
@@ -69,10 +68,8 @@ import {
   TAX_MANAGEMENT_INTEGRATION_ROUTE,
   XERO_INTEGRATION_ROUTE,
 } from '~/core/router'
-import { PremiumIntegrationTypeEnum, useIntegrationsSettingQuery } from '~/generated/graphql'
+import { useIntegrationsSettingQuery } from '~/generated/graphql'
 import { useInternationalization } from '~/hooks/core/useInternationalization'
-import { useCurrentUser } from '~/hooks/useCurrentUser'
-import { useOrganizationInfos } from '~/hooks/useOrganizationInfos'
 import Adyen from '~/public/images/adyen.svg'
 import Airbyte from '~/public/images/airbyte.svg'
 import Anrok from '~/public/images/anrok.svg'
@@ -137,10 +134,7 @@ gql`
 const Integrations = () => {
   const { translate } = useInternationalization()
   const navigate = useNavigate()
-  const { isPremium } = useCurrentUser()
-  const { organization: { premiumIntegrations } = {} } = useOrganizationInfos()
 
-  const premiumWarningDialogRef = useRef<PremiumWarningDialogRef>(null)
   const addAnrokDialogRef = useRef<AddAnrokDialogRef>(null)
   const addStripeDialogRef = useRef<AddStripeDialogRef>(null)
   const addAdyenDialogRef = useRef<AddAdyenDialogRef>(null)
@@ -170,18 +164,6 @@ const Integrations = () => {
     (provider) => provider?.__typename === 'CashfreeProvider',
   )
   const hasTaxManagement = !!organization?.euTaxManagement
-  const hasAccessToNetsuitePremiumIntegration = !!premiumIntegrations?.includes(
-    PremiumIntegrationTypeEnum.Netsuite,
-  )
-  const hasAccessToXeroPremiumIntegration = !!premiumIntegrations?.includes(
-    PremiumIntegrationTypeEnum.Xero,
-  )
-  const hasAccessToHubspotPremiumIntegration = !!premiumIntegrations?.includes(
-    PremiumIntegrationTypeEnum.Hubspot,
-  )
-  const hasAccessToSalesforcePremiumIntegration = !!premiumIntegrations?.includes(
-    PremiumIntegrationTypeEnum.Salesforce,
-  )
   const hasNetsuiteIntegration = data?.integrations?.collection?.some(
     (integration) => integration?.__typename === 'NetsuiteIntegration',
   )
@@ -230,9 +212,7 @@ const Integrations = () => {
                         title={translate('text_6668821d94e4da4dfd8b3834')}
                         subtitle={translate('text_6668821d94e4da4dfd8b3840')}
                         endIcon={
-                          !isPremium ? (
-                            'sparkles'
-                          ) : hasAnrokIntegration ? (
+                          hasAnrokIntegration ? (
                             <Chip label={translate('text_62b1edddbf5f461ab97127ad')} />
                           ) : undefined
                         }
@@ -242,14 +222,7 @@ const Integrations = () => {
                           </Avatar>
                         }
                         onClick={() => {
-                          if (!isPremium) {
-                            premiumWarningDialogRef.current?.openDialog({
-                              title: translate('text_661ff6e56ef7e1b7c542b1ea'),
-                              description: translate('text_661ff6e56ef7e1b7c542b1f6'),
-                              mailtoSubject: translate('text_666887641443e4a75b9ead3d'),
-                              mailtoBody: translate('text_666887641443e4a75b9ead3e'),
-                            })
-                          } else if (hasAnrokIntegration) {
+                          if (hasAnrokIntegration) {
                             navigate(
                               generatePath(ANROK_INTEGRATION_ROUTE, {
                                 integrationGroup: IntegrationsTabsOptionsEnum.Lago,
@@ -350,21 +323,12 @@ const Integrations = () => {
                           </Avatar>
                         }
                         endIcon={
-                          !hasAccessToHubspotPremiumIntegration ? (
-                            'sparkles'
-                          ) : hasHubspotIntegration ? (
+                          hasHubspotIntegration ? (
                             <Chip label={translate('text_62b1edddbf5f461ab97127ad')} />
                           ) : undefined
                         }
                         onClick={() => {
-                          if (!hasAccessToHubspotPremiumIntegration) {
-                            premiumWarningDialogRef.current?.openDialog({
-                              title: translate('text_661ff6e56ef7e1b7c542b1ea'),
-                              description: translate('text_661ff6e56ef7e1b7c542b1f6'),
-                              mailtoSubject: translate('text_172718956805392syzumhdlm'),
-                              mailtoBody: translate('text_1727189568053f91r4b3f4rl'),
-                            })
-                          } else if (hasHubspotIntegration) {
+                          if (hasHubspotIntegration) {
                             navigate(
                               generatePath(HUBSPOT_INTEGRATION_ROUTE, {
                                 integrationGroup: IntegrationsTabsOptionsEnum.Lago,
@@ -407,9 +371,7 @@ const Integrations = () => {
                         title={translate('text_661ff6e56ef7e1b7c542b239')}
                         subtitle={translate('text_661ff6e56ef7e1b7c542b245')}
                         endIcon={
-                          !hasAccessToNetsuitePremiumIntegration ? (
-                            'sparkles'
-                          ) : hasNetsuiteIntegration ? (
+                          hasNetsuiteIntegration ? (
                             <Chip label={translate('text_62b1edddbf5f461ab97127ad')} />
                           ) : undefined
                         }
@@ -419,14 +381,7 @@ const Integrations = () => {
                           </Avatar>
                         }
                         onClick={() => {
-                          if (!hasAccessToNetsuitePremiumIntegration) {
-                            premiumWarningDialogRef.current?.openDialog({
-                              title: translate('text_661ff6e56ef7e1b7c542b1ea'),
-                              description: translate('text_661ff6e56ef7e1b7c542b1f6'),
-                              mailtoSubject: translate('text_661ff6e56ef7e1b7c542b220'),
-                              mailtoBody: translate('text_661ff6e56ef7e1b7c542b238'),
-                            })
-                          } else if (hasNetsuiteIntegration) {
+                          if (hasNetsuiteIntegration) {
                             navigate(
                               generatePath(NETSUITE_INTEGRATION_ROUTE, {
                                 integrationGroup: IntegrationsTabsOptionsEnum.Lago,
@@ -446,16 +401,8 @@ const Integrations = () => {
                             {<Salesforce />}
                           </Avatar>
                         }
-                        endIcon={!hasAccessToSalesforcePremiumIntegration ? 'sparkles' : undefined}
                         onClick={() => {
-                          if (!hasAccessToSalesforcePremiumIntegration) {
-                            premiumWarningDialogRef.current?.openDialog({
-                              title: translate('text_661ff6e56ef7e1b7c542b1ea'),
-                              description: translate('text_661ff6e56ef7e1b7c542b1f6'),
-                              mailtoSubject: translate('text_173150719524652xb2nd3f7r'),
-                              mailtoBody: translate('text_1731507195246xxr17pdnb7s'),
-                            })
-                          } else if (hasSalesforceIntegration) {
+                          if (hasSalesforceIntegration) {
                             navigate(
                               generatePath(SALESFORCE_INTEGRATION_ROUTE, {
                                 integrationGroup: IntegrationsTabsOptionsEnum.Lago,
@@ -513,9 +460,7 @@ const Integrations = () => {
                         title={translate('text_6672ebb8b1b50be550eccaf8')}
                         subtitle={translate('text_661ff6e56ef7e1b7c542b245')}
                         endIcon={
-                          !hasAccessToXeroPremiumIntegration ? (
-                            'sparkles'
-                          ) : hasXeroIntegration ? (
+                          hasXeroIntegration ? (
                             <Chip label={translate('text_62b1edddbf5f461ab97127ad')} />
                           ) : undefined
                         }
@@ -525,14 +470,7 @@ const Integrations = () => {
                           </Avatar>
                         }
                         onClick={() => {
-                          if (!hasAccessToXeroPremiumIntegration) {
-                            premiumWarningDialogRef.current?.openDialog({
-                              title: translate('text_661ff6e56ef7e1b7c542b1ea'),
-                              description: translate('text_661ff6e56ef7e1b7c542b1f6'),
-                              mailtoSubject: translate('text_6672ebb8b1b50be550ecca09'),
-                              mailtoBody: translate('text_6672ebb8b1b50be550ecca13'),
-                            })
-                          } else if (hasXeroIntegration) {
+                          if (hasXeroIntegration) {
                             navigate(
                               generatePath(XERO_INTEGRATION_ROUTE, {
                                 integrationGroup: IntegrationsTabsOptionsEnum.Lago,
@@ -622,7 +560,6 @@ const Integrations = () => {
       <AddXeroDialog ref={addXeroDialogRef} />
       <AddHubspotDialog ref={addHubspotDialogRef} />
       <AddSalesforceDialog ref={addSalesforceDialogRef} />
-      <PremiumWarningDialog ref={premiumWarningDialogRef} />
     </>
   )
 }

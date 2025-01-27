@@ -15,7 +15,6 @@ gql`
     logoUrl
     timezone
     defaultCurrency
-    premiumIntegrations
 
     ...OrganizationForDatePicker
   }

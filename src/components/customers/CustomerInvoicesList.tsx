@@ -29,7 +29,6 @@ import {
   useRetryInvoicePaymentMutation,
 } from '~/generated/graphql'
 import { useInternationalization } from '~/hooks/core/useInternationalization'
-import { useCurrentUser } from '~/hooks/useCurrentUser'
 import { usePermissions } from '~/hooks/usePermissions'
 
 import { createCreditNoteForInvoiceButtonProps } from '../creditNote/utils'
@@ -39,7 +38,6 @@ import {
 } from '../invoices/EditInvoicePaymentStatusDialog'
 import { FinalizeInvoiceDialog, FinalizeInvoiceDialogRef } from '../invoices/FinalizeInvoiceDialog'
 import { VoidInvoiceDialog, VoidInvoiceDialogRef } from '../invoices/VoidInvoiceDialog'
-import { PremiumWarningDialog, PremiumWarningDialogRef } from '../PremiumWarningDialog'
 
 gql`
   fragment InvoiceListItem on Invoice {
@@ -128,10 +126,8 @@ export const CustomerInvoicesList: FC<CustomerInvoicesListProps> = ({
   fetchMore,
 }) => {
   const navigate = useNavigate()
-  const { isPremium } = useCurrentUser()
   const { translate } = useInternationalization()
   const { hasPermissions } = usePermissions()
-  const premiumWarningDialogRef = useRef<PremiumWarningDialogRef>(null)
 
   const [retryCollect] = useRetryInvoicePaymentMutation({
     context: { silentErrorCodes: [LagoApiError.PaymentProcessorIsCurrentlyHandlingPayment] },
@@ -421,15 +417,7 @@ export const CustomerInvoicesList: FC<CustomerInvoicesListProps> = ({
                     },
                   }
                 : null,
-              canIssueCreditNote && !isPremium
-                ? {
-                    startIcon: 'document',
-                    endIcon: 'sparkles',
-                    title: translate('text_636bdef6565341dcb9cfb127'),
-                    onAction: () => premiumWarningDialogRef.current?.openDialog(),
-                  }
-                : null,
-              canIssueCreditNote && isPremium
+              canIssueCreditNote
                 ? {
                     startIcon: 'document',
                     title: translate('text_636bdef6565341dcb9cfb127'),
@@ -466,7 +454,6 @@ export const CustomerInvoicesList: FC<CustomerInvoicesListProps> = ({
       <FinalizeInvoiceDialog ref={finalizeInvoiceRef} />
       <UpdateInvoicePaymentStatusDialog ref={updateInvoicePaymentStatusDialog} />
       <VoidInvoiceDialog ref={voidInvoiceDialogRef} />
-      <PremiumWarningDialog ref={premiumWarningDialogRef} />
     </>
   )
 }

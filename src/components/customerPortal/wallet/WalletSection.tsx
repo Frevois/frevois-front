@@ -33,7 +33,6 @@ gql`
   query getPortalCustomerData {
     customerPortalUser {
       applicableTimezone
-      premium
     }
   }
 
@@ -62,7 +61,6 @@ const WalletSection = ({ viewWallet }: WalletSectionProps) => {
 
   const customerPortalUser = customerPortalUserData?.customerPortalUser
   const customerTimezone = customerPortalUser?.applicableTimezone
-  const isPremium = customerPortalUser?.premium
 
   const {
     data: customerWalletData,
@@ -74,16 +72,15 @@ const WalletSection = ({ viewWallet }: WalletSectionProps) => {
   const wallet = customerWalletData?.customerPortalWallets?.collection?.[0]
   const isWalletActive = wallet?.status === WalletStatusEnum.Active
 
-  const [creditAmountUnit = '0', creditAmountCents = '00'] = String(wallet?.creditsBalance).split(
-    '.',
-  )
   const [consumedCreditUnit = '0', consumedCreditCents = '00'] = String(
     wallet?.creditsOngoingBalance,
   ).split('.')
 
-  const [unit, cents, balance] = isPremium
-    ? [consumedCreditUnit, consumedCreditCents, wallet?.ongoingBalanceCents]
-    : [creditAmountUnit, creditAmountCents, wallet?.balanceCents]
+  const [unit, cents, balance] = [
+    consumedCreditUnit,
+    consumedCreditCents,
+    wallet?.ongoingBalanceCents,
+  ]
 
   const isLoading = customerWalletLoading || customerPortalUserLoading
   const isError = !isLoading && (customerWalletError || customerPortalUserError)

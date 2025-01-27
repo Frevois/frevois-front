@@ -35,7 +35,6 @@ import {
   useRetryInvoicePaymentMutation,
 } from '~/generated/graphql'
 import { useInternationalization } from '~/hooks/core/useInternationalization'
-import { useCurrentUser } from '~/hooks/useCurrentUser'
 import { usePermissions } from '~/hooks/usePermissions'
 
 import { createCreditNoteForInvoiceButtonProps } from '../creditNote/utils'
@@ -50,7 +49,6 @@ import {
   isSucceededUrlParams,
   isVoidedUrlParams,
 } from '../designSystem/Filters'
-import { PremiumWarningDialog, PremiumWarningDialogRef } from '../PremiumWarningDialog'
 
 type TInvoiceListProps = {
   error: ApolloError | undefined
@@ -71,14 +69,12 @@ const InvoicesList = ({
 }: TInvoiceListProps) => {
   const { translate } = useInternationalization()
   const { hasPermissions } = usePermissions()
-  const { isPremium } = useCurrentUser()
   const navigate = useNavigate()
   const [searchParams] = useSearchParams()
 
   const finalizeInvoiceRef = useRef<FinalizeInvoiceDialogRef>(null)
   const updateInvoicePaymentStatusDialog = useRef<UpdateInvoicePaymentStatusDialogRef>(null)
   const voidInvoiceDialogRef = useRef<VoidInvoiceDialogRef>(null)
-  const premiumWarningDialogRef = useRef<PremiumWarningDialogRef>(null)
 
   const [downloadInvoice] = useDownloadInvoiceItemMutation({
     onCompleted({ downloadInvoice: data }) {
@@ -257,15 +253,7 @@ const InvoicesList = ({
                       },
                     }
                   : null,
-                canIssueCreditNote && !isPremium
-                  ? {
-                      startIcon: 'document',
-                      endIcon: 'sparkles',
-                      title: translate('text_636bdef6565341dcb9cfb127'),
-                      onAction: () => premiumWarningDialogRef.current?.openDialog(),
-                    }
-                  : null,
-                canIssueCreditNote && isPremium
+                canIssueCreditNote
                   ? {
                       startIcon: 'document',
                       title: translate('text_636bdef6565341dcb9cfb127'),
@@ -496,7 +484,6 @@ const InvoicesList = ({
       <FinalizeInvoiceDialog ref={finalizeInvoiceRef} />
       <UpdateInvoicePaymentStatusDialog ref={updateInvoicePaymentStatusDialog} />
       <VoidInvoiceDialog ref={voidInvoiceDialogRef} />
-      <PremiumWarningDialog ref={premiumWarningDialogRef} />
     </>
   )
 }

@@ -44,7 +44,6 @@ import { FixedFeeSection } from '~/components/plans/FixedFeeSection'
 import { PlanSettingsSection } from '~/components/plans/PlanSettingsSection'
 import { ProgressiveBillingSection } from '~/components/plans/ProgressiveBillingSection'
 import { LocalChargeInput } from '~/components/plans/types'
-import { PremiumWarningDialog, PremiumWarningDialogRef } from '~/components/PremiumWarningDialog'
 import { REDIRECTION_ORIGIN_SUBSCRIPTION_USAGE } from '~/components/subscriptions/SubscriptionUsageLifetimeGraph'
 import { WarningDialog, WarningDialogRef } from '~/components/WarningDialog'
 import { dateErrorCodes, FORM_TYPE_ENUM } from '~/core/constants/form'
@@ -69,7 +68,6 @@ import {
 import { useInternationalization } from '~/hooks/core/useInternationalization'
 import { useAddSubscription } from '~/hooks/customer/useAddSubscription'
 import { usePlanForm } from '~/hooks/plans/usePlanForm'
-import { useCurrentUser } from '~/hooks/useCurrentUser'
 import { useOrganizationInfos } from '~/hooks/useOrganizationInfos'
 import { useSalesForceConfig } from '~/hooks/useSalesForceConfig'
 import ThinkingManeki from '~/public/images/maneki/thinking.svg'
@@ -206,14 +204,12 @@ const CreateSubscription = () => {
   const location = useLocation()
   const navigate = useNavigate()
   const [searchParams] = useSearchParams()
-  const { isPremium } = useCurrentUser()
   const { translate } = useInternationalization()
   const { customerId, subscriptionId } = useParams()
   const { isRunningInSalesForceIframe } = useSalesForceConfig()
 
   const editInvoiceDisplayNameRef = useRef<EditInvoiceDisplayNameRef>(null)
   const warningDialogRef = useRef<WarningDialogRef>(null)
-  const premiumWarningDialogRef = useRef<PremiumWarningDialogRef>(null)
   const [showCurrencyError, setShowCurrencyError] = useState<boolean>(false)
   const isResponsive = useMediaQuery(`(max-width:${BREAKPOINT_LG - 1}px)`)
 
@@ -765,29 +761,7 @@ const CreateSubscription = () => {
                   </Card>
                 </SectionWrapper>
 
-                {!isPremium ? (
-                  <Card className="flex-row items-center justify-between gap-3">
-                    <FreemiumCardLeft>
-                      <FreemiumCardLeftTitleContainer>
-                        <Icon name="sparkles" />
-                        <Typography variant="subhead">
-                          {translate('text_65118a52df984447c18694d0')}
-                        </Typography>
-                      </FreemiumCardLeftTitleContainer>
-                      <Typography variant="body">
-                        {translate('text_65118a52df984447c18694da')}
-                      </Typography>
-                    </FreemiumCardLeft>
-                    <Button
-                      variant="secondary"
-                      onClick={() => {
-                        premiumWarningDialogRef.current?.openDialog()
-                      }}
-                    >
-                      {translate('text_65118a52df984447c18694d0')}
-                    </Button>
-                  </Card>
-                ) : formType !== FORM_TYPE_ENUM.edition || !subscription?.plan.parent?.id ? (
+                {formType !== FORM_TYPE_ENUM.edition || !subscription?.plan.parent?.id ? (
                   <Typography
                     className="flex items-center gap-4 uppercase before:inline-block before:h-[2px] before:w-full before:bg-grey-300 before:content-[''] after:inline-block after:h-[2px] after:w-full after:bg-grey-300 after:content-['']"
                     noWrap
@@ -798,7 +772,7 @@ const CreateSubscription = () => {
                   </Typography>
                 ) : null}
 
-                <PlanFormConditionalWrapper $isPremium={isPremium}>
+                <PlanFormConditionalWrapper>
                   <SectionWrapper>
                     <SectionTitle>
                       <Typography variant="headline">
@@ -837,7 +811,6 @@ const CreateSubscription = () => {
                         isInSubscriptionForm={isInSubscriptionForm}
                         subscriptionFormType={formType}
                         formikProps={planFormikProps}
-                        premiumWarningDialogRef={premiumWarningDialogRef}
                         alreadyExistingCharges={plan?.charges as LocalChargeInput[]}
                         editInvoiceDisplayNameRef={editInvoiceDisplayNameRef}
                       />
@@ -859,7 +832,6 @@ const CreateSubscription = () => {
                       />
                       <CommitmentsSection
                         formikProps={planFormikProps}
-                        premiumWarningDialogRef={premiumWarningDialogRef}
                         editInvoiceDisplayNameRef={editInvoiceDisplayNameRef}
                       />
                     </Card>
@@ -889,7 +861,6 @@ const CreateSubscription = () => {
       />
 
       <EditInvoiceDisplayName ref={editInvoiceDisplayNameRef} />
-      <PremiumWarningDialog ref={premiumWarningDialogRef} />
     </PageContainer>
   )
 }
@@ -1004,29 +975,10 @@ const ResponsiveButtonWrapper = styled.div`
   padding: ${theme.spacing(3)} ${theme.spacing(12)};
 `
 
-const FreemiumCardLeft = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: ${theme.spacing(1)};
-`
-
-const FreemiumCardLeftTitleContainer = styled.div`
-  display: flex;
-  align-items: center;
-  gap: ${theme.spacing(2)};
-`
-
-const PlanFormConditionalWrapper = styled.div<{ $isPremium: boolean }>`
+const PlanFormConditionalWrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: ${theme.spacing(12)};
-
-  ${({ $isPremium }) =>
-    !$isPremium &&
-    css`
-      pointer-events: none;
-      opacity: 0.4;
-    `}
 `
 
 const SectionWrapper = styled.div`

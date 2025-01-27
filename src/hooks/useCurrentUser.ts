@@ -13,7 +13,6 @@ gql`
   fragment CurrentUserInfos on User {
     id
     email
-    premium
     memberships {
       id
       ...MembershipPermissions
@@ -35,7 +34,6 @@ gql`
 `
 
 type UseCurrentUser = () => {
-  isPremium: boolean
   loading: boolean
   currentUser?: CurrentUserInfosFragment
   currentMembership?: CurrentUserInfosFragment['memberships'][0]
@@ -56,7 +54,6 @@ export const useCurrentUser: UseCurrentUser = () => {
     currentMembership: data?.currentUser?.memberships?.find(
       (membership) => membership.organization.id === currentOrganizationId,
     ),
-    isPremium: data?.currentUser.premium || false,
     loading: loading,
   }
 }

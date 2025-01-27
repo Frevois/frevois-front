@@ -14,7 +14,6 @@ import {
   UpdateCustomerInput,
 } from '~/generated/graphql'
 import { useInternationalization } from '~/hooks/core/useInternationalization'
-import { useCurrentUser } from '~/hooks/useCurrentUser'
 import { useOrganizationInfos } from '~/hooks/useOrganizationInfos'
 
 interface CustomerInformationProps {
@@ -29,7 +28,6 @@ export const CustomerInformation: FC<CustomerInformationProps> = ({
   customer,
 }) => {
   const { translate } = useInternationalization()
-  const { isPremium } = useCurrentUser()
   const { timezoneConfig } = useOrganizationInfos()
   const timezoneComboboxData = useMemo(
     () =>
@@ -103,7 +101,6 @@ export const CustomerInformation: FC<CustomerInformationProps> = ({
         name="timezone"
         label={translate('text_6390a4ffef9227ba45daca90')}
         placeholder={translate('text_6390a4ffef9227ba45daca92')}
-        disabled={!isPremium}
         helperText={
           <Typography
             variant="caption"

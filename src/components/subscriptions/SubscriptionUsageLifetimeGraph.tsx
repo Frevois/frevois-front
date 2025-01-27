@@ -11,7 +11,6 @@ import { LocaleEnum } from '~/core/translations'
 import {
   CurrencyEnum,
   GetSubscriptionForSubscriptionUsageLifetimeGraphQuery,
-  PremiumIntegrationTypeEnum,
   StatusTypeEnum,
   SubscriptionUsageLifetimeGraphForLifetimeGraphFragment,
   useGetSubscriptionForSubscriptionUsageLifetimeGraphQuery,
@@ -20,13 +19,11 @@ import { TranslateFunc, useInternationalization } from '~/hooks/core/useInternat
 import { useOrganizationInfos } from '~/hooks/useOrganizationInfos'
 import ErrorImage from '~/public/images/maneki/error.svg'
 import { theme } from '~/styles'
-import { tw } from '~/styles/utils'
 
 import { getLifetimeGraphPercentages } from './utils'
 
-import { ButtonLink, Icon, Skeleton, Tooltip, Typography } from '../designSystem'
+import { Icon, Skeleton, Tooltip, Typography } from '../designSystem'
 import ChartHeader from '../designSystem/graphs/ChartHeader'
-import { subscriptionLifetimeUsageFakeData } from '../designSystem/graphs/fixtures'
 import InlineBarsChart from '../designSystem/graphs/InlineBarsChart'
 import { GenericPlaceholder } from '../GenericPlaceholder'
 
@@ -75,7 +72,6 @@ type SubscriptionUsageLifetimeGraphProps = {
 type SubscriptionUsageLifetimeGraphComponentProps = {
   subscriptionId: string
   customerId: string
-  organization?: { premiumIntegrations: Array<PremiumIntegrationTypeEnum> } | null
   organizationLoading: boolean
   subscription?: null | GetSubscriptionForSubscriptionUsageLifetimeGraphQuery['subscription']
   subscriptionLoading: boolean
@@ -88,7 +84,6 @@ type SubscriptionUsageLifetimeGraphComponentProps = {
 export const SubscriptionUsageLifetimeGraphComponent = ({
   subscriptionId,
   customerId,
-  organization,
   organizationLoading,
   subscription,
   subscriptionLoading,
@@ -97,18 +92,11 @@ export const SubscriptionUsageLifetimeGraphComponent = ({
   translate,
   locale,
 }: SubscriptionUsageLifetimeGraphComponentProps) => {
-  const hasProgressiveBillingPremiumIntegration = !!organization?.premiumIntegrations?.includes(
-    PremiumIntegrationTypeEnum.ProgressiveBilling,
-  )
-
   const isLoading = subscriptionLoading || organizationLoading
   const currency = subscription?.customer?.currency || CurrencyEnum.Usd
-  const isBlurred = !isLoading && (!hasProgressiveBillingPremiumIntegration || !organization)
   const customerTimezone = subscription?.customer?.applicableTimezone
 
-  const lifetimeUsage = hasProgressiveBillingPremiumIntegration
-    ? subscription?.lifetimeUsage
-    : subscriptionLifetimeUsageFakeData
+  const lifetimeUsage = subscription?.lifetimeUsage
 
   const { nextThresholdPercentage, lastThresholdPercentage } = useMemo(() => {
     return getLifetimeGraphPercentages(lifetimeUsage)
@@ -135,12 +123,7 @@ export const SubscriptionUsageLifetimeGraphComponent = ({
         {isLoading ? (
           <Skeleton variant="text" className="mt-2 w-36" />
         ) : !subscriptionError && !!lifetimeUsage ? (
-          <Typography
-            variant="caption"
-            color="grey600"
-            blur={!hasProgressiveBillingPremiumIntegration}
-            noWrap
-          >
+          <Typography variant="caption" color="grey600" noWrap>
             {translate('text_633dae57ca9a923dd53c2097', {
               fromDate: locale
                 ? intlFormatDateToDateMed(
@@ -177,7 +160,7 @@ export const SubscriptionUsageLifetimeGraphComponent = ({
               <Typography variant="body" color="grey600">
                 {translate('text_1731423623190elua4pl3ccr')}
               </Typography>
-            ) : !lifetimeUsage && !isLoading && hasProgressiveBillingPremiumIntegration ? (
+            ) : !lifetimeUsage && !isLoading ? (
               <Typography
                 variant="body"
                 color="grey600"
@@ -203,11 +186,10 @@ export const SubscriptionUsageLifetimeGraphComponent = ({
                       currencyDisplay: locale ? 'narrowSymbol' : 'symbol',
                     },
                   )}
-                  blur={isBlurred}
                   loading={isLoading}
                 />
 
-                <div className={tw({ 'pointer-events-none blur-sm': isBlurred })}>
+                <div>
                   <div className="flex flex-col gap-3">
                     {!!isLoading ? (
                       <div className="flex flex-col gap-3">
@@ -299,45 +281,6 @@ export const SubscriptionUsageLifetimeGraphComponent = ({
                     )}
                   </div>
                 </div>
-
-                {/* Non premium block */}
-                {!isLoading && !hasProgressiveBillingPremiumIntegration && (
-                  <Stack
-                    direction={'row'}
-                    gap={4}
-                    alignItems={'center'}
-                    justifyContent={'space-between'}
-                    padding={`${theme.spacing(4)} ${theme.spacing(6)}`}
-                    sx={{
-                      borderRadius: theme.spacing(2),
-                      backgroundColor: theme.palette.grey[100],
-                    }}
-                  >
-                    <Stack>
-                      <Stack direction={'row'} alignItems={'center'} gap={1}>
-                        <Typography variant="bodyHl" color="grey700">
-                          {translate('text_1724345142892pcnx5m2k3r2')}
-                        </Typography>
-                        <Icon name="sparkles" />
-                      </Stack>
-                      <Typography variant="caption" color="grey600">
-                        {translate('text_1724345142892ljzi79afhmc')}
-                      </Typography>
-                    </Stack>
-                    <ButtonLink
-                      buttonProps={{
-                        variant: 'tertiary',
-                        size: 'medium',
-                        endIcon: 'sparkles',
-                      }}
-                      type="button"
-                      external
-                      to={`mailto:hello@getlago.com?subject=${translate('text_172434514289283gmf8bdhh3')}&body=${translate('text_1724346450317iqs2rtvx1tp')}`}
-                    >
-                      {translate('text_65ae73ebe3a66bec2b91d72d')}
-                    </ButtonLink>
-                  </Stack>
-                )}
               </>
             )}
           </>
@@ -353,7 +296,7 @@ const SubscriptionUsageLifetimeGraph = ({
 }: SubscriptionUsageLifetimeGraphProps) => {
   const { translate } = useInternationalization()
 
-  const { organization, loading: currentOrganizationDataLoading } = useOrganizationInfos()
+  const { loading: currentOrganizationDataLoading } = useOrganizationInfos()
 
   const {
     data: subscriptionData,
@@ -373,7 +316,6 @@ const SubscriptionUsageLifetimeGraph = ({
     <SubscriptionUsageLifetimeGraphComponent
       customerId={customerId}
       subscriptionId={subscriptionId}
-      organization={organization}
       organizationLoading={currentOrganizationDataLoading}
       subscription={subscription}
       subscriptionLoading={subscriptionLoading}

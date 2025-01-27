@@ -29,8 +29,6 @@ import { TopupWalletDialog, TopupWalletDialogRef } from './TopupWalletDialog'
 import { VoidWalletDialog, VoidWalletDialogRef } from './VoidWalletDialog'
 import { WalletAccordion, WalletAccordionSkeleton } from './WalletAccordion'
 
-import { PremiumWarningDialog, PremiumWarningDialogRef } from '../PremiumWarningDialog'
-
 gql`
   fragment CustomerWallet on Wallet {
     ...WalletForTopup
@@ -66,7 +64,6 @@ export const CustomerWalletsList = ({ customerId, customerTimezone }: CustommerW
   const navigate = useNavigate()
   const { translate } = useInternationalization()
   const { hasPermissions } = usePermissions()
-  const premiumWarningDialogRef = useRef<PremiumWarningDialogRef>(null)
   const terminateCustomerWalletDialogRef = useRef<TerminateCustomerWalletDialogRef>(null)
   const topupWalletDialogRef = useRef<TopupWalletDialogRef>(null)
   const voidWalletDialogRef = useRef<VoidWalletDialogRef>(null)
@@ -223,7 +220,6 @@ export const CustomerWalletsList = ({ customerId, customerTimezone }: CustommerW
               {list.map((wallet) => (
                 <WalletAccordion
                   key={`wallet-${wallet.id}`}
-                  premiumWarningDialogRef={premiumWarningDialogRef}
                   wallet={wallet}
                   ref={topupWalletDialogRef}
                   customerTimezone={customerTimezone}
@@ -244,8 +240,6 @@ export const CustomerWalletsList = ({ customerId, customerTimezone }: CustommerW
           </>
         )}
       </div>
-
-      <PremiumWarningDialog ref={premiumWarningDialogRef} />
     </>
   )
 }

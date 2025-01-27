@@ -1,4 +1,3 @@
-import { useRef } from 'react'
 import { generatePath, useNavigate } from 'react-router-dom'
 
 import {
@@ -20,11 +19,9 @@ import {
   SettingsPaddedContainer,
   SettingsPageHeaderContainer,
 } from '~/components/layouts/Settings'
-import { PremiumWarningDialog, PremiumWarningDialogRef } from '~/components/PremiumWarningDialog'
 import { EMAILS_SCENARIO_CONFIG_ROUTE } from '~/core/router'
 import { EmailSettingsEnum } from '~/generated/graphql'
 import { useInternationalization } from '~/hooks/core/useInternationalization'
-import { useCurrentUser } from '~/hooks/useCurrentUser'
 import { useEmailConfig } from '~/hooks/useEmailConfig'
 import { usePermissions } from '~/hooks/usePermissions'
 
@@ -53,10 +50,8 @@ const EMAIL_SCENARIOS = [
 const EmailSettings = () => {
   const navigate = useNavigate()
   const { translate } = useInternationalization()
-  const { isPremium } = useCurrentUser()
   const { loading, emailSettings, updateEmailSettings } = useEmailConfig()
   const { hasPermissions } = usePermissions()
-  const premiumWarningDialogRef = useRef<PremiumWarningDialogRef>(null)
 
   return (
     <>
@@ -129,14 +124,9 @@ const EmailSettings = () => {
                                     name={uniqName}
                                     checked={emailSettings.includes(setting)}
                                     onChange={async (value) => {
-                                      if (isPremium) {
-                                        await updateEmailSettings(setting, value)
-                                      } else {
-                                        premiumWarningDialogRef.current?.openDialog()
-                                      }
+                                      await updateEmailSettings(setting, value)
                                     }}
                                   />
-                                  {!isPremium && <Icon name="sparkles" />}
                                 </div>
                               )
                             },
@@ -205,8 +195,6 @@ const EmailSettings = () => {
           </>
         )} */}
       </SettingsPaddedContainer>
-
-      <PremiumWarningDialog ref={premiumWarningDialogRef} />
     </>
   )
 }

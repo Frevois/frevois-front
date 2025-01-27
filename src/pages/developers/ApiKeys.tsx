@@ -20,7 +20,6 @@ import {
   SettingsPaddedContainer,
   SettingsPageHeaderContainer,
 } from '~/components/layouts/Settings'
-import { PremiumWarningDialog, PremiumWarningDialogRef } from '~/components/PremiumWarningDialog'
 import { addToast } from '~/core/apolloClient'
 import { obfuscateValue } from '~/core/formats/obfuscate'
 import { CREATE_API_KEYS_ROUTE, UPDATE_API_KEYS_ROUTE } from '~/core/router'
@@ -36,7 +35,6 @@ import {
   useGetOrganizationInfosForApiKeyQuery,
 } from '~/generated/graphql'
 import { useInternationalization } from '~/hooks/core/useInternationalization'
-import { useCurrentUser } from '~/hooks/useCurrentUser'
 import { usePermissions } from '~/hooks/usePermissions'
 import { tw } from '~/styles/utils'
 
@@ -90,12 +88,10 @@ gql`
 const ApiKeys = () => {
   const navigate = useNavigate()
   const { hasPermissions } = usePermissions()
-  const { isPremium } = useCurrentUser()
   const { state } = useLocation()
   const { translate } = useInternationalization()
   const rotateApiKeyDialogRef = useRef<RotateApiKeyDialogRef>(null)
   const deleteApiKeyDialogRef = useRef<DeleteApiKeyDialogRef>(null)
-  const premiumWarningDialogRef = useRef<PremiumWarningDialogRef>(null)
   const [showOrganizationId, setShowOrganizationId] = useState(false)
   const [shownApiKeysMap, setShownApiKeysMap] = useState<Map<string, string>>(new Map())
 
@@ -109,8 +105,6 @@ const ApiKeys = () => {
     fetchPolicy: 'network-only',
     notifyOnNetworkStatusChange: true,
   })
-
-  const showPremiumAddApiKeyState = !isPremium && !!apiKeysData?.apiKeys.collection.length
 
   useEffect(() => {
     const revealGivenKey = async () => {
@@ -268,15 +262,7 @@ const ApiKeys = () => {
                   sublabel={translate('text_637f813d31381b1ed90ab320')}
                   action={
                     hasPermissions(['developersKeysManage']) ? (
-                      <Button
-                        variant="quaternary"
-                        endIcon={showPremiumAddApiKeyState ? 'sparkles' : undefined}
-                        onClick={() =>
-                          showPremiumAddApiKeyState
-                            ? premiumWarningDialogRef.current?.openDialog()
-                            : navigate(CREATE_API_KEYS_ROUTE)
-                        }
-                      >
+                      <Button variant="quaternary" onClick={() => navigate(CREATE_API_KEYS_ROUTE)}>
                         {translate('text_1732286530467q437l0kqrwg')}
                       </Button>
                     ) : undefined
@@ -517,11 +503,7 @@ const ApiKeys = () => {
         </SettingsListWrapper>
       </SettingsPaddedContainer>
 
-      <PremiumWarningDialog ref={premiumWarningDialogRef} />
-      <RotateApiKeyDialog
-        ref={rotateApiKeyDialogRef}
-        openPremiumDialog={() => premiumWarningDialogRef.current?.openDialog()}
-      />
+      <RotateApiKeyDialog ref={rotateApiKeyDialogRef} />
       <DeleteApiKeyDialog ref={deleteApiKeyDialogRef} />
     </>
   )

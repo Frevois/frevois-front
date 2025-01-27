@@ -31,7 +31,6 @@ import {
 import { LocalChargeInput, PlanFormInput } from './types'
 
 import { EditInvoiceDisplayNameRef } from '../invoices/EditInvoiceDisplayName'
-import { PremiumWarningDialogRef } from '../PremiumWarningDialog'
 
 const RESULT_LIMIT = 50
 
@@ -75,7 +74,6 @@ gql`
 interface ChargesSectionProps {
   alreadyExistingCharges?: LocalChargeInput[] | null
   editInvoiceDisplayNameRef: RefObject<EditInvoiceDisplayNameRef>
-  premiumWarningDialogRef: RefObject<PremiumWarningDialogRef>
   canBeEdited?: boolean
   isInitiallyOpen?: boolean
   isInSubscriptionForm?: boolean
@@ -95,7 +93,6 @@ export const ChargesSection = memo(
     isInSubscriptionForm,
     formikProps,
     isEdition,
-    premiumWarningDialogRef,
     subscriptionFormType,
   }: ChargesSectionProps) => {
     const { translate } = useInternationalization()
@@ -341,7 +338,6 @@ export const ChargesSection = memo(
                         subscriptionFormType={subscriptionFormType}
                         shouldDisplayAlreadyUsedChargeAlert={shouldDisplayAlreadyUsedChargeAlert}
                         removeChargeWarningDialogRef={removeChargeWarningDialogRef}
-                        premiumWarningDialogRef={premiumWarningDialogRef}
                         editInvoiceDisplayNameRef={editInvoiceDisplayNameRef}
                         isUsedInSubscription={!isNew && !canBeEdited}
                         currency={formikProps.values.amountCurrency || CurrencyEnum.Usd}
@@ -457,7 +453,6 @@ export const ChargesSection = memo(
                         subscriptionFormType={subscriptionFormType}
                         shouldDisplayAlreadyUsedChargeAlert={shouldDisplayAlreadyUsedChargeAlert}
                         removeChargeWarningDialogRef={removeChargeWarningDialogRef}
-                        premiumWarningDialogRef={premiumWarningDialogRef}
                         editInvoiceDisplayNameRef={editInvoiceDisplayNameRef}
                         isUsedInSubscription={!isNew && !canBeEdited}
                         currency={formikProps.values.amountCurrency || CurrencyEnum.Usd}

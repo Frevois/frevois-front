@@ -22,7 +22,6 @@ import {
   SettingsPaddedContainer,
   SettingsPageHeaderContainer,
 } from '~/components/layouts/Settings'
-import { PremiumWarningDialog, PremiumWarningDialogRef } from '~/components/PremiumWarningDialog'
 import {
   AddOrganizationVatRateDialog,
   AddOrganizationVatRateDialogRef,
@@ -84,7 +83,6 @@ import {
   useUpdateInvoiceCustomSectionMutation,
 } from '~/generated/graphql'
 import { useInternationalization } from '~/hooks/core/useInternationalization'
-import { useCurrentUser } from '~/hooks/useCurrentUser'
 import { usePermissions } from '~/hooks/usePermissions'
 import ErrorImage from '~/public/images/maneki/error.svg'
 import { tw } from '~/styles/utils'
@@ -157,7 +155,6 @@ gql`
 
 const InvoiceSettings = () => {
   const { translate } = useInternationalization()
-  const { isPremium } = useCurrentUser()
   const { hasPermissions } = usePermissions()
   const navigate = useNavigate()
   const editVATDialogRef = useRef<AddOrganizationVatRateDialogRef>(null)
@@ -170,7 +167,6 @@ const InvoiceSettings = () => {
   const editNetPaymentTermDialogRef = useRef<EditNetPaymentTermDialogRef>(null)
   const editFinalizeZeroAmountInvoiceDialogRef =
     useRef<EditFinalizeZeroAmountInvoiceDialogRef>(null)
-  const premiumWarningDialogRef = useRef<PremiumWarningDialogRef>(null)
   const defaultCustomSectionDialogRef = useRef<DefaultCustomSectionDialogRef>(null)
   const deleteCustomSectionDialogRef = useRef<DeleteCustomSectionDialogRef>(null)
 
@@ -312,12 +308,9 @@ const InvoiceSettings = () => {
                   action={
                     <Button
                       variant="quaternary"
-                      endIcon={isPremium ? undefined : 'sparkles'}
                       disabled={!canEditInvoiceSettings}
                       onClick={() => {
-                        isPremium
-                          ? editGracePeriodDialogRef?.current?.openDialog()
-                          : premiumWarningDialogRef.current?.openDialog()
+                        editGracePeriodDialogRef?.current?.openDialog()
                       }}
                     >
                       {translate('text_637f819eff19cd55a56d55e4')}
@@ -647,7 +640,6 @@ const InvoiceSettings = () => {
         finalizeZeroAmountInvoice={organization?.finalizeZeroAmountInvoice}
       />
       <EditDefaultCurrencyDialog ref={editDefaultCurrencyDialogRef} />
-      <PremiumWarningDialog ref={premiumWarningDialogRef} />
       <DefaultCustomSectionDialog ref={defaultCustomSectionDialogRef} />
       <DeleteCustomSectionDialog ref={deleteCustomSectionDialogRef} />
     </>

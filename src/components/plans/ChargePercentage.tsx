@@ -2,7 +2,7 @@ import { gql } from '@apollo/client'
 import { InputAdornment } from '@mui/material'
 import { FormikErrors, FormikProps } from 'formik'
 import _get from 'lodash/get'
-import { memo, RefObject, useCallback } from 'react'
+import { memo, useCallback } from 'react'
 import styled from 'styled-components'
 
 import { Alert, Button, Popper, Tooltip, Typography } from '~/components/designSystem'
@@ -11,7 +11,6 @@ import { MIN_AMOUNT_SHOULD_BE_LOWER_THAN_MAX_ERROR } from '~/core/constants/form
 import { getCurrencySymbol, intlFormatNumber } from '~/core/formats/intlFormatNumber'
 import { CurrencyEnum } from '~/generated/graphql'
 import { useInternationalization } from '~/hooks/core/useInternationalization'
-import { useCurrentUser } from '~/hooks/useCurrentUser'
 import { MenuPopper, theme } from '~/styles'
 
 import {
@@ -20,8 +19,6 @@ import {
   LocalPropertiesInput,
   PlanFormInput,
 } from './types'
-
-import { PremiumWarningDialogRef } from '../PremiumWarningDialog'
 
 gql`
   fragment PercentageCharge on Properties {
@@ -42,7 +39,6 @@ interface ChargePercentageProps {
   formikProps: FormikProps<PlanFormInput>
   propertyCursor: string
   valuePointer: LocalPropertiesInput | LocalChargeFilterInput['properties'] | undefined
-  premiumWarningDialogRef?: RefObject<PremiumWarningDialogRef>
 }
 
 export const ChargePercentage = memo(
@@ -54,10 +50,8 @@ export const ChargePercentage = memo(
     formikProps,
     propertyCursor,
     valuePointer,
-    premiumWarningDialogRef,
   }: ChargePercentageProps) => {
     const { translate } = useInternationalization()
-    const { isPremium } = useCurrentUser()
     const chargeErrors = formikProps?.errors?.charges as FormikErrors<LocalChargeInput>[]
     const showFixedAmount = valuePointer?.fixedAmount !== undefined
     const showFreeUnitsPerEvents = valuePointer?.freeUnitsPerEvents !== undefined
@@ -433,17 +427,12 @@ export const ChargePercentage = memo(
                 <Button
                   className="justify-start"
                   variant="quaternary"
-                  endIcon={isPremium ? undefined : 'sparkles'}
                   disabled={disabled || valuePointer?.perTransactionMinAmount !== undefined}
                   onClick={() => {
-                    if (isPremium) {
-                      formikProps.setFieldValue(`charges.${chargeIndex}.${propertyCursor}`, {
-                        ...valuePointer,
-                        perTransactionMinAmount: '',
-                      })
-                    } else {
-                      premiumWarningDialogRef?.current?.openDialog()
-                    }
+                    formikProps.setFieldValue(`charges.${chargeIndex}.${propertyCursor}`, {
+                      ...valuePointer,
+                      perTransactionMinAmount: '',
+                    })
 
                     closePopper()
                   }}
@@ -454,17 +443,12 @@ export const ChargePercentage = memo(
                 <Button
                   className="justify-start"
                   variant="quaternary"
-                  endIcon={isPremium ? undefined : 'sparkles'}
                   disabled={disabled || valuePointer?.perTransactionMaxAmount !== undefined}
                   onClick={() => {
-                    if (isPremium) {
-                      formikProps.setFieldValue(`charges.${chargeIndex}.${propertyCursor}`, {
-                        ...valuePointer,
-                        perTransactionMaxAmount: '',
-                      })
-                    } else {
-                      premiumWarningDialogRef?.current?.openDialog()
-                    }
+                    formikProps.setFieldValue(`charges.${chargeIndex}.${propertyCursor}`, {
+                      ...valuePointer,
+                      perTransactionMaxAmount: '',
+                    })
 
                     closePopper()
                   }}

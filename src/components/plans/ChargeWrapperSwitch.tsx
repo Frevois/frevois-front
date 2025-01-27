@@ -1,5 +1,5 @@
 import { FormikProps } from 'formik'
-import { memo, RefObject } from 'react'
+import { memo } from 'react'
 
 import { ChargePercentage } from '~/components/plans/ChargePercentage'
 import { CustomCharge } from '~/components/plans/CustomCharge'
@@ -13,8 +13,6 @@ import { StandardCharge } from './StandardCharge'
 import { LocalChargeFilterInput, LocalPropertiesInput, PlanFormInput } from './types'
 import { VolumeChargeTable } from './VolumeChargeTable'
 
-import { PremiumWarningDialogRef } from '../PremiumWarningDialog'
-
 interface ChargeWrapperSwitchProps {
   currency: CurrencyEnum
   formikProps: FormikProps<PlanFormInput>
@@ -24,7 +22,6 @@ interface ChargeWrapperSwitchProps {
   propertyCursor: string
   valuePointer: LocalPropertiesInput | LocalChargeFilterInput['properties'] | undefined
   disabled?: boolean
-  premiumWarningDialogRef?: RefObject<PremiumWarningDialogRef>
 }
 
 export const ChargeWrapperSwitch = memo(
@@ -35,7 +32,6 @@ export const ChargeWrapperSwitch = memo(
     chargeIndex,
     filterIndex,
     initialValuePointer,
-    premiumWarningDialogRef,
     propertyCursor,
     valuePointer,
   }: ChargeWrapperSwitchProps) => {
@@ -89,7 +85,6 @@ export const ChargeWrapperSwitch = memo(
             formikProps={formikProps}
             propertyCursor={propertyCursor}
             valuePointer={valuePointer}
-            premiumWarningDialogRef={premiumWarningDialogRef}
           />
         ) : localCharge.chargeModel === ChargeModelEnum.Volume ? (
           <VolumeChargeTable

@@ -46,7 +46,6 @@ import {
 } from '~/generated/graphql'
 import { useInternationalization } from '~/hooks/core/useInternationalization'
 import { useChargeForm } from '~/hooks/plans/useChargeForm'
-import { useCurrentUser } from '~/hooks/useCurrentUser'
 import { NAV_HEIGHT, theme } from '~/styles'
 
 import { buildChargeFilterAddFilterButtonId, ChargeFilter } from './ChargeFilter'
@@ -57,7 +56,6 @@ import { LocalChargeInput, PlanFormInput } from './types'
 
 import { ConditionalWrapper } from '../ConditionalWrapper'
 import { EditInvoiceDisplayNameRef } from '../invoices/EditInvoiceDisplayName'
-import { PremiumWarningDialogRef } from '../PremiumWarningDialog'
 
 const buildChargeDefaultPropertyId = (chargeIndex: number) =>
   `charge-${chargeIndex}-default-property-accordion`
@@ -166,7 +164,6 @@ interface ChargeAccordionProps {
   id: string
   index: number
   isUsedInSubscription?: boolean
-  premiumWarningDialogRef?: RefObject<PremiumWarningDialogRef>
   editInvoiceDisplayNameRef: RefObject<EditInvoiceDisplayNameRef>
   removeChargeWarningDialogRef?: RefObject<RemoveChargeWarningDialogRef>
   subscriptionFormType?: keyof typeof FORM_TYPE_ENUM
@@ -179,7 +176,6 @@ export const ChargeAccordion = memo(
     disabled,
     shouldDisplayAlreadyUsedChargeAlert,
     removeChargeWarningDialogRef,
-    premiumWarningDialogRef,
     editInvoiceDisplayNameRef,
     isUsedInSubscription,
     isInitiallyOpen,
@@ -190,7 +186,6 @@ export const ChargeAccordion = memo(
     subscriptionFormType,
   }: ChargeAccordionProps) => {
     const { translate } = useInternationalization()
-    const { isPremium } = useCurrentUser()
     const { type: actionType } = useDuplicatePlanVar()
     const {
       getChargeModelComboboxData,
@@ -210,7 +205,6 @@ export const ChargeAccordion = memo(
     } = useMemo(() => {
       const formikCharge = formikProps.values.charges[index]
       const localChargeModelComboboxData = getChargeModelComboboxData({
-        isPremium,
         aggregationType: formikCharge.billableMetric.aggregationType,
       })
       const localIsPayInAdvanceOptionDisabled = getIsPayInAdvanceOptionDisabled({
@@ -246,7 +240,6 @@ export const ChargeAccordion = memo(
       getIsPayInAdvanceOptionDisabled,
       getIsProRatedOptionDisabled,
       index,
-      isPremium,
     ])
 
     const [showSpendingMinimum, setShowSpendingMinimum] = useState(
@@ -266,14 +259,6 @@ export const ChargeAccordion = memo(
 
     const handleUpdate = useCallback(
       (name: string, value: unknown) => {
-        // IMPORTANT: This check should stay first in this function
-        // If user is not premium and try to switch to graduated percentage pricing
-        // We should show the premium modal and prevent any formik value change
-        if (name === 'chargeModel' && !isPremium && value === ChargeModelEnum.GraduatedPercentage) {
-          premiumWarningDialogRef?.current?.openDialog()
-          return
-        }
-
         // NOTE: We prevent going further if the change is about the charge model and the value remain the same
         // It prevents fixing the properties to be wrongly reset to default on 2nd select.
         if (name === 'chargeModel' && value === localCharge.chargeModel) return
@@ -300,7 +285,7 @@ export const ChargeAccordion = memo(
       },
 
       // eslint-disable-next-line react-hooks/exhaustive-deps
-      [index, isPremium, localCharge, premiumWarningDialogRef],
+      [index, localCharge],
     )
 
     const taxValueForBadgeDisplay = useMemo((): string | undefined => {
@@ -554,7 +539,6 @@ export const ChargeAccordion = memo(
                       formikProps={formikProps}
                       chargeIndex={index}
                       propertyCursor="properties"
-                      premiumWarningDialogRef={premiumWarningDialogRef}
                       valuePointer={localCharge?.properties}
                       initialValuePointer={initialLocalCharge?.properties}
                     />
@@ -690,7 +674,6 @@ export const ChargeAccordion = memo(
                             chargeIndex={index}
                             filterIndex={filterIndex}
                             propertyCursor={`filters.${filterIndex}.properties`}
-                            premiumWarningDialogRef={premiumWarningDialogRef}
                             valuePointer={filter.properties}
                             initialValuePointer={initialLocalCharge?.properties}
                           />
@@ -790,7 +773,6 @@ export const ChargeAccordion = memo(
               <ChargeBillingRadioGroup
                 localCharge={localCharge}
                 disabled={isInSubscriptionForm || disabled}
-                openPremiumDialog={() => premiumWarningDialogRef?.current?.openDialog()}
                 handleUpdate={({ regroupPaidFees, invoiceable }) => {
                   const currentChargeValues: LocalChargeInput = {
                     ...localCharge,
@@ -839,16 +821,11 @@ export const ChargeAccordion = memo(
                     variant="quaternary"
                     startIcon="plus"
                     disabled={subscriptionFormType === FORM_TYPE_ENUM.edition || disabled}
-                    endIcon={isPremium ? undefined : 'sparkles'}
                     onClick={() => {
-                      if (isPremium) {
-                        setShowSpendingMinimum(true)
-                        setTimeout(() => {
-                          document.getElementById(`spending-minimum-input-${index}`)?.focus()
-                        }, 0)
-                      } else {
-                        premiumWarningDialogRef?.current?.openDialog()
-                      }
+                      setShowSpendingMinimum(true)
+                      setTimeout(() => {
+                        document.getElementById(`spending-minimum-input-${index}`)?.focus()
+                      }, 0)
                     }}
                   >
                     {translate('text_643e592657fc1ba5ce110b9e')}

@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-import { Icon, Typography } from '~/components/designSystem'
+import { Typography } from '~/components/designSystem'
 import { BasicComboBoxData } from '~/components/form'
 import { AggregationTypeEnum, ChargeModelEnum } from '~/generated/graphql'
 import { theme } from '~/styles'
@@ -8,7 +8,6 @@ import { theme } from '~/styles'
 import { useInternationalization } from '../core/useInternationalization'
 
 export type TGetChargeModelComboboxDataProps = {
-  isPremium: boolean
   aggregationType: AggregationTypeEnum
 }
 
@@ -42,7 +41,6 @@ export const useChargeForm: () => TUseChargeFormReturn = () => {
   const { translate } = useInternationalization()
 
   const getChargeModelComboboxData = ({
-    isPremium,
     aggregationType,
   }: TGetChargeModelComboboxDataProps): BasicComboBoxData[] => {
     const chargeModelComboboxData: BasicComboBoxData[] = [
@@ -74,7 +72,6 @@ export const useChargeForm: () => TUseChargeFormReturn = () => {
                   {translate('text_64de472463e2da6b31737db0')}
                 </Typography>
               </InlineComboboxLabel>
-              {!isPremium && <Icon name="sparkles" />}
             </InlineComboboxLabelForPremiumWrapper>
           ),
           label: translate('text_64de472463e2da6b31737db0'),

@@ -7,7 +7,6 @@ import {
   Accordion,
   Alert,
   Button,
-  ButtonLink,
   ChargeTable,
   Icon,
   Tooltip,
@@ -16,10 +15,8 @@ import {
 import { AmountInput, Switch, TextInput } from '~/components/form'
 import { PROGRESSIVE_BILLING_DOC_URL } from '~/core/constants/externalUrls'
 import { getCurrencySymbol } from '~/core/formats/intlFormatNumber'
-import { PremiumIntegrationTypeEnum } from '~/generated/graphql'
 import { useInternationalization } from '~/hooks/core/useInternationalization'
 import { useProgressiveBillingForm } from '~/hooks/plans/useProgressiveBillingForm'
-import { useOrganizationInfos } from '~/hooks/useOrganizationInfos'
 import { NAV_HEIGHT, theme } from '~/styles'
 
 import { PlanFormInput } from './types'
@@ -34,7 +31,6 @@ export const ProgressiveBillingSection: FC<ProgressiveBillingSectionProps> = ({
   isInSubscriptionForm,
 }) => {
   const { translate } = useInternationalization()
-  const { organization: { premiumIntegrations } = {} } = useOrganizationInfos()
 
   const {
     nonRecurringUsageThresholds,
@@ -54,10 +50,6 @@ export const ProgressiveBillingSection: FC<ProgressiveBillingSectionProps> = ({
   const [displayRecurring, setRecurring] = useState(!!recurringUsageThreshold)
 
   const currency = formikProps.values.amountCurrency
-
-  const hasPremiumIntegration = !!premiumIntegrations?.includes(
-    PremiumIntegrationTypeEnum.ProgressiveBilling,
-  )
 
   useEffect(() => {
     setDisplayProgressiveBillingAccordion(
@@ -83,28 +75,7 @@ export const ProgressiveBillingSection: FC<ProgressiveBillingSectionProps> = ({
         />
       </SectionTitle>
 
-      {!hasPremiumIntegration ? (
-        <PremiumWarning>
-          <Box>
-            <Typography variant="bodyHl" color="textSecondary">
-              {translate('text_1724345142892pcnx5m2k3r2')} <Icon name="sparkles" />
-            </Typography>
-            <Typography variant="caption">{translate('text_1724345142892ljzi79afhmc')}</Typography>
-          </Box>
-          <ButtonLink
-            buttonProps={{
-              variant: 'tertiary',
-              size: 'medium',
-              endIcon: 'sparkles',
-            }}
-            type="button"
-            external
-            to={`mailto:hello@getlago.com?subject=${translate('text_172434514289283gmf8bdhh3')}&body=${translate('text_1724346450317iqs2rtvx1tp')}`}
-          >
-            {translate('text_65ae73ebe3a66bec2b91d72d')}
-          </ButtonLink>
-        </PremiumWarning>
-      ) : displayProgressiveBillingAccordion ? (
+      {displayProgressiveBillingAccordion ? (
         <Accordion
           className="w-full"
           initiallyOpen={!isInSubscriptionForm}
@@ -400,14 +371,4 @@ const TableContainer = styled.div`
   /* Make sure focus ring is not crop at the bottom */
   padding-bottom: ${theme.spacing(1)};
   margin-bottom: -${theme.spacing(1)};
-`
-
-const PremiumWarning = styled.div`
-  background-color: ${theme.palette.grey[100]};
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: ${theme.spacing(4)} ${theme.spacing(6)};
-  gap: ${theme.spacing(4)};
-  border-radius: 8px;
 `

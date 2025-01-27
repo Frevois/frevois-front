@@ -23,7 +23,6 @@ import {
   useGetRequestOverduePaymentInfosQuery,
 } from '~/generated/graphql'
 import { useInternationalization } from '~/hooks/core/useInternationalization'
-import { useCurrentUser } from '~/hooks/useCurrentUser'
 import { EmailPreview } from '~/pages/CustomerRequestOverduePayment/components/EmailPreview'
 import {
   serializeEmails,
@@ -31,7 +30,6 @@ import {
 } from '~/pages/CustomerRequestOverduePayment/validateEmails'
 import { PageHeader } from '~/styles'
 
-import { FreemiumAlert } from './components/FreemiumAlert'
 import {
   CustomerRequestOverduePaymentForm,
   RequestPaymentForm,
@@ -83,7 +81,6 @@ const CustomerRequestOverduePayment: FC = () => {
   const { translate } = useInternationalization()
   const { customerId } = useParams()
   const navigate = useNavigate()
-  const { isPremium } = useCurrentUser()
 
   const {
     data: { customer, organization, paymentRequests, invoices } = {},
@@ -92,8 +89,6 @@ const CustomerRequestOverduePayment: FC = () => {
   } = useGetRequestOverduePaymentInfosQuery({
     variables: { id: customerId ?? '' },
   })
-
-  const hasDunningIntegration = !!isPremium
 
   const [paymentRequest, paymentRequestStatus] = useCreatePaymentRequestMutation({
     refetchQueries: ['getCustomerOverdueBalances'],
@@ -136,10 +131,6 @@ const CustomerRequestOverduePayment: FC = () => {
     validateOnMount: true,
     enableReinitialize: true,
     onSubmit: async (values) => {
-      if (!hasDunningIntegration) {
-        return
-      }
-
       await paymentRequest({
         variables: {
           input: {
@@ -209,7 +200,6 @@ const CustomerRequestOverduePayment: FC = () => {
 
       <main className="height-minus-nav-footer overflow-auto md:height-minus-nav md:flex md:overflow-auto">
         <section className="bg-white md:height-minus-nav-footer md:shrink md:grow md:basis-1/2 md:overflow-auto">
-          {!hasDunningIntegration && <FreemiumAlert />}
           <div className="px-4 py-12 md:px-12">
             <RequestPaymentForm
               invoicesLoading={loading}
@@ -251,7 +241,7 @@ const CustomerRequestOverduePayment: FC = () => {
             variant="primary"
             size="large"
             onClick={formikProps.submitForm}
-            disabled={!hasDunningIntegration || totalAmount === 0 || !formikProps.isValid}
+            disabled={totalAmount === 0 || !formikProps.isValid}
           >
             {translate('text_66b258f62100490d0eb5caa2')}
           </Button>

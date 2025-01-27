@@ -12,7 +12,6 @@ import {
   SettingsPaddedContainer,
   SettingsPageHeaderContainer,
 } from '~/components/layouts/Settings'
-import { PremiumWarningDialog, PremiumWarningDialogRef } from '~/components/PremiumWarningDialog'
 import {
   EditOrganizationInformationsDialog,
   EditOrganizationInformationsDialogRef,
@@ -30,7 +29,6 @@ import {
   useGetOrganizationInformationsQuery,
 } from '~/generated/graphql'
 import { useInternationalization } from '~/hooks/core/useInternationalization'
-import { useCurrentUser } from '~/hooks/useCurrentUser'
 import { usePermissions } from '~/hooks/usePermissions'
 import ErrorImage from '~/public/images/maneki/error.svg'
 
@@ -64,11 +62,9 @@ gql`
 
 const OrganizationInformations = () => {
   const { translate } = useInternationalization()
-  const { isPremium } = useCurrentUser()
   const { hasPermissions } = usePermissions()
   const editInfosDialogRef = useRef<EditOrganizationInformationsDialogRef>(null)
   const editTimezoneDialogRef = useRef<EditOrganizationTimezoneDialogRef>(null)
-  const premiumWarningDialogRef = useRef<PremiumWarningDialogRef>(null)
   const { data, loading, error } = useGetOrganizationInformationsQuery()
   const {
     logoUrl,
@@ -127,11 +123,8 @@ const OrganizationInformations = () => {
                       {hasPermissions(['organizationUpdate']) && (
                         <Button
                           variant="quaternary"
-                          endIcon={isPremium ? undefined : 'sparkles'}
                           onClick={() => {
-                            isPremium
-                              ? editTimezoneDialogRef?.current?.openDialog()
-                              : premiumWarningDialogRef.current?.openDialog()
+                            editTimezoneDialogRef?.current?.openDialog()
                           }}
                         >
                           {translate('text_638906e7b4f1a919cb61d0f2')}
@@ -311,7 +304,6 @@ const OrganizationInformations = () => {
         organization={data?.organization as EditOrganizationInformationsDialogFragment}
       />
       <EditOrganizationTimezoneDialog ref={editTimezoneDialogRef} timezone={timezone} />
-      <PremiumWarningDialog ref={premiumWarningDialogRef} />
     </>
   )
 }

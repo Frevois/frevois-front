@@ -11,7 +11,6 @@ import {
   SettingsPaddedContainer,
   SettingsPageHeaderContainer,
 } from '~/components/layouts/Settings'
-import { PremiumWarningDialog, PremiumWarningDialogRef } from '~/components/PremiumWarningDialog'
 import { AddOktaDialog, AddOktaDialogRef } from '~/components/settings/authentication/AddOktaDialog'
 import {
   DeleteOktaIntegrationDialog,
@@ -22,12 +21,9 @@ import {
   AddOktaIntegrationDialogFragmentDoc,
   DeleteOktaIntegrationDialogFragmentDoc,
   OktaIntegration,
-  PremiumIntegrationTypeEnum,
   useGetAuthIntegrationsQuery,
 } from '~/generated/graphql'
 import { useInternationalization } from '~/hooks/core/useInternationalization'
-import { useCurrentUser } from '~/hooks/useCurrentUser'
-import { useOrganizationInfos } from '~/hooks/useOrganizationInfos'
 import Okta from '~/public/images/okta.svg'
 
 gql`
@@ -48,26 +44,17 @@ gql`
 `
 
 const Authentication = () => {
-  const { isPremium } = useCurrentUser()
   const { translate } = useInternationalization()
-  const { organization: { premiumIntegrations } = {} } = useOrganizationInfos()
   const navigate = useNavigate()
 
-  const premiumWarningDialogRef = useRef<PremiumWarningDialogRef>(null)
   const addOktaDialogRef = useRef<AddOktaDialogRef>(null)
   const deleteOktaDialogRef = useRef<DeleteOktaIntegrationDialogRef>(null)
 
   const { data, loading } = useGetAuthIntegrationsQuery({ variables: { limit: 10 } })
 
-  const hasAccessTOktaPremiumIntegration = !!premiumIntegrations?.includes(
-    PremiumIntegrationTypeEnum.Okta,
-  )
-
   const oktaIntegration = data?.integrations?.collection.find(
     (integration) => integration.__typename === 'OktaIntegration',
   ) as OktaIntegration | undefined
-
-  const shouldSeeOktaIntegration = hasAccessTOktaPremiumIntegration && isPremium
 
   return (
     <>
@@ -97,19 +84,11 @@ const Authentication = () => {
                   </Avatar>
                 }
                 endIcon={
-                  shouldSeeOktaIntegration ? (
-                    oktaIntegration?.id ? (
-                      <Chip label={translate('text_634ea0ecc6147de10ddb662d')} />
-                    ) : undefined
-                  ) : (
-                    'sparkles'
-                  )
+                  oktaIntegration?.id ? (
+                    <Chip label={translate('text_634ea0ecc6147de10ddb662d')} />
+                  ) : undefined
                 }
                 onClick={() => {
-                  if (!shouldSeeOktaIntegration) {
-                    return premiumWarningDialogRef.current?.openDialog()
-                  }
-
                   if (oktaIntegration?.id) {
                     return navigate(
                       generatePath(OKTA_AUTHENTICATION_ROUTE, {
@@ -129,7 +108,6 @@ const Authentication = () => {
           )}
         </SettingsListWrapper>
 
-        <PremiumWarningDialog ref={premiumWarningDialogRef} />
         <AddOktaDialog ref={addOktaDialogRef} />
         <DeleteOktaIntegrationDialog ref={deleteOktaDialogRef} />
       </SettingsPaddedContainer>

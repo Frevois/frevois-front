@@ -9,9 +9,8 @@ import {
   VoidCreditNoteDialog,
   VoidCreditNoteDialogRef,
 } from '~/components/customers/creditNotes/VoidCreditNoteDialog'
-import { Button, ButtonLink, Tooltip, Typography } from '~/components/designSystem'
+import { ButtonLink, Tooltip, Typography } from '~/components/designSystem'
 import { GenericPlaceholder } from '~/components/GenericPlaceholder'
-import { PremiumWarningDialog, PremiumWarningDialogRef } from '~/components/PremiumWarningDialog'
 import { CUSTOMER_INVOICE_CREATE_CREDIT_NOTE_ROUTE } from '~/core/router'
 import {
   CreditNotesForTableFragmentDoc,
@@ -20,7 +19,6 @@ import {
   useGetInvoiceCreditNotesQuery,
 } from '~/generated/graphql'
 import { useInternationalization } from '~/hooks/core/useInternationalization'
-import { useCurrentUser } from '~/hooks/useCurrentUser'
 import ErrorImage from '~/public/images/maneki/error.svg'
 import { NAV_HEIGHT, theme } from '~/styles'
 
@@ -52,9 +50,7 @@ gql`
 const InvoiceCreditNoteList = () => {
   const { invoiceId, customerId } = useParams()
   const { translate } = useInternationalization()
-  const { isPremium } = useCurrentUser()
   const voidCreditNoteDialogRef = useRef<VoidCreditNoteDialogRef>(null)
-  const premiumWarningDialogRef = useRef<PremiumWarningDialogRef>(null)
   const { data, loading, error, fetchMore, variables } = useGetInvoiceCreditNotesQuery({
     variables: { invoiceId: invoiceId as string, limit: 20 },
     skip: !invoiceId || !customerId,
@@ -81,35 +77,25 @@ const InvoiceCreditNoteList = () => {
             <>
               {data?.invoice?.status !== InvoiceStatusTypeEnum.Voided && (
                 <>
-                  {isPremium ? (
-                    <Tooltip
-                      title={
-                        disabledIssueCreditNoteButtonLabel &&
-                        translate(disabledIssueCreditNoteButtonLabel)
-                      }
-                      placement="top-start"
-                    >
-                      <ButtonLink
-                        type="button"
-                        disabled={disabledIssueCreditNoteButton}
-                        buttonProps={{ variant: 'quaternary' }}
-                        to={generatePath(CUSTOMER_INVOICE_CREATE_CREDIT_NOTE_ROUTE, {
-                          customerId: customerId as string,
-                          invoiceId: invoiceId as string,
-                        })}
-                      >
-                        {translate('text_636bdef6565341dcb9cfb127')}
-                      </ButtonLink>
-                    </Tooltip>
-                  ) : (
-                    <Button
-                      variant="quaternary"
-                      onClick={() => premiumWarningDialogRef.current?.openDialog()}
-                      endIcon="sparkles"
+                  <Tooltip
+                    title={
+                      disabledIssueCreditNoteButtonLabel &&
+                      translate(disabledIssueCreditNoteButtonLabel)
+                    }
+                    placement="top-start"
+                  >
+                    <ButtonLink
+                      type="button"
+                      disabled={disabledIssueCreditNoteButton}
+                      buttonProps={{ variant: 'quaternary' }}
+                      to={generatePath(CUSTOMER_INVOICE_CREATE_CREDIT_NOTE_ROUTE, {
+                        customerId: customerId as string,
+                        invoiceId: invoiceId as string,
+                      })}
                     >
                       {translate('text_636bdef6565341dcb9cfb127')}
-                    </Button>
-                  )}
+                    </ButtonLink>
+                  </Tooltip>
                 </>
               )}
             </>
@@ -144,7 +130,6 @@ const InvoiceCreditNoteList = () => {
         )}
       </>
       <VoidCreditNoteDialog ref={voidCreditNoteDialogRef} />
-      <PremiumWarningDialog ref={premiumWarningDialogRef} />
     </div>
   )
 }

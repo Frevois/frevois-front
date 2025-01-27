@@ -3,7 +3,7 @@ import { Box, InputAdornment, Stack } from '@mui/material'
 import { FormikProps } from 'formik'
 import { get } from 'lodash'
 import { DateTime } from 'luxon'
-import { FC, RefObject, useMemo, useState } from 'react'
+import { FC, useMemo, useState } from 'react'
 import styled from 'styled-components'
 
 import { Accordion, Alert, Button, Card, Icon, Typography } from '~/components/designSystem'
@@ -15,7 +15,6 @@ import {
   Switch,
   SwitchField,
 } from '~/components/form'
-import { PremiumWarningDialogRef } from '~/components/PremiumWarningDialog'
 import { getWordingForWalletCreationAlert } from '~/components/wallets/utils'
 import { FORM_TYPE_ENUM, getIntervalTranslationKey } from '~/core/constants/form'
 import { intlFormatNumber } from '~/core/formats/intlFormatNumber'
@@ -28,7 +27,6 @@ import {
   UpdateRecurringTransactionRuleInput,
 } from '~/generated/graphql'
 import { useInternationalization } from '~/hooks/core/useInternationalization'
-import { useCurrentUser } from '~/hooks/useCurrentUser'
 import { walletFormErrorCodes } from '~/pages/WalletForm/form'
 import { theme } from '~/styles'
 
@@ -92,7 +90,6 @@ interface TopUpCardProps {
   customerData?: GetCustomerInfosForWalletFormQuery
   isRecurringTopUpEnabled: boolean
   setIsRecurringTopUpEnabled: (value: boolean) => void
-  premiumWarningDialogRef: RefObject<PremiumWarningDialogRef>
 }
 
 export const TopUpCard: FC<TopUpCardProps> = ({
@@ -101,9 +98,7 @@ export const TopUpCard: FC<TopUpCardProps> = ({
   customerData,
   isRecurringTopUpEnabled,
   setIsRecurringTopUpEnabled,
-  premiumWarningDialogRef,
 }) => {
-  const { isPremium } = useCurrentUser()
   const { translate } = useInternationalization()
   const [accordionIsOpen, setAccordionIsOpen] = useState(false)
 
@@ -215,15 +210,10 @@ export const TopUpCard: FC<TopUpCardProps> = ({
             <Button
               variant="quaternary"
               startIcon="plus"
-              endIcon={isPremium ? undefined : 'sparkles'}
               onClick={() => {
-                if (isPremium) {
-                  formikProps.setFieldValue('recurringTransactionRules.0', DEFAULT_RULES)
-                  setIsRecurringTopUpEnabled(true)
-                  setAccordionIsOpen(true)
-                } else {
-                  premiumWarningDialogRef.current?.openDialog()
-                }
+                formikProps.setFieldValue('recurringTransactionRules.0', DEFAULT_RULES)
+                setIsRecurringTopUpEnabled(true)
+                setAccordionIsOpen(true)
               }}
             >
               {translate('text_6657be42151661006d2f3b96')}

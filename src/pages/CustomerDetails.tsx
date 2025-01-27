@@ -27,7 +27,6 @@ import {
   Typography,
 } from '~/components/designSystem'
 import { GenericPlaceholder } from '~/components/GenericPlaceholder'
-import { PremiumWarningDialog, PremiumWarningDialogRef } from '~/components/PremiumWarningDialog'
 import { CustomerWalletsList } from '~/components/wallets/CustomerWalletList'
 import {
   CREATE_INVOICE_ROUTE,
@@ -99,7 +98,6 @@ export enum CustomerDetailsTabsOptions {
 const CustomerDetails = () => {
   const deleteDialogRef = useRef<DeleteCustomerDialogRef>(null)
   const addCouponDialogRef = useRef<AddCouponToCustomerDialogRef>(null)
-  const premiumWarningDialogRef = useRef<PremiumWarningDialogRef>(null)
   const { translate } = useInternationalization()
   const { hasPermissions } = usePermissions()
   const navigate = useNavigate()
@@ -406,7 +404,7 @@ const CustomerDetails = () => {
                     hidden: !hasPermissions(['analyticsView']),
                     component: (
                       <SideBlock>
-                        <CustomerUsage premiumWarningDialogRef={premiumWarningDialogRef} />
+                        <CustomerUsage />
                       </SideBlock>
                     ),
                   },
@@ -467,7 +465,6 @@ const CustomerDetails = () => {
           <AddCouponToCustomerDialog ref={addCouponDialogRef} customer={data?.customer} />
         </>
       )}
-      <PremiumWarningDialog ref={premiumWarningDialogRef} />
     </div>
   )
 }

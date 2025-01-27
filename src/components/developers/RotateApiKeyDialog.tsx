@@ -4,7 +4,7 @@ import { DateTime } from 'luxon'
 import { forwardRef, useImperativeHandle, useRef, useState } from 'react'
 import { object, string } from 'yup'
 
-import { Button, Dialog, DialogRef, Icon, Typography } from '~/components/designSystem'
+import { Button, Dialog, DialogRef, Typography } from '~/components/designSystem'
 import { addToast } from '~/core/apolloClient'
 import { formatDateToTZ } from '~/core/timezone/utils'
 import {
@@ -16,7 +16,6 @@ import {
   useRotateApiKeyMutation,
 } from '~/generated/graphql'
 import { useInternationalization } from '~/hooks/core/useInternationalization'
-import { useCurrentUser } from '~/hooks/useCurrentUser'
 
 import { RadioField } from '../form'
 
@@ -63,11 +62,7 @@ export interface RotateApiKeyDialogRef {
   closeDialog: () => unknown
 }
 
-export const RotateApiKeyDialog = forwardRef<
-  RotateApiKeyDialogRef,
-  { openPremiumDialog: VoidFunction }
->(({ openPremiumDialog }, ref) => {
-  const { isPremium } = useCurrentUser()
+export const RotateApiKeyDialog = forwardRef<RotateApiKeyDialogRef>((_props, ref) => {
   const { translate } = useInternationalization()
   const dialogRef = useRef<DialogRef>(null)
   const [localData, setLocalData] = useState<RotateApiKeyDialogProps | undefined>(undefined)
@@ -193,29 +188,9 @@ export const RotateApiKeyDialog = forwardRef<
               label={translate(ExpirationValuesTranslationLookup.Now)}
               formikProps={formikProps}
             />
-            {!isPremium && (
-              <div className="flex w-full flex-row items-center justify-between gap-2 rounded-xl bg-grey-100 px-6 py-4">
-                <div className="flex flex-col">
-                  <div className="flex flex-row items-center gap-2">
-                    <Typography variant="bodyHl" color="grey700">
-                      {translate('text_1732286530467ezav2z7ypj1')}
-                    </Typography>
-                    <Icon name="sparkles" />
-                  </div>
-
-                  <Typography variant="caption" color="grey600">
-                    {translate('text_1732286530467gnhwm6q5ftl')}
-                  </Typography>
-                </div>
-                <Button endIcon="sparkles" variant="tertiary" onClick={openPremiumDialog}>
-                  {translate('text_65ae73ebe3a66bec2b91d72d')}
-                </Button>
-              </div>
-            )}
             <RadioField
               name="expiresAt"
               labelVariant="body"
-              disabled={!isPremium}
               value={ExpirationValuesEnum.OneHour}
               label={translate(ExpirationValuesTranslationLookup.OneHour)}
               formikProps={formikProps}
@@ -223,7 +198,6 @@ export const RotateApiKeyDialog = forwardRef<
             <RadioField
               name="expiresAt"
               labelVariant="body"
-              disabled={!isPremium}
               value={ExpirationValuesEnum.OneDay}
               label={translate(ExpirationValuesTranslationLookup.OneDay)}
               formikProps={formikProps}
@@ -231,7 +205,6 @@ export const RotateApiKeyDialog = forwardRef<
             <RadioField
               name="expiresAt"
               labelVariant="body"
-              disabled={!isPremium}
               value={ExpirationValuesEnum.TwoDays}
               label={translate(ExpirationValuesTranslationLookup.TwoDays)}
               formikProps={formikProps}
@@ -239,7 +212,6 @@ export const RotateApiKeyDialog = forwardRef<
             <RadioField
               name="expiresAt"
               labelVariant="body"
-              disabled={!isPremium}
               value={ExpirationValuesEnum.OneWeek}
               label={translate(ExpirationValuesTranslationLookup.OneWeek)}
               formikProps={formikProps}
