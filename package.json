@@ -26,10 +26,9 @@
     "translations:inspect": "node scripts/translations/inspect",
     "changelog:update": "auto-changelog --template=.changelog/regular.hbs",
     "codemod": "node scripts/codemod.js",
-    "postinstall": "npx yarn-deduplicate",
     "bundle-analyzer": "vite-bundle-visualizer --sourcemap"
   },
-  "packageManager": "yarn@1.22.19",
+  "packageManager": "yarn@4.6.0",
   "devDependencies": {
     "@emotion/react": "11.13.5",
     "@emotion/styled": "11.13.5",
