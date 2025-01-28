@@ -16,7 +16,7 @@ jobs:
       - name: Checkout API Git repository
         uses: actions/checkout@v4
         with:
-          repository: getlago/lago-api
+          repository: Frevois/Frevois-api
           ref: ${{ github.event.inputs.api_branch }}
           path: api
 
