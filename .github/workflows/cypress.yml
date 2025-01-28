@@ -3,6 +3,7 @@ name: TestE2E
 on:
   pull_request:
     types: [opened, reopened, review_requested, ready_for_review, synchronize]
+  push:
 
 jobs:
   cypress-run:
