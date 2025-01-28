@@ -42,6 +42,9 @@ jobs:
         with:
           node-version: 20
 
+      - run: |
+          corepack enable
+
       - name: Install Node.js dependencies
         run: yarn
 

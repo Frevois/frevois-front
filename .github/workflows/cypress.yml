@@ -43,6 +43,9 @@ jobs:
         with:
           node-version: 20
 
+      - run: |
+          corepack enable
+
       - name: Cypress run
         uses: cypress-io/github-action@v6
         with:
