@@ -3,13 +3,7 @@ import { useMediaQuery } from '@mui/material'
 import { useFormik } from 'formik'
 import { DateTime } from 'luxon'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import {
-  generatePath,
-  useLocation,
-  useNavigate,
-  useParams,
-  useSearchParams,
-} from 'react-router'
+import { generatePath, useLocation, useNavigate, useParams, useSearchParams } from 'react-router'
 import styled, { css } from 'styled-components'
 import { object, string } from 'yup'
 

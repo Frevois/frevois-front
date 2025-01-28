@@ -1,7 +1,6 @@
 import { ApolloClient, ApolloLink, NormalizedCacheObject } from '@apollo/client'
 import { onError } from '@apollo/client/link/error'
 import { LocalForageWrapper, persistCache } from 'apollo3-cache-persist'
-import ApolloLinkTimeout from '~/utils/apollo-link-timeout/link-timeout.js'
 import createUploadLink from 'apollo-upload-client/createUploadLink.mjs'
 import localForage from 'localforage'
 
@@ -13,6 +12,7 @@ import {
   envGlobalVar,
 } from '~/core/apolloClient/reactiveVars'
 import { LagoApiError } from '~/generated/graphql'
+import ApolloLinkTimeout from '~/utils/apollo-link-timeout/link-timeout.js'
 
 import { cache } from './cache'
 import { getItemFromLS, logOut, omitDeep, ORGANIZATION_LS_KEY_ID } from './cacheUtils'
