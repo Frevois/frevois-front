@@ -102,7 +102,7 @@ export default defineConfig(({ mode }) => {
     build: {
       outDir: 'dist',
       sourcemap: true,
-      target: 'es2022',
+      target: 'es2024',
       rollupOptions: {
         output: {
           chunkFileNames: '[name].[hash].js',

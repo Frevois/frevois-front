@@ -1,9 +1,9 @@
 {
   "include": ["**/*.tsx", "**/*.ts", "**/*.d.ts"],
   "compilerOptions": {
-    "lib": ["es6", "dom", "es2022"],
+    "lib": ["es6", "dom", "es2024"],
     "outDir": "./dist",
-    "target": "es2022",
+    "target": "es2024",
     "module": "ESNext",
     "jsx": "react-jsx",
     "strict": true,
