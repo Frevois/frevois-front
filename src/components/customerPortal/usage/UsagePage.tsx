@@ -99,10 +99,8 @@ const UsagePage = () => {
     skip: !itemId,
   })
 
-  const { data: organization, loading: organizationLoading } = useGetPortalOrgaInfosQuery()
+  const { loading: organizationLoading } = useGetPortalOrgaInfosQuery()
   const customerPortalSubscription = customerPortalSubscriptionData?.customerPortalSubscription
-
-  const customerPortalOrganization = organization?.customerPortalOrganization
 
   return (
     <div>
@@ -121,7 +119,6 @@ const UsagePage = () => {
           <SubscriptionUsageLifetimeGraphComponent
             subscriptionId={subscriptionId}
             customerId={customerId}
-            organization={customerPortalOrganization}
             organizationLoading={organizationLoading}
             subscription={customerPortalSubscription}
             subscriptionLoading={customerPortalSubscriptionLoading}

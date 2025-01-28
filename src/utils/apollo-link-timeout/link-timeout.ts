@@ -1,5 +1,5 @@
 // Based on https://github.com/drcallaway/apollo-link-timeout
-import { ApolloLink, NextLink, Observable, Operation } from '@apollo/client'
+import { ApolloLink, FetchResult, NextLink, Observable, Operation } from '@apollo/client'
 import { DefinitionNode } from 'graphql'
 
 import TimeoutError from './TimeoutError.js'
@@ -19,7 +19,7 @@ export default class TimeoutLink extends ApolloLink {
     this.statusCode = statusCode
   }
 
-  public request(operation: Operation, forward: NextLink) {
+  public request(operation: Operation, forward: NextLink): Observable<FetchResult> {
     let controller: AbortController
 
     // override timeout from query context
@@ -38,9 +38,9 @@ export default class TimeoutLink extends ApolloLink {
 
     const chainObservable = forward(operation) // observable for remaining link chain
 
-    const operationType = (operation.query.definitions as any).find(
+    const operationType = operation.query.definitions.find(
       (def: DefinitionNode) => def.kind === 'OperationDefinition',
-    ).operation
+    )?.operation
 
     if (requestTimeout <= 0 || operationType === 'subscription') {
       return chainObservable // skip this link if timeout is zero or it's a subscription request
@@ -48,7 +48,8 @@ export default class TimeoutLink extends ApolloLink {
 
     // create local observable with timeout functionality (unsubscibe from chain observable and
     // return an error if the timeout expires before chain observable resolves)
-    const localObservable = new Observable((observer) => {
+    const localObservable = new Observable<FetchResult>((observer) => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any, prefer-const
       let timer: any
 
       // listen to chainObservable for result and pass to localObservable if received before timeout
