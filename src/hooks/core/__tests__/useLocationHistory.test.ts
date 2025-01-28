@@ -1,10 +1,13 @@
 import { act, renderHook } from '@testing-library/react'
+import type Router from 'react-router-dom'
 
 import { locationHistoryVar } from '~/core/apolloClient'
 
 import { useLocationHistory } from '../useLocationHistory'
 
-const mockNavigate = jest.fn()
+const { mockNavigate } = vi.hoisted(() => {
+  return { mockNavigate: vi.fn() }
+})
 
 const FALLBACK_URL = '/fallback'
 const MOCK_HISTORY_VAR = [
@@ -41,18 +44,27 @@ const MOCK_HISTORY_VAR = [
   },
 ]
 
-jest.mock('react-router-dom', () => ({
-  ...jest.requireActual('react-router-dom'),
-  useNavigate: () => mockNavigate,
-}))
+vitest.mock('react-router-dom', async () => {
+  const router: typeof Router = await vitest.importActual('react-router-dom')
 
-jest.mock('~/hooks/usePermissions', () => ({
+  const exports = {
+    ...router,
+    useNavigate: () => mockNavigate,
+  }
+
+  return {
+    default: exports,
+    ...exports,
+  }
+})
+
+vitest.mock('~/hooks/usePermissions', () => ({
   usePermissions: () => ({
     hasPermissions: () => true,
   }),
 }))
 
-jest.mock('~/hooks/useCurrentUser', () => ({
+vitest.mock('~/hooks/useCurrentUser', () => ({
   useCurrentUser: () => ({
     loading: false,
     currentUser: {

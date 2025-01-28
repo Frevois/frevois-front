@@ -2,7 +2,7 @@ import { copyToClipboard } from '../copyToClipboard'
 
 Object.assign(window.navigator, {
   clipboard: {
-    writeText: jest.fn().mockImplementation(() => Promise.resolve()),
+    writeText: vitest.fn().mockImplementation(() => Promise.resolve()),
   },
 })
 

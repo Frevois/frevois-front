@@ -4,11 +4,11 @@ import { getPluralTranslation, replaceDynamicVarInString } from '~/core/translat
 
 import { useInternationalization } from '../useInternationalization'
 
-const mockUpdateIntlLocale = jest.fn()
+const mockUpdateIntlLocale = vitest.fn()
 let mockUseInternationalizationVar = {}
 
-jest.mock('~/core/apolloClient', () => ({
-  ...jest.requireActual('~/core/apolloClient'),
+vitest.mock('~/core/apolloClient', async () => ({
+  ...(await vitest.importActual('~/core/apolloClient')),
   useInternationalizationVar: () => mockUseInternationalizationVar,
   updateIntlLocale: () => mockUpdateIntlLocale,
 }))

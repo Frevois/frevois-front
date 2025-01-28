@@ -48,17 +48,19 @@ export const WalletTransactionListItem = ({
   ...props
 }: WalletTransactionListItemProps) => {
   const { translate } = useInternationalization()
+  const isPremium = true
+  const blurValue = !isPremium && isRealTimeTransaction
   const { amount, createdAt, creditAmount, settledAt, status, transactionType, transactionStatus } =
     transaction
   const isPending = status === WalletTransactionStatusEnum.Pending
   const isInbound = transactionType === WalletTransactionTransactionTypeEnum.Inbound
 
-  const formattedCreditAmount = intlFormatNumber(Number(creditAmount) || 0, {
+  const formattedCreditAmount = intlFormatNumber(Number(blurValue ? 0 : creditAmount) || 0, {
     maximumFractionDigits: 15,
     style: 'decimal',
   })
 
-  const formattedCurrencyAmount = intlFormatNumber(Number(amount) || 0, {
+  const formattedCurrencyAmount = intlFormatNumber(Number(blurValue ? 0 : amount) || 0, {
     currencyDisplay: 'symbol',
     maximumFractionDigits: 15,
     currency: transaction?.wallet?.currency,
@@ -76,6 +78,7 @@ export const WalletTransactionListItem = ({
     return (
       <ListItem
         {...props}
+        isBlurry={!isPremium}
         iconName="pulse"
         timezone={customerTimezone}
         labelColor="grey600"

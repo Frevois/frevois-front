@@ -1,5 +1,5 @@
 import { gql } from '@apollo/client'
-import { getCurrentScope } from '@sentry/react'
+//import { getCurrentScope } from '@sentry/react'
 import { Settings } from 'luxon'
 import { useEffect, useRef } from 'react'
 
@@ -37,7 +37,7 @@ export const UserIdentifier = () => {
   useEffect(() => {
     if (!isAuthenticated) {
       refetchCountRef.current = 0
-      getCurrentScope().setUser(null)
+      //getCurrentScope().setUser(null)
     } else if (!data) {
       if (refetchCountRef.current <= 3) {
         refetch()
@@ -49,11 +49,11 @@ export const UserIdentifier = () => {
         })
       }
     } else {
-      const { id, email } = data?.me || {}
+      //const { id, email } = data?.me || {}
 
       Settings.defaultZone = getTimezoneConfig(data?.organization?.timezone).name
 
-      getCurrentScope().setUser({ id, email: email || undefined })
+      //getCurrentScope().setUser({ id, email: email || undefined })
     }
   }, [data, isAuthenticated, refetch])
 

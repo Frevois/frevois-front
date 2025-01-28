@@ -1,10 +1,10 @@
 {
   "include": ["**/*.tsx", "**/*.ts", "**/*.d.ts"],
   "compilerOptions": {
-    "lib": ["es6", "dom", "esnext"],
+    "lib": ["es6", "dom", "es2022"],
     "outDir": "./dist",
-    "target": "es5",
-    "module": "esnext",
+    "target": "es2022",
+    "module": "ESNext",
     "jsx": "react-jsx",
     "strict": true,
     "forceConsistentCasingInFileNames": true,
@@ -13,7 +13,6 @@
     "resolveJsonModule": true,
     "allowSyntheticDefaultImports": true,
     "baseUrl": "src",
-    "esModuleInterop": true,
     "paths": {
       "~/*": ["*"],
       "@mui/styled-engine": ["./node_modules/@mui/styled-engine-sc"]
@@ -21,7 +20,8 @@
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
     "isolatedModules": true,
-    "noEmit": true
+    "noEmit": true,
+    "types": ["vitest/globals"]
   },
   "exclude": ["node_modules", "cypress"],
   "allowUmdGlobalAccess": true

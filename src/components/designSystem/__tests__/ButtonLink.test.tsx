@@ -65,7 +65,7 @@ describe('ButtonLink', () => {
     })
 
     it('should trigger the confirm action on click', async () => {
-      const onContinueMock = jest.fn()
+      const onContinueMock = vitest.fn()
 
       await prepare({ type: 'button', to: '/', props: { onClick: onContinueMock } })
 
@@ -79,7 +79,7 @@ describe('ButtonLink', () => {
     })
 
     it('should not trigger the confirm action on click if button is disabled', async () => {
-      const onContinueMock = jest.fn()
+      const onContinueMock = vitest.fn()
 
       await prepare({
         type: 'button',

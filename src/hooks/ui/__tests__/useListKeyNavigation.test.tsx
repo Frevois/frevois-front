@@ -18,7 +18,7 @@ const MyTestComponentThatUsesNavigation = ({ conponentProps, children }: PageWra
 
 describe('useListKeyNavigation()', () => {
   describe('disabled', () => {
-    const action = jest.fn()
+    const action = vitest.fn()
     const disabled = true
 
     it('does not return', async () => {
@@ -48,7 +48,7 @@ describe('useListKeyNavigation()', () => {
   })
 
   describe('Pressing ArrowDown or j', () => {
-    const navigate = jest.fn()
+    const navigate = vitest.fn()
     const disabled = false
 
     it('focuses the next element', async () => {
@@ -116,7 +116,7 @@ describe('useListKeyNavigation()', () => {
   })
 
   describe('Pressing ArrowUp or k', () => {
-    const navigate = jest.fn()
+    const navigate = vitest.fn()
     const disabled = false
 
     it('focuses the next element', async () => {
@@ -184,7 +184,7 @@ describe('useListKeyNavigation()', () => {
   })
 
   describe('Pressing Enter on second element', () => {
-    const navigate = jest.fn((id) => id)
+    const navigate = vitest.fn((id) => id)
     const disabled = false
 
     it('triggers navigate method with correct argument', async () => {

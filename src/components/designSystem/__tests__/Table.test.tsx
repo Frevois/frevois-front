@@ -76,9 +76,9 @@ describe('Table', () => {
   })
 
   it('renders with interaction', async () => {
-    const onEdit = jest.fn()
-    const onDelete = jest.fn()
-    const onRow = jest.fn()
+    const onEdit = vitest.fn()
+    const onDelete = vitest.fn()
+    const onRow = vitest.fn()
 
     await prepare({
       props: {
@@ -130,8 +130,8 @@ describe('Table', () => {
   })
 
   it('renders with custom action element', async () => {
-    const onClick = jest.fn()
-    const onRow = jest.fn()
+    const onClick = vitest.fn()
+    const onRow = vitest.fn()
 
     await prepare({
       props: {
@@ -185,7 +185,7 @@ describe('Table', () => {
       },
     })
 
-    expect(screen.getByText('empty.svg')).toBeInTheDocument()
+    expect(screen.getByTestId('empty.svg')).toBeInTheDocument()
   })
 
   it('renders with error state', async () => {
@@ -195,6 +195,6 @@ describe('Table', () => {
       },
     })
 
-    expect(screen.getByText('error.svg')).toBeInTheDocument()
+    expect(screen.getByTestId('error.svg')).toBeInTheDocument()
   })
 })

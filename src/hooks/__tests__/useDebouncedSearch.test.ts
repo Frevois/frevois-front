@@ -5,15 +5,15 @@ import { AllTheProviders } from '~/test-utils'
 import { DEBOUNCE_SEARCH_MS, useDebouncedSearch } from '../useDebouncedSearch'
 
 beforeEach(() => {
-  jest.useFakeTimers()
+  vitest.useFakeTimers()
 })
 
 afterEach(() => {
-  jest.clearAllTimers()
+  vitest.clearAllTimers()
 })
 
 async function prepare({ initialLoadingState = false }: { initialLoadingState: boolean }) {
-  const callback = jest.fn()
+  const callback = vitest.fn()
   const customWrapper = ({ children }: { children: React.ReactNode }) =>
     AllTheProviders({
       children,
@@ -41,7 +41,7 @@ describe('useDebouncedSearch', () => {
     expect(result.current.isLoading).toBe(true)
 
     // Fast-forward until all timers have been executed
-    await act(() => jest.advanceTimersByTime(DEBOUNCE_SEARCH_MS))
+    await act(() => vitest.advanceTimersByTime(DEBOUNCE_SEARCH_MS))
 
     act(() => {
       expect(result.current.isLoading).toBe(false)
@@ -56,7 +56,7 @@ describe('useDebouncedSearch', () => {
     expect(callback).toHaveBeenCalledTimes(1)
 
     // Fast-forward until all timers have been executed
-    await act(() => jest.advanceTimersByTime(DEBOUNCE_SEARCH_MS))
+    await act(() => vitest.advanceTimersByTime(DEBOUNCE_SEARCH_MS))
 
     act(() => {
       expect(result.current.isLoading).toBe(false)
@@ -64,7 +64,7 @@ describe('useDebouncedSearch', () => {
 
     // Trigger the callback
     result?.current?.debouncedSearch?.('test')
-    await act(() => jest.advanceTimersByTime(DEBOUNCE_SEARCH_MS))
+    await act(() => vitest.advanceTimersByTime(DEBOUNCE_SEARCH_MS))
 
     // Note: We cannot check that result.current.isLoading is true
     // As the value comes from initialLoadingState that cannot change in this context
@@ -74,7 +74,7 @@ describe('useDebouncedSearch', () => {
     expect(callback).toHaveBeenCalledTimes(2)
 
     // Fast-forward until all timers have been executed
-    await act(() => jest.advanceTimersByTime(DEBOUNCE_SEARCH_MS))
+    await act(() => vitest.advanceTimersByTime(DEBOUNCE_SEARCH_MS))
 
     // Loading keeps being false
     expect(result.current.isLoading).toBe(false)
@@ -88,7 +88,7 @@ describe('useDebouncedSearch', () => {
       expect(result.current.isLoading).toBe(true)
 
       // Fast-forward until all timers have been executed
-      await act(() => jest.advanceTimersByTime(DEBOUNCE_SEARCH_MS))
+      await act(() => vitest.advanceTimersByTime(DEBOUNCE_SEARCH_MS))
 
       act(() => {
         expect(result.current.isLoading).toBe(true)

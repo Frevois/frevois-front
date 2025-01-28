@@ -23,7 +23,7 @@ const membershipWithPermissions = {
   },
 }
 
-jest.mock('~/hooks/useCurrentUser', () => ({
+vitest.mock('~/hooks/useCurrentUser', () => ({
   useCurrentUser: () => ({
     currentMembership: membershipWithPermissions,
   }),
@@ -76,14 +76,19 @@ describe('EditCustomerVatRateDialog', () => {
   it('should propose to create a new tax if none exists and have permissions', async () => {
     await prepare()
 
-    await waitFor(() =>
-      userEvent.click(
-        screen
-          .queryByTestId('edit-customer-vat-rate-dialog')
-          ?.querySelector(
-            `.${SEARCH_TAX_INPUT_FOR_CUSTOMER_CLASSNAME} .${MUI_INPUT_BASE_ROOT_CLASSNAME}`,
-          ) as HTMLElement,
-      ),
+    await waitFor(
+      () =>
+        userEvent.click(
+          screen
+            .queryByTestId('edit-customer-vat-rate-dialog')
+            ?.querySelector(
+              `.${SEARCH_TAX_INPUT_FOR_CUSTOMER_CLASSNAME} .${MUI_INPUT_BASE_ROOT_CLASSNAME}`,
+            ) as HTMLElement,
+        ),
+      {
+        // This takes longer if coverage is enabled
+        timeout: 5000,
+      },
     )
 
     expect(screen.queryByTestId('combobox-item-Create a tax_rate')).toBeInTheDocument()

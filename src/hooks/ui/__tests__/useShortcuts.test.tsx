@@ -11,7 +11,7 @@ const MyTestComponentThatUsesShortcuts = ({ shortcuts }: { shortcuts: Shortcut[]
 
 describe('useShortcuts()', () => {
   describe('when Cmd D shortcut is enabled and Cmd+D is pressed', () => {
-    const action = jest.fn()
+    const action = vitest.fn()
     const shortcuts: Shortcut[] = [
       {
         action,
@@ -35,7 +35,7 @@ describe('useShortcuts()', () => {
   })
 
   describe('when Cmd D shortcut is DISABLED and Cmd+D is pressed', () => {
-    const action = jest.fn()
+    const action = vitest.fn()
     const shortcuts: Shortcut[] = [
       {
         action,
@@ -58,7 +58,7 @@ describe('useShortcuts()', () => {
   })
 
   describe('when Cmd Enter shortcut is enabled and Cmd+Enter is pressed', () => {
-    const action = jest.fn()
+    const action = vitest.fn()
     const shortcuts: Shortcut[] = [
       {
         action,
@@ -81,7 +81,7 @@ describe('useShortcuts()', () => {
   })
 
   describe('when additionnal keys are pressed', () => {
-    const action = jest.fn()
+    const action = vitest.fn()
     const shortcuts: Shortcut[] = [
       {
         action,

@@ -1,8 +1,8 @@
 import { ApolloClient, ApolloLink, NormalizedCacheObject } from '@apollo/client'
 import { onError } from '@apollo/client/link/error'
 import { LocalForageWrapper, persistCache } from 'apollo3-cache-persist'
-import ApolloLinkTimeout from 'apollo-link-timeout'
-import { createUploadLink } from 'apollo-upload-client'
+import ApolloLinkTimeout from '~/utils/apollo-link-timeout/link-timeout.js'
+import createUploadLink from 'apollo-upload-client/createUploadLink.mjs'
 import localForage from 'localforage'
 
 // IMPORTANT: Keep reactiveVars import before cacheUtils

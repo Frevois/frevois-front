@@ -3,7 +3,6 @@ import { resolve } from 'node:path'
 import { defineConfig, loadEnv } from 'vite'
 import { createHtmlPlugin } from 'vite-plugin-html'
 import svgr from 'vite-plugin-svgr'
-import topLevelAwait from 'vite-plugin-top-level-await'
 import wasm from 'vite-plugin-wasm'
 
 import { version } from './package.json'
@@ -25,13 +24,17 @@ export default defineConfig(({ mode }) => {
   const port = env.PORT ? parseInt(env.PORT) : 8080
 
   return {
+    test: {
+      globals: true,
+      environment: 'jsdom',
+      setupFiles: ['./vitest-setup.ts'],
+    },
     plugins: [
       react({
         plugins: [['@swc/plugin-styled-components', { displayName: true }]],
       }),
 
       wasm(),
-      topLevelAwait(),
 
       svgr({
         include: '**/*.svg',
@@ -60,16 +63,28 @@ export default defineConfig(({ mode }) => {
         },
       }),
     ],
-    define: {
-      APP_ENV: JSON.stringify(env.APP_ENV),
-      API_URL: JSON.stringify(env.API_URL),
-      DOMAIN: JSON.stringify(env.LAGO_DOMAIN),
-      APP_VERSION: JSON.stringify(version),
-      LAGO_OAUTH_PROXY_URL: JSON.stringify(env.LAGO_OAUTH_PROXY_URL),
-      LAGO_DISABLE_SIGNUP: JSON.stringify(env.LAGO_DISABLE_SIGNUP),
-      NANGO_PUBLIC_KEY: JSON.stringify(env.NANGO_PUBLIC_KEY),
-      SENTRY_DSN: JSON.stringify(env.SENTRY_DSN),
-    },
+    define: process.env.VITEST
+      ? {
+          APP_ENV: JSON.stringify('production'),
+          API_URL: JSON.stringify('http://localhost:3000'),
+          DOMAIN: JSON.stringify('localhost'),
+          APP_VERSION: JSON.stringify('1.0.0'),
+          IS_REACT_ACT_ENVIRONMENT: true,
+          LAGO_OAUTH_PROXY_URL: JSON.stringify('https://proxy.lago.dev'),
+          LAGO_DISABLE_SIGNUP: JSON.stringify('false'),
+          NANGO_PUBLIC_KEY: JSON.stringify(''),
+          SENTRY_DSN: JSON.stringify('https://sentry.io/'),
+        }
+      : {
+          APP_ENV: JSON.stringify(env.APP_ENV),
+          API_URL: JSON.stringify(env.API_URL),
+          DOMAIN: JSON.stringify(env.LAGO_DOMAIN),
+          APP_VERSION: JSON.stringify(version),
+          LAGO_OAUTH_PROXY_URL: JSON.stringify(env.LAGO_OAUTH_PROXY_URL),
+          LAGO_DISABLE_SIGNUP: JSON.stringify(env.LAGO_DISABLE_SIGNUP),
+          NANGO_PUBLIC_KEY: JSON.stringify(env.NANGO_PUBLIC_KEY),
+          SENTRY_DSN: JSON.stringify(env.SENTRY_DSN),
+        },
     resolve: {
       alias: {
         '~': resolve(__dirname, 'src'),
@@ -89,7 +104,7 @@ export default defineConfig(({ mode }) => {
     build: {
       outDir: 'dist',
       sourcemap: true,
-      target: 'esnext',
+      target: 'es2022',
       rollupOptions: {
         output: {
           chunkFileNames: '[name].[hash].js',

@@ -15,7 +15,7 @@ const CREDITS = '10'
 
 const AMOUNT = '100'
 
-jest.mock('~/hooks/useCurrentUser', () => ({
+vitest.mock('~/hooks/useCurrentUser', () => ({
   useCurrentUser: () => ({
     loading: false,
     currentUser: {

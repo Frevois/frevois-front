@@ -5,7 +5,7 @@ import { render } from '~/test-utils'
 
 import { WarningDialog } from '../WarningDialog'
 
-const onContinueMock = jest.fn()
+const onContinueMock = vitest.fn()
 
 async function prepare() {
   await act(() =>

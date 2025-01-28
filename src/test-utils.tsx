@@ -11,13 +11,24 @@ import { theme } from './styles'
 
 configure({ testIdAttribute: 'data-test' })
 
-const mockNavigate = jest.fn()
+const { mockNavigate } = vi.hoisted(() => {
+  return { mockNavigate: vi.fn() }
+})
 
-jest.mock('react-router-dom', () => ({
-  ...jest.requireActual('react-router-dom'),
-  useNavigate: () => mockNavigate,
-  useParams: jest.fn(),
-}))
+vitest.mock('react-router-dom', async () => {
+  const router: typeof Router = await vitest.importActual('react-router-dom')
+
+  const exports = {
+    ...router,
+    useNavigate: () => mockNavigate,
+    useParams: vitest.fn(),
+  }
+
+  return {
+    default: exports,
+    ...exports,
+  }
+})
 
 export type TestMocksType = MockedResponse<Record<string, unknown>, Record<string, unknown>>[]
 
@@ -43,7 +54,7 @@ export const AllTheProviders = ({
   loadDevMessages()
   loadErrorMessages()
 
-  !!useParams && jest.spyOn(Router, 'useParams').mockReturnValue(useParams)
+  !!useParams && vitest.mocked(Router.useParams).mockReturnValue(useParams)
 
   return (
     <BrowserRouter basename="/">

@@ -22,6 +22,7 @@ export const fourOFourInvoiceMock = () => ({
       feesAmountCents: '0',
       versionNumber: 3,
       __typename: 'Invoice',
+      availableToCreditAmountCents: '0',
     },
   },
 })
@@ -149,6 +150,7 @@ export const fullSubscriptionInvoiceGroupTrueUpMockAndExpect = () => ({
           groupedBy: {},
           charge: null,
           chargeFilter: null,
+          succeededAt: null,
           __typename: 'Fee',
         },
         {
@@ -167,6 +169,7 @@ export const fullSubscriptionInvoiceGroupTrueUpMockAndExpect = () => ({
           groupedBy: {},
           charge: null,
           chargeFilter: null,
+          succeededAt: null,
           __typename: 'Fee',
         },
         {
@@ -182,6 +185,7 @@ export const fullSubscriptionInvoiceGroupTrueUpMockAndExpect = () => ({
           groupedBy: {},
           charge: null,
           chargeFilter: null,
+          succeededAt: null,
           __typename: 'Fee',
         },
         {
@@ -197,6 +201,7 @@ export const fullSubscriptionInvoiceGroupTrueUpMockAndExpect = () => ({
           groupedBy: {},
           charge: null,
           chargeFilter: null,
+          succeededAt: null,
           __typename: 'Fee',
         },
         {
@@ -212,6 +217,7 @@ export const fullSubscriptionInvoiceGroupTrueUpMockAndExpect = () => ({
           groupedBy: {},
           charge: null,
           chargeFilter: null,
+          succeededAt: null,
           __typename: 'Fee',
         },
         {
@@ -227,6 +233,7 @@ export const fullSubscriptionInvoiceGroupTrueUpMockAndExpect = () => ({
           groupedBy: {},
           charge: null,
           chargeFilter: null,
+          succeededAt: null,
           __typename: 'Fee',
         },
         {
@@ -242,6 +249,7 @@ export const fullSubscriptionInvoiceGroupTrueUpMockAndExpect = () => ({
           groupedBy: {},
           charge: null,
           chargeFilter: null,
+          succeededAt: null,
           __typename: 'Fee',
         },
         {
@@ -257,6 +265,7 @@ export const fullSubscriptionInvoiceGroupTrueUpMockAndExpect = () => ({
           groupedBy: {},
           charge: null,
           chargeFilter: null,
+          succeededAt: null,
           __typename: 'Fee',
         },
         {
@@ -272,6 +281,7 @@ export const fullSubscriptionInvoiceGroupTrueUpMockAndExpect = () => ({
           groupedBy: {},
           charge: null,
           chargeFilter: null,
+          succeededAt: null,
           __typename: 'Fee',
         },
       ],
@@ -648,6 +658,7 @@ export const fullOneOffInvoiceMockAndExpect = () => ({
           invoiceDisplayName: 'Invoice custom name',
           appliedTaxes: [],
           trueUpFee: null,
+          succeededAt: undefined,
           __typename: 'Fee',
         },
         {
@@ -660,6 +671,7 @@ export const fullOneOffInvoiceMockAndExpect = () => ({
           invoiceDisplayName: 'Invoice custom name',
           appliedTaxes: [],
           trueUpFee: null,
+          succeededAt: undefined,
           __typename: 'Fee',
         },
         {
@@ -672,6 +684,7 @@ export const fullOneOffInvoiceMockAndExpect = () => ({
           invoiceDisplayName: 'Invoice custom name',
           appliedTaxes: [],
           trueUpFee: null,
+          succeededAt: undefined,
           __typename: 'Fee',
         },
       ],

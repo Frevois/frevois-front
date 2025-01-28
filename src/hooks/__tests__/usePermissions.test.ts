@@ -20,7 +20,7 @@ const membershipWithPermissions = {
   },
 }
 
-jest.mock('~/hooks/useCurrentUser', () => ({
+vitest.mock('~/hooks/useCurrentUser', () => ({
   useCurrentUser: () => ({
     currentMembership: membershipWithPermissions,
   }),
