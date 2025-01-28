@@ -2,7 +2,7 @@ import { gql } from '@apollo/client'
 import { Skeleton, Stack } from '@mui/material'
 import { DateTime } from 'luxon'
 import { FC, useEffect, useMemo } from 'react'
-import { generatePath, useNavigate, useParams } from 'react-router-dom'
+import { generatePath, useNavigate, useParams } from 'react-router'
 
 import { CustomerCoupons } from '~/components/customers/overview/CustomerCoupons'
 import { CustomerSubscriptionsList } from '~/components/customers/overview/CustomerSubscriptionsList'

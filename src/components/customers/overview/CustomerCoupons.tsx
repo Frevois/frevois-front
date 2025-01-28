@@ -1,6 +1,6 @@
 import { gql } from '@apollo/client'
 import { memo, useRef } from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams } from 'react-router'
 import styled from 'styled-components'
 
 import { CouponCaption, CouponMixedType } from '~/components/coupons/CouponCaption'

@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client'
 import { Stack } from '@mui/material'
 import { useEffect, useState } from 'react'
-import { useSearchParams } from 'react-router-dom'
+import { useSearchParams } from 'react-router'
 
 import { hasDefinedGQLError } from '~/core/apolloClient'
 import { DOCUMENTATION_ENV_VARS } from '~/core/constants/externalUrls'

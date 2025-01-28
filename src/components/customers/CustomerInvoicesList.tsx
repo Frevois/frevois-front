@@ -1,6 +1,6 @@
 import { FetchMoreQueryOptions, gql } from '@apollo/client'
 import { FC, useRef } from 'react'
-import { generatePath, useNavigate } from 'react-router-dom'
+import { generatePath, useNavigate } from 'react-router'
 
 import { Chip, InfiniteScroll, Status, Table, Tooltip, Typography } from '~/components/designSystem'
 import { addToast, hasDefinedGQLError } from '~/core/apolloClient'

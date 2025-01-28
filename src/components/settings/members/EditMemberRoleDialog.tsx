@@ -2,7 +2,7 @@ import { gql } from '@apollo/client'
 import { Stack } from '@mui/material'
 import { useFormik } from 'formik'
 import { forwardRef, useImperativeHandle, useRef, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router'
 import styled from 'styled-components'
 import { object, string } from 'yup'
 

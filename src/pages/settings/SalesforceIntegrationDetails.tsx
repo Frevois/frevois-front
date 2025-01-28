@@ -1,6 +1,6 @@
 import { gql } from '@apollo/client'
 import { FC, useRef } from 'react'
-import { generatePath, useNavigate, useParams } from 'react-router-dom'
+import { generatePath, useNavigate, useParams } from 'react-router'
 
 import {
   Avatar,

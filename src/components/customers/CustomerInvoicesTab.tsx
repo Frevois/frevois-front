@@ -1,5 +1,5 @@
 import { gql } from '@apollo/client'
-import { generatePath } from 'react-router-dom'
+import { generatePath } from 'react-router'
 
 import { ButtonLink, Skeleton, Typography } from '~/components/designSystem'
 import { CUSTOMER_DRAFT_INVOICES_LIST_ROUTE } from '~/core/router'

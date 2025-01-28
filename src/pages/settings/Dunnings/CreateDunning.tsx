@@ -1,7 +1,7 @@
 import { InputAdornment } from '@mui/material'
 import { useFormik } from 'formik'
 import { useEffect, useRef, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router'
 import { array, boolean, number, object, string } from 'yup'
 
 import { Alert, Button, Tooltip, Typography } from '~/components/designSystem'

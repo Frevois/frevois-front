@@ -1,6 +1,6 @@
 import { Typography } from '@mui/material'
 import { useMemo } from 'react'
-import { useSearchParams } from 'react-router-dom'
+import { useSearchParams } from 'react-router'
 
 import { useInternationalization } from '~/hooks/core/useInternationalization'
 

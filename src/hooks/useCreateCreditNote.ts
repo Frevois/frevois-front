@@ -1,7 +1,7 @@
 import { ApolloError, gql } from '@apollo/client'
 import _groupBy from 'lodash/groupBy'
 import { useMemo } from 'react'
-import { generatePath, useNavigate, useParams } from 'react-router-dom'
+import { generatePath, useNavigate, useParams } from 'react-router'
 
 import { CreditNoteForm, FeesPerInvoice, FromFee } from '~/components/creditNote/types'
 import { addToast, hasDefinedGQLError } from '~/core/apolloClient'

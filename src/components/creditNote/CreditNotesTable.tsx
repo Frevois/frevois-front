@@ -1,6 +1,6 @@
 import { ApolloError, gql, LazyQueryHookOptions } from '@apollo/client'
 import { useRef } from 'react'
-import { generatePath, useNavigate } from 'react-router-dom'
+import { generatePath, useNavigate } from 'react-router'
 import styled, { css } from 'styled-components'
 
 import CreditNoteBadge from '~/components/creditNote/CreditNoteBadge'

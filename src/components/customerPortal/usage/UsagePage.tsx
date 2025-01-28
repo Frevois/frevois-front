@@ -1,5 +1,5 @@
 import { gql } from '@apollo/client'
-import { useParams } from 'react-router-dom'
+import { useParams } from 'react-router'
 
 import useCustomerPortalNavigation from '~/components/customerPortal/common/hooks/useCustomerPortalNavigation'
 import PageTitle from '~/components/customerPortal/common/PageTitle'

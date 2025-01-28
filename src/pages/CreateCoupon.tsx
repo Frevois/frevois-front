@@ -3,7 +3,7 @@ import { useFormik } from 'formik'
 import isEqual from 'lodash/isEqual'
 import { DateTime } from 'luxon'
 import { useEffect, useRef, useState } from 'react'
-import { generatePath, useNavigate } from 'react-router-dom'
+import { generatePath, useNavigate } from 'react-router'
 import styled from 'styled-components'
 import { date, number, object, string } from 'yup'
 

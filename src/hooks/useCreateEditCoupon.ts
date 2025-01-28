@@ -1,6 +1,6 @@
 import { gql } from '@apollo/client'
 import { useEffect, useMemo, useState } from 'react'
-import { generatePath, useNavigate, useParams } from 'react-router-dom'
+import { generatePath, useNavigate, useParams } from 'react-router'
 
 import { addToast, hasDefinedGQLError } from '~/core/apolloClient'
 import { FORM_ERRORS_ENUM } from '~/core/constants/form'

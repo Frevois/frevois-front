@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client'
 import _findKey from 'lodash/findKey'
 import { useEffect, useMemo, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams } from 'react-router'
 import styled from 'styled-components'
 import { object, string } from 'yup'
 

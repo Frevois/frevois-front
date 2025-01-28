@@ -1,7 +1,7 @@
 import { Typography as MuiTypography, TypographyProps as MuiTypographyProps } from '@mui/material'
 import _isEqual from 'lodash/isEqual'
 import { ElementType, memo } from 'react'
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router'
 import sanitizeHtml from 'sanitize-html'
 
 import { tw } from '~/styles/utils'

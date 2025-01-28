@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client'
 import { Stack } from '@mui/material'
 import React, { useRef } from 'react'
-import { generatePath, Link, useParams } from 'react-router-dom'
+import { generatePath, Link, useParams } from 'react-router'
 import styled from 'styled-components'
 
 import { ConditionalWrapper } from '~/components/ConditionalWrapper'

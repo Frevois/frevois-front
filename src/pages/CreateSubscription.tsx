@@ -9,7 +9,7 @@ import {
   useNavigate,
   useParams,
   useSearchParams,
-} from 'react-router-dom'
+} from 'react-router'
 import styled, { css } from 'styled-components'
 import { object, string } from 'yup'
 

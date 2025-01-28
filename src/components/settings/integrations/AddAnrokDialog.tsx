@@ -3,7 +3,7 @@ import { Stack } from '@mui/material'
 import { useFormik } from 'formik'
 import { forwardRef, RefObject, useId, useImperativeHandle, useRef, useState } from 'react'
 import { useNavigate } from 'react-router'
-import { generatePath } from 'react-router-dom'
+import { generatePath } from 'react-router'
 import styled from 'styled-components'
 import { object, string } from 'yup'
 

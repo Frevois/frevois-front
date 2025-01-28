@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client'
 import { Stack } from '@mui/material'
 import { FC, PropsWithChildren, useCallback, useRef, useState } from 'react'
-import { Link, LinkProps } from 'react-router-dom'
+import { Link, LinkProps } from 'react-router'
 import styled from 'styled-components'
 
 import { TRANSLATIONS_MAP_CUSTOMER_TYPE } from '~/components/customers/utils'

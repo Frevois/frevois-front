@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router'
 import styled, { css } from 'styled-components'
 
 import { NAV_HEIGHT, theme } from '~/styles'

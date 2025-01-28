@@ -2,7 +2,7 @@
 import { gql, useApolloClient } from '@apollo/client'
 import { ClickAwayListener, Stack } from '@mui/material'
 import { useEffect, useRef, useState } from 'react'
-import { Location, Outlet, useLocation, useNavigate } from 'react-router-dom'
+import { Location, Outlet, useLocation, useNavigate } from 'react-router'
 import styled from 'styled-components'
 
 import {

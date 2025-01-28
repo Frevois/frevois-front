@@ -1,5 +1,5 @@
 import { forwardRef, MouseEvent, ReactNode } from 'react'
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router'
 
 import { ConditionalWrapper } from '~/components/ConditionalWrapper'
 import { tw } from '~/styles/utils'

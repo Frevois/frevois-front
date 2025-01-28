@@ -2,7 +2,7 @@ import { gql } from '@apollo/client'
 import { Stack } from '@mui/material'
 import _findKey from 'lodash/findKey'
 import { useEffect, useMemo, useState } from 'react'
-import { useSearchParams } from 'react-router-dom'
+import { useSearchParams } from 'react-router'
 import styled from 'styled-components'
 import { object, string } from 'yup'
 

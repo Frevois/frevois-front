@@ -2,7 +2,7 @@ import { gql } from '@apollo/client'
 import { Stack } from '@mui/material'
 import { useFormik } from 'formik'
 import { useEffect, useState } from 'react'
-import { useSearchParams } from 'react-router-dom'
+import { useSearchParams } from 'react-router'
 import { object, string } from 'yup'
 
 import { Alert, Button, Typography } from '~/components/designSystem'

@@ -1,6 +1,6 @@
 import _omit from 'lodash/omit'
 import { ReactNode } from 'react'
-import { matchPath, useLocation } from 'react-router-dom'
+import { matchPath, useLocation } from 'react-router'
 
 import { useInternationalization } from '~/hooks/core/useInternationalization'
 

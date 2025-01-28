@@ -1,6 +1,6 @@
 import { gql } from '@apollo/client'
 import React, { memo } from 'react'
-import { generatePath } from 'react-router-dom'
+import { generatePath } from 'react-router'
 import styled from 'styled-components'
 
 import { Typography } from '~/components/designSystem'

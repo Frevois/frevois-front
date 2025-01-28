@@ -3,7 +3,7 @@ import { useFormik } from 'formik'
 import _get from 'lodash/get'
 import { DateTime } from 'luxon'
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { generatePath, useNavigate, useParams } from 'react-router-dom'
+import { generatePath, useNavigate, useParams } from 'react-router'
 import styled from 'styled-components'
 import { array, object, string } from 'yup'
 

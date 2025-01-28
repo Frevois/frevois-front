@@ -1,6 +1,6 @@
 import { ApolloError, LazyQueryHookOptions } from '@apollo/client'
 import { useEffect, useRef } from 'react'
-import { generatePath, useNavigate, useSearchParams } from 'react-router-dom'
+import { generatePath, useNavigate, useSearchParams } from 'react-router'
 
 import { Chip, InfiniteScroll, Status, Table, Tooltip, Typography } from '~/components/designSystem'
 import {

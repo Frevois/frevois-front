@@ -1,6 +1,6 @@
 import { gql } from '@apollo/client'
 import { useEffect } from 'react'
-import { generatePath, useNavigate, useSearchParams } from 'react-router-dom'
+import { generatePath, useNavigate, useSearchParams } from 'react-router'
 import styled from 'styled-components'
 
 import { Avatar, ButtonLink, Chip, Icon, Skeleton, Typography } from '~/components/designSystem'

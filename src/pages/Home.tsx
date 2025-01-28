@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router'
 
 import { getItemFromLS, removeItemFromLS } from '~/core/apolloClient'
 import { ANALYTIC_ROUTE, CUSTOMERS_LIST_ROUTE } from '~/core/router'

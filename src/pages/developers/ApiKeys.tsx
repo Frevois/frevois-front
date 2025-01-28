@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client'
 import { DateTime } from 'luxon'
 import { useEffect, useRef, useState } from 'react'
-import { generatePath, useLocation, useNavigate } from 'react-router-dom'
+import { generatePath, useLocation, useNavigate } from 'react-router'
 
 import { ActionItem, Button, Icon, Table, Tooltip, Typography } from '~/components/designSystem'
 import {

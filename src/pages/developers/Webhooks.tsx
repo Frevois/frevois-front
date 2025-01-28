@@ -1,6 +1,6 @@
 import { gql } from '@apollo/client'
 import { useRef, useState } from 'react'
-import { generatePath } from 'react-router-dom'
+import { generatePath } from 'react-router'
 
 import { Button, Table, Tooltip, Typography } from '~/components/designSystem'
 import {

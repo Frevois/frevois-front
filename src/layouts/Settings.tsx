@@ -1,6 +1,6 @@
 import { ClickAwayListener, Stack } from '@mui/material'
 import { useState } from 'react'
-import { generatePath, Outlet } from 'react-router-dom'
+import { generatePath, Outlet } from 'react-router'
 import styled from 'styled-components'
 
 import { Button, Typography, VerticalMenu } from '~/components/designSystem'

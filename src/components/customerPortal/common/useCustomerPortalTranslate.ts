@@ -1,5 +1,5 @@
 import { gql } from '@apollo/client'
-import { useParams } from 'react-router-dom'
+import { useParams } from 'react-router'
 
 import { Locale, LocaleEnum } from '~/core/translations'
 import { useGetPortalLocaleQuery } from '~/generated/graphql'

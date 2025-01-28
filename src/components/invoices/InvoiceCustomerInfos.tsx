@@ -2,7 +2,7 @@ import { gql } from '@apollo/client'
 import { Box, Stack } from '@mui/material'
 import { DateTime } from 'luxon'
 import { memo } from 'react'
-import { generatePath, Link } from 'react-router-dom'
+import { generatePath, Link } from 'react-router'
 import styled from 'styled-components'
 
 import { Icon, Status, StatusType, Typography } from '~/components/designSystem'

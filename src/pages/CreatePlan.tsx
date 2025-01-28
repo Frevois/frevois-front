@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client'
 import { Stack } from '@mui/material'
 import { FC, PropsWithChildren, useRef } from 'react'
-import { generatePath, useNavigate, useSearchParams } from 'react-router-dom'
+import { generatePath, useNavigate, useSearchParams } from 'react-router'
 
 import { Button, Card, Skeleton, Typography } from '~/components/designSystem'
 import {

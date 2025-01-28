@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client'
 import { FormikProps, useFormik } from 'formik'
 import { useEffect, useMemo } from 'react'
-import { generatePath, useNavigate, useParams, useSearchParams } from 'react-router-dom'
+import { generatePath, useNavigate, useParams, useSearchParams } from 'react-router'
 import { array, boolean, number, object, string } from 'yup'
 
 import { LocalChargeInput, PlanFormInput } from '~/components/plans/types'

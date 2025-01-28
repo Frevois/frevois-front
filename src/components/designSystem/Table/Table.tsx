@@ -8,7 +8,7 @@ import {
   TableRowProps,
 } from '@mui/material'
 import { MouseEvent, PropsWithChildren, ReactNode, useRef } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router'
 
 import { Button, IconName, Popper, Skeleton, Tooltip, Typography } from '~/components/designSystem'
 import { GenericPlaceholder, GenericPlaceholderProps } from '~/components/GenericPlaceholder'

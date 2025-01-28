@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams } from 'react-router'
 import styled from 'styled-components'
 
 import { Avatar, Button, Icon, Skeleton, Tooltip, Typography } from '~/components/designSystem'

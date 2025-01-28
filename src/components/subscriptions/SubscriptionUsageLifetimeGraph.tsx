@@ -1,7 +1,7 @@
 import { ApolloError, gql } from '@apollo/client'
 import { Stack } from '@mui/material'
 import { useMemo } from 'react'
-import { generatePath } from 'react-router-dom'
+import { generatePath } from 'react-router'
 
 import { intlFormatNumber } from '~/core/formats/intlFormatNumber'
 import { UPDATE_PLAN_ROUTE, UPDATE_SUBSCRIPTION } from '~/core/router'

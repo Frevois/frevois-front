@@ -3,7 +3,7 @@ import { MockedProvider, MockedResponse } from '@apollo/client/testing'
 import { ThemeProvider } from '@mui/material'
 import { configure, render, RenderOptions } from '@testing-library/react'
 import React, { ReactElement, useEffect } from 'react'
-import Router, { BrowserRouter } from 'react-router-dom'
+import { BrowserRouter, useParams as useParamsFn } from 'react-router'
 
 import { initializeTranslations } from './core/apolloClient'
 import { initializeYup } from './formValidation/initializeYup'
@@ -15,8 +15,8 @@ const { mockNavigate } = vi.hoisted(() => {
   return { mockNavigate: vi.fn() }
 })
 
-vitest.mock('react-router-dom', async () => {
-  const router: typeof Router = await vitest.importActual('react-router-dom')
+vitest.mock('react-router', async () => {
+  const router = await vitest.importActual('react-router')
 
   const exports = {
     ...router,
@@ -54,7 +54,7 @@ export const AllTheProviders = ({
   loadDevMessages()
   loadErrorMessages()
 
-  !!useParams && vitest.mocked(Router.useParams).mockReturnValue(useParams)
+  !!useParams && vitest.mocked(useParamsFn).mockReturnValue(useParams)
 
   return (
     <BrowserRouter basename="/">

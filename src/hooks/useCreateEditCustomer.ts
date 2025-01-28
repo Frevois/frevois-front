@@ -1,6 +1,6 @@
 import { FetchResult, gql } from '@apollo/client'
 import { useEffect } from 'react'
-import { generatePath, useNavigate, useParams } from 'react-router-dom'
+import { generatePath, useNavigate, useParams } from 'react-router'
 
 import { addToast, hasDefinedGQLError } from '~/core/apolloClient'
 import { CUSTOMER_DETAILS_ROUTE, CUSTOMERS_LIST_ROUTE, ERROR_404_ROUTE } from '~/core/router'

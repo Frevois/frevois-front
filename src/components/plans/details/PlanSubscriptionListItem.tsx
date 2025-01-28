@@ -1,6 +1,6 @@
 import { gql } from '@apollo/client'
 import { DateTime } from 'luxon'
-import { generatePath } from 'react-router-dom'
+import { generatePath } from 'react-router'
 import styled, { css } from 'styled-components'
 
 import { computeCustomerInitials } from '~/components/customers/utils'

@@ -3,7 +3,7 @@ import { Stack } from '@mui/material'
 import { useFormik } from 'formik'
 import { forwardRef, RefObject, useImperativeHandle, useRef, useState } from 'react'
 import { useNavigate } from 'react-router'
-import { generatePath } from 'react-router-dom'
+import { generatePath } from 'react-router'
 import { object, string } from 'yup'
 
 import { Button, Dialog, DialogRef } from '~/components/designSystem'

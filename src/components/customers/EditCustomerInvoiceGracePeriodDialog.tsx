@@ -2,7 +2,7 @@ import { gql } from '@apollo/client'
 import { InputAdornment } from '@mui/material'
 import { useFormik } from 'formik'
 import { forwardRef } from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams } from 'react-router'
 import { number, object } from 'yup'
 
 import { Button, Dialog, DialogRef } from '~/components/designSystem'

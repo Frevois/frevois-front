@@ -1,4 +1,4 @@
-import { generatePath, useNavigate } from 'react-router-dom'
+import { generatePath, useNavigate } from 'react-router'
 
 import {
   Avatar,

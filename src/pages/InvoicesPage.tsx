@@ -1,6 +1,6 @@
 import { gql } from '@apollo/client'
 import { useMemo, useRef } from 'react'
-import { generatePath, useParams, useSearchParams } from 'react-router-dom'
+import { generatePath, useParams, useSearchParams } from 'react-router'
 
 import CreditNotesTable from '~/components/creditNote/CreditNotesTable'
 import { Button, NavigationTab, Typography } from '~/components/designSystem'

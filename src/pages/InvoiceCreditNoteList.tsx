@@ -1,6 +1,6 @@
 import { gql } from '@apollo/client'
 import { useRef } from 'react'
-import { generatePath, useParams } from 'react-router-dom'
+import { generatePath, useParams } from 'react-router'
 import styled from 'styled-components'
 
 import CreditNotesTable from '~/components/creditNote/CreditNotesTable'

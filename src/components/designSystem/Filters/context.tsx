@@ -1,5 +1,5 @@
 import { createContext, FC, PropsWithChildren, useContext, useEffect } from 'react'
-import { useNavigate, useSearchParams } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router'
 
 import { AvailableFiltersEnum, AvailableQuickFilters } from './types'
 

@@ -2,7 +2,7 @@
 import { Box, InputAdornment, Stack } from '@mui/material'
 import { useFormik } from 'formik'
 import { useRef } from 'react'
-import { generatePath, Link } from 'react-router-dom'
+import { generatePath, Link } from 'react-router'
 import styled, { css } from 'styled-components'
 import { boolean, number, object, string } from 'yup'
 

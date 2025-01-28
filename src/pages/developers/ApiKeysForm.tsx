@@ -1,6 +1,6 @@
 import { gql } from '@apollo/client'
 import { useFormik } from 'formik'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router'
 
 import { Alert, Button, Skeleton, Table, Typography } from '~/components/designSystem'
 import { Checkbox, TextInputField } from '~/components/form'

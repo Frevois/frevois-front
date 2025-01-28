@@ -1,5 +1,4 @@
 import { act, renderHook } from '@testing-library/react'
-import type Router from 'react-router-dom'
 
 import { locationHistoryVar } from '~/core/apolloClient'
 
@@ -44,8 +43,8 @@ const MOCK_HISTORY_VAR = [
   },
 ]
 
-vitest.mock('react-router-dom', async () => {
-  const router: typeof Router = await vitest.importActual('react-router-dom')
+vitest.mock('react-router', async () => {
+  const router = await vitest.importActual('react-router')
 
   const exports = {
     ...router,

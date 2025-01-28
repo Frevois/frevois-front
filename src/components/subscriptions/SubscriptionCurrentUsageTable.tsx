@@ -1,7 +1,7 @@
 import { ApolloError, gql } from '@apollo/client'
 import { Box, Stack } from '@mui/material'
 import { useRef } from 'react'
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router'
 import styled from 'styled-components'
 
 import { Alert, Button, Skeleton, Table, Tooltip, Typography } from '~/components/designSystem'

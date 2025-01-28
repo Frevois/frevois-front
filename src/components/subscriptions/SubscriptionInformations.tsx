@@ -1,6 +1,6 @@
 import { gql } from '@apollo/client'
 import { DateTime } from 'luxon'
-import { generatePath, Link } from 'react-router-dom'
+import { generatePath, Link } from 'react-router'
 import styled from 'styled-components'
 
 import { PlanDetailsTabsOptionsEnum } from '~/core/constants/tabsOptions'

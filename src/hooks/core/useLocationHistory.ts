@@ -1,4 +1,4 @@
-import { Location, matchPath, useNavigate } from 'react-router-dom'
+import { Location, matchPath, useNavigate } from 'react-router'
 
 import {
   addLocationToHistory,

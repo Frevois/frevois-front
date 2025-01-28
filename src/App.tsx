@@ -2,7 +2,7 @@ import { ApolloClient, ApolloProvider, NormalizedCacheObject } from '@apollo/cli
 import { loadDevMessages, loadErrorMessages } from '@apollo/client/dev'
 import { StyledEngineProvider, ThemeProvider } from '@mui/material'
 import { useEffect, useState } from 'react'
-import { BrowserRouter } from 'react-router-dom'
+import { BrowserRouter } from 'react-router'
 
 import { ToastContainer } from '~/components/designSystem/Toasts'
 import { ErrorBoundary } from '~/components/ErrorBoundary'

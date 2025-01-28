@@ -3,7 +3,7 @@ import { Stack } from '@mui/material'
 import { useFormik } from 'formik'
 import _omit from 'lodash/omit'
 import { useEffect, useRef, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router'
 import styled from 'styled-components'
 import { array, bool, number, object, string } from 'yup'
 

@@ -4,7 +4,7 @@ import { useFormik } from 'formik'
 import _get from 'lodash/get'
 import { DateTime } from 'luxon'
 import { useCallback, useMemo, useRef, useState } from 'react'
-import { generatePath, useNavigate, useParams } from 'react-router-dom'
+import { generatePath, useNavigate, useParams } from 'react-router'
 import styled, { css } from 'styled-components'
 import { array, number, object, string } from 'yup'
 
