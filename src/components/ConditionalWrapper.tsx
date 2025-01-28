@@ -1,4 +1,4 @@
-import { ReactNode } from 'react'
+import type { JSX, ReactNode } from 'react'
 
 interface ConditionalWrapperProps {
   condition: boolean

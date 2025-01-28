@@ -32,8 +32,6 @@ const Home = () => {
         navigate(CUSTOMERS_LIST_ROUTE, { replace: true })
       }
     }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isUserLoading, currentMembership])
 
   return null

@@ -56,8 +56,6 @@ export const FiltersItemAmount = ({ value = '', setFilterValue }: FiltersItemAmo
     )
 
     setFilterValue?.(`${interval},${from || ''},${to || ''}`)
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [formikProps.values.interval, formikProps.values.amountFrom, formikProps.values.amountTo])
 
   return (

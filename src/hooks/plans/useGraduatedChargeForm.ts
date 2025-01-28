@@ -68,7 +68,6 @@ export const useGraduatedChargeForm: UseGraduatedChargeForm = ({
       // if no existing charge, initialize it with 2 pre-filled lines
       formikProps.setFieldValue(formikIdentifier, DEFAULT_GRADUATED_CHARGES)
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [formikIdentifier])
 
   return {

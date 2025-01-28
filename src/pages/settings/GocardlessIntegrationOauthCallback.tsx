@@ -77,9 +77,7 @@ const GocardlessIntegrationOauthCallback = () => {
         translateKey: 'text_622f7a3dc32ce100c46a5154',
       })
     }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [accessCode, addGocardlessApiKey, code, name, navigate])
 
   return (
     <>

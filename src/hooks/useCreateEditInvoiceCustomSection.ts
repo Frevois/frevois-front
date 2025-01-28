@@ -96,7 +96,6 @@ export const useCreateEditInvoiceCustomSection = (): UseCreateEditInvoiceCustomS
     if (hasDefinedGQLError('NotFound', error, 'invoiceCustomSection')) {
       navigate(ERROR_404_ROUTE)
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [error])
 
   const errorCode = useMemo(() => {

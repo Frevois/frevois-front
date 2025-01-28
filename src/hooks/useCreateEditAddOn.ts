@@ -117,7 +117,6 @@ export const useCreateEditAddOn: () => UseCreateEditAddOnReturn = () => {
     if (hasDefinedGQLError('NotFound', error, 'addOn')) {
       navigate(ERROR_404_ROUTE)
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [error])
 
   const errorCode = useMemo(() => {

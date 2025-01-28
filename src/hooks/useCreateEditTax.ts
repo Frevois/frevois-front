@@ -109,7 +109,6 @@ export const useCreateEditTax: () => useCreateEditTaxReturn = () => {
     if (hasDefinedGQLError('NotFound', error, 'tax')) {
       navigate(ERROR_404_ROUTE)
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [error])
 
   const errorCode = useMemo(() => {

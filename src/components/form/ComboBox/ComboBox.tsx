@@ -72,7 +72,6 @@ export const ComboBox = ({
         onChange('')
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [rawData])
 
   const filter = createFilterOptions<ComboBoxData>({

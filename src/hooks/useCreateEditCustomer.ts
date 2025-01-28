@@ -207,7 +207,6 @@ export const useCreateEditCustomer: UseCreateEditCustomer = () => {
     if (hasDefinedGQLError('NotFound', error, 'customer')) {
       navigate(ERROR_404_ROUTE)
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [error])
 
   const onSave = async (values: CreateCustomerInput | UpdateCustomerInput) => {

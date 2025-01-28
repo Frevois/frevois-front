@@ -119,7 +119,6 @@ export const CustomerOverview: FC<CustomerOverviewProps> = ({
     if (hasPermissions(['analyticsView'])) {
       getCustomerGrossRevenues()
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [externalCustomerId])
 
   const grossRevenues = (grossRevenuesData?.grossRevenues.collection || []).reduce(

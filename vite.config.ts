@@ -1,4 +1,4 @@
-import react from '@vitejs/plugin-react-swc'
+import react from '@vitejs/plugin-react'
 import { resolve } from 'node:path'
 import { defineConfig, loadEnv } from 'vite'
 import { createHtmlPlugin } from 'vite-plugin-html'
@@ -19,6 +19,8 @@ const titles: Record<string, string> = {
   staging: 'Lago - Cloud',
 }
 
+const ReactCompilerConfig = {}
+
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '')
   const port = env.PORT ? parseInt(env.PORT) : 8080
@@ -31,7 +33,12 @@ export default defineConfig(({ mode }) => {
     },
     plugins: [
       react({
-        plugins: [['@swc/plugin-styled-components', { displayName: true }]],
+        babel: {
+          plugins: [
+            ['babel-plugin-styled-components', { displayName: true }],
+            ['babel-plugin-react-compiler', ReactCompilerConfig],
+          ],
+        },
       }),
 
       wasm(),

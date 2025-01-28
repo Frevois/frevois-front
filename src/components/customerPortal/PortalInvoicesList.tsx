@@ -169,8 +169,6 @@ const PortalInvoicesList = () => {
   useEffect(() => {
     getOverdueBalance()
     getInvoicesCollection()
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const customerCurrency = userCurrencyData?.customerPortalUser?.currency ?? CurrencyEnum.Usd

@@ -66,8 +66,6 @@ const GoogleAuthButton = ({
       // Remove the error code from the URL, so it disappears on page reload
       history.replaceState({}, '', window.location.pathname)
     }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (

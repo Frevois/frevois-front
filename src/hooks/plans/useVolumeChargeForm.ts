@@ -68,7 +68,6 @@ export const useVolumeChargeForm: UseVolumeChargeForm = ({
       // if no existing charge, initialize it with 2 pre-filled lines
       formikProps.setFieldValue(formikIdentifier, DEFAULT_VOLUME_CHARGES)
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [formikIdentifier])
 
   return {

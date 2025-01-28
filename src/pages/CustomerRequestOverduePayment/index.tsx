@@ -152,25 +152,17 @@ const CustomerRequestOverduePayment: FC = () => {
   )
   const totalInvoices = invoicesCollection.length
 
-  useEffect(
-    () => {
-      if (hasDefinedGQLError('NotFound', error, 'customer')) {
-        navigate(ERROR_404_ROUTE)
-      }
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [error],
-  )
+  useEffect(() => {
+    if (hasDefinedGQLError('NotFound', error, 'customer')) {
+      navigate(ERROR_404_ROUTE)
+    }
+  }, [error])
 
-  useEffect(
-    () => {
-      if (loading === false && totalAmount <= 0) {
-        navigate(ERROR_404_ROUTE)
-      }
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [loading, totalAmount],
-  )
+  useEffect(() => {
+    if (loading === false && totalAmount <= 0) {
+      navigate(ERROR_404_ROUTE)
+    }
+  }, [loading, totalAmount])
 
   return (
     <>

@@ -216,8 +216,6 @@ export const CreditNoteFormCalculation = ({
     formikProps.setTouched({
       payBack: true,
     })
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [totalTaxIncluded, canOnlyCredit])
 
   if (!invoice) return null

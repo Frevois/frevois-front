@@ -151,7 +151,9 @@ const OrganizationInformations = () => {
                       {hasPermissions(['organizationUpdate']) && (
                         <Button
                           variant="quaternary"
-                          onClick={editInfosDialogRef?.current?.openDialog}
+                          onClick={() => {
+                            editInfosDialogRef?.current?.openDialog()
+                          }}
                         >
                           {translate('text_6389099378112a8d8e2b73be')}
                         </Button>

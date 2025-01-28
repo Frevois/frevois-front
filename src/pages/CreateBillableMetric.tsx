@@ -221,7 +221,6 @@ const CreateBillableMetric = () => {
     ) {
       formikProps.setFieldValue('fieldName', undefined)
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [formikProps.values.aggregationType, formikProps.values.fieldName])
 
   useEffect(() => {
@@ -232,8 +231,6 @@ const CreateBillableMetric = () => {
       if (!rootElement) return
       rootElement.scrollTo({ top: 0 })
     }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [errorCode])
 
   const handleUpdate = (name: string, value: unknown) => {

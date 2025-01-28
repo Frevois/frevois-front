@@ -224,7 +224,6 @@ const Invitation = () => {
         },
       })
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [googleCode, token])
 
   useEffect(() => {
@@ -239,7 +238,6 @@ const Invitation = () => {
         },
       })
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [oktaCode, oktaState, token])
 
   const errorTranslation: string | undefined = useMemo(() => {
@@ -276,8 +274,6 @@ const Invitation = () => {
     }
 
     return
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [acceptInviteError, googleAcceptInviteError, oktaAcceptInviteError, oktaAuthorizeUrlError])
 
   useShortcuts([

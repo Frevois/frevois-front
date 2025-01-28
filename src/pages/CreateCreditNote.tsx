@@ -265,7 +265,6 @@ const CreateCreditNote = () => {
         },
       ])
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isPrepaidCreditsInvoice, creditFeeValue])
 
   return (

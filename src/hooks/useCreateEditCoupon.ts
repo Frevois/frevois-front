@@ -194,7 +194,6 @@ export const useCreateEditCoupon: () => UseCreateEditCouponReturn = () => {
     if (hasDefinedGQLError('NotFound', error, 'coupon')) {
       navigate(ERROR_404_ROUTE)
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [error])
 
   const errorCode = useMemo(() => {

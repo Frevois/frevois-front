@@ -138,9 +138,7 @@ const SignUp = () => {
     }
 
     return
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [googleRegisterError, signUpError])
+  }, [googleRegisterError, signUpError, translate])
 
   useEffect(() => {
     if (googleCode) {

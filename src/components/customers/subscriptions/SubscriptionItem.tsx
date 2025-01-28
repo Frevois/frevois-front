@@ -48,7 +48,7 @@ const DateInfos = ({ children }: PropsWithChildren) => (
 interface SubscriptionItemProps {
   subscription: SubscriptionItemFragment
   customerTimezone?: TimezoneEnum
-  terminateSubscriptionDialogRef: RefObject<TerminateCustomerSubscriptionDialogRef> | null
+  terminateSubscriptionDialogRef: RefObject<TerminateCustomerSubscriptionDialogRef | null> | null
 }
 
 export const SubscriptionItem = ({

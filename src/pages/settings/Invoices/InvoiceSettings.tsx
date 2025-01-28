@@ -265,7 +265,9 @@ const InvoiceSettings = () => {
                     <Button
                       variant="quaternary"
                       disabled={!canEditInvoiceSettings}
-                      onClick={editDocumentLanguageDialogRef?.current?.openDialog}
+                      onClick={() => {
+                        editDocumentLanguageDialogRef?.current?.openDialog()
+                      }}
                     >
                       {translate('text_63e51ef4985f0ebd75c212fc')}
                     </Button>
@@ -436,7 +438,9 @@ const InvoiceSettings = () => {
                     <Button
                       variant="quaternary"
                       disabled={!canEditInvoiceSettings}
-                      onClick={editInvoiceTemplateDialogRef?.current?.openDialog}
+                      onClick={() => {
+                        editInvoiceTemplateDialogRef?.current?.openDialog()
+                      }}
                     >
                       {translate('text_6380d7e60f081e5b777c4b24')}
                     </Button>
@@ -466,7 +470,9 @@ const InvoiceSettings = () => {
                     <Button
                       variant="quaternary"
                       disabled={!canEditInvoiceSettings}
-                      onClick={editInvoiceNumberingDialogRef?.current?.openDialog}
+                      onClick={() => {
+                        editInvoiceNumberingDialogRef?.current?.openDialog()
+                      }}
                     >
                       {translate('text_6380d7e60f081e5b777c4b24')}
                     </Button>
@@ -529,7 +535,9 @@ const InvoiceSettings = () => {
                           <Button
                             variant="quaternary"
                             disabled={!canEditInvoiceSettings}
-                            onClick={editVATDialogRef?.current?.openDialog}
+                            onClick={() => {
+                              editVATDialogRef?.current?.openDialog()
+                            }}
                             data-test="add-tax-button"
                           >
                             {translate('text_645bb193927b375079d28ad2')}

@@ -412,14 +412,12 @@ export const usePlanForm: ({
         resetDuplicatePlanVar()
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   useEffect(() => {
     if (hasDefinedGQLError('NotFound', error, 'plan')) {
       navigate(ERROR_404_ROUTE)
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [error])
 
   useEffect(() => {
@@ -430,7 +428,6 @@ export const usePlanForm: ({
       if (!rootElement) return
       rootElement.scrollTo({ top: 0 })
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [errorCode])
 
   useEffect(() => {
@@ -442,7 +439,6 @@ export const usePlanForm: ({
     ) {
       formikProps.setFieldValue('billChargesMonthly', false)
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     formikProps.values.charges,
     formikProps.values.billChargesMonthly,

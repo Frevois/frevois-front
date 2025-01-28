@@ -36,8 +36,6 @@ export const ActiveFiltersList = () => {
     )
 
     return filtersToDisplay
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [availableFilters, searchParams])
 
   if (!activeFilters.length) {

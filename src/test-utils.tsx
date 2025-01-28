@@ -54,6 +54,7 @@ export const AllTheProviders = ({
   loadDevMessages()
   loadErrorMessages()
 
+  // eslint-disable-next-line react-compiler/react-compiler
   !!useParams && vitest.mocked(useParamsFn).mockReturnValue(useParams)
 
   return (

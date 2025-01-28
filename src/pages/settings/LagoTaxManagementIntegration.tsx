@@ -114,7 +114,9 @@ const LagoTaxManagementIntegration = () => {
           <Button
             variant="secondary"
             disabled={loading}
-            onClick={deleteConnectionRef.current?.openDialog}
+            onClick={() => {
+              deleteConnectionRef.current?.openDialog()
+            }}
           >
             {translate('text_657078c28394d6b1ae1b971b')}
           </Button>

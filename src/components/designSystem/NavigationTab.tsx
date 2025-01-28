@@ -80,7 +80,6 @@ export const NavigationTab = ({
     }
 
     // NOTE: window.location.pathname has to be watched for programatic navigation (without clicking on tabs)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [nonHiddenTabs, window.location.pathname])
 
   // Prevent blink on first render

@@ -66,7 +66,6 @@ export const useDebouncedSearch: UseDebouncedSearch = (searchQuery, loading) => 
 
   useEffect(() => {
     searchQuery && searchQuery()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   useEffect(() => {

@@ -135,7 +135,6 @@ export const useCreateEditDunningCampaign = (): UseCreateEditDunningCampaignRetu
     if (hasDefinedGQLError('NotFound', error, 'dunningCampaign')) {
       navigate(ERROR_404_ROUTE)
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [error])
 
   const errorCode = useMemo(() => {

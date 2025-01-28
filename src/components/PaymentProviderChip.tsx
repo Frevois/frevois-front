@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { FC, type JSX } from 'react'
 
 import { ProviderTypeEnum } from '~/generated/graphql'
 import { useInternationalization } from '~/hooks/core/useInternationalization'

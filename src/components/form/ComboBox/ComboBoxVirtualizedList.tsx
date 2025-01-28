@@ -53,21 +53,17 @@ export const ComboBoxVirtualizedList = (props: ComboBoxVirtualizedListProps) => 
 
   // when value gets updated, ensure we tell <VariableSizeList>
   // to scroll to the selected option
-  useEffect(
-    () => {
-      if (gridRef && value && gridRef.current) {
-        const valueIndex = elements.findIndex(
-          (el) => el.props?.children?.props?.option?.value === value,
-        )
+  useEffect(() => {
+    if (gridRef && value && gridRef.current) {
+      const valueIndex = elements.findIndex(
+        (el) => el.props?.children?.props?.option?.value === value,
+      )
 
-        if (valueIndex) {
-          gridRef.current?.scrollToItem(valueIndex, 'smart')
-        }
+      if (valueIndex) {
+        gridRef.current?.scrollToItem(valueIndex, 'smart')
       }
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [value],
-  )
+    }
+  }, [value])
 
   return (
     <VariableSizeList

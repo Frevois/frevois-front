@@ -21,7 +21,6 @@ const InvitationInit = () => {
 
     // We first logout the user and then redirect to the invitation form
     !isAuthenticated && navigate(generatePath(INVITATION_ROUTE_FORM, { token: token as string }))
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isAuthenticated])
 
   return <Outlet />

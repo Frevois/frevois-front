@@ -48,7 +48,7 @@ interface SubscriptionLineProps {
   hasAboveSection?: boolean
   status?: StatusTypeEnum | null
   customerTimezone?: TimezoneEnum
-  terminateSubscriptionDialogRef: RefObject<TerminateCustomerSubscriptionDialogRef> | null
+  terminateSubscriptionDialogRef: RefObject<TerminateCustomerSubscriptionDialogRef | null> | null
 }
 
 export const SubscriptionLine = ({

@@ -63,7 +63,6 @@ const CreateTaxRate = () => {
       if (!rootElement) return
       rootElement.scrollTo({ top: 0 })
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [errorCode])
 
   return (

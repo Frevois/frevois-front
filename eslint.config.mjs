@@ -4,6 +4,7 @@ import pluginImport from 'eslint-plugin-import'
 import pluginJsxA11y from 'eslint-plugin-jsx-a11y'
 import pluginPrettier from 'eslint-plugin-prettier/recommended'
 import pluginReact from 'eslint-plugin-react'
+import reactCompiler from 'eslint-plugin-react-compiler'
 import pluginReactHooks from 'eslint-plugin-react-hooks'
 import pluginTailwind from 'eslint-plugin-tailwindcss'
 import globals from 'globals'
@@ -45,6 +46,7 @@ export default [
       import: fixupPluginRules(pluginImport),
       'jsx-a11y': pluginJsxA11y,
       'react-hooks': pluginReactHooks,
+      'react-compiler': reactCompiler,
     },
     languageOptions: {
       parser: pluginTypescriptEslint.parser,
@@ -94,6 +96,7 @@ export default [
       ],
       '@typescript-eslint/no-unsafe-function-type': 'warn',
       '@typescript-eslint/ban-ts-comment': 'warn',
+      'react-compiler/react-compiler': 'warn',
     },
   },
   {

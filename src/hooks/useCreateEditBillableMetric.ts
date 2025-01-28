@@ -87,7 +87,6 @@ export const useCreateEditBillableMetric: () => UseCreateEditBillableMetricRetur
     if (hasDefinedGQLError('NotFound', error, 'billableMetric')) {
       navigate(ERROR_404_ROUTE)
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [error])
 
   const errorCode = useMemo(() => {

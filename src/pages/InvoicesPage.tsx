@@ -333,7 +333,9 @@ const InvoicesPage = () => {
               <Button
                 variant="secondary"
                 disabled={!dataInvoices?.invoices?.metadata?.totalCount}
-                onClick={exportInvoicesDialogRef.current?.openDialog}
+                onClick={() => {
+                  exportInvoicesDialogRef.current?.openDialog()
+                }}
               >
                 {translate('text_66b21236c939426d07ff98ca')}
               </Button>
@@ -347,7 +349,9 @@ const InvoicesPage = () => {
               <Button
                 variant="secondary"
                 disabled={!dataCreditNotes?.creditNotes?.metadata.totalCount}
-                onClick={exportCreditNotesDialogRef.current?.openDialog}
+                onClick={() => {
+                  exportCreditNotesDialogRef.current?.openDialog()
+                }}
               >
                 {translate('text_66b21236c939426d07ff98ca')}
               </Button>

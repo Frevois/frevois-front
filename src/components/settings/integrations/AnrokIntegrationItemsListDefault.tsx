@@ -26,7 +26,7 @@ type NetsuiteIntegrationItemsListDefaultProps = {
   hasError: boolean
   integrationId: string
   isLoading: boolean
-  anrokIntegrationMapItemDialogRef: RefObject<AnrokIntegrationMapItemDialogRef>
+  anrokIntegrationMapItemDialogRef: RefObject<AnrokIntegrationMapItemDialogRef | null>
 }
 
 const NetsuiteIntegrationItemsListDefault = ({

@@ -85,7 +85,6 @@ export const DatePicker = ({
       // Reset timezone to default
       if (defaultZone) Settings.defaultZone = getTimezoneConfig(organization?.timezone).name
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   useEffect(() => {

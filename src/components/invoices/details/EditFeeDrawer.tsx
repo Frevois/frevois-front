@@ -123,7 +123,6 @@ export const EditFeeDrawer = forwardRef<EditFeeDrawerRef>((_, ref) => {
   useEffect(() => {
     formikProps.setFieldValue('unitPreciseAmount', undefined)
     formikProps.setFieldValue('units', undefined)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [formikProps.values.adjustmentType])
 
   useImperativeHandle(ref, () => ({

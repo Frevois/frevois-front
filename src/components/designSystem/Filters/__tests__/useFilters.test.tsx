@@ -1,5 +1,5 @@
 import { renderHook } from '@testing-library/react'
-import { ReactNode } from 'react'
+import type { JSX, ReactNode } from 'react'
 import { BrowserRouter } from 'react-router'
 
 import { InvoicePaymentStatusTypeEnum, InvoiceStatusTypeEnum } from '~/generated/graphql'
