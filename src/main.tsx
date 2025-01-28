@@ -1,4 +1,3 @@
-//import * as Sentry from '@sentry/react'
 import React from 'react'
 import { createRoot } from 'react-dom/client'
 
@@ -9,15 +8,7 @@ import { getEnableFeatureFlags, listFeatureFlags, setFeatureFlags } from '~/core
 
 import './main.css'
 
-const { appEnv/*, sentryDsn*/ } = envGlobalVar()
-/*
-if (!!sentryDsn && appEnv !== AppEnvEnum.development) {
-  Sentry.init({
-    dsn: sentryDsn,
-    integrations: [Sentry.browserTracingIntegration()],
-    environment: appEnv,
-  })
-}*/
+const { appEnv } = envGlobalVar()
 
 if (appEnv !== AppEnvEnum.production) {
   window.Lago = {

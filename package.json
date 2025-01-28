@@ -102,7 +102,6 @@
     "@mui/styled-engine-sc": "6.4.0",
     "@mui/x-date-pickers": "7.24.1",
     "@nangohq/frontend": "0.40.8",
-    "@sentry/react": "8.35.0",
     "apollo-upload-client": "18.0.1",
     "apollo3-cache-persist": "0.15.0",
     "decimal.js": "^10.4.3",

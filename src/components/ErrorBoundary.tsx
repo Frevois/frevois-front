@@ -1,4 +1,3 @@
-//import { captureException, withScope } from '@sentry/react'
 import { Component, ErrorInfo, ReactNode } from 'react'
 
 import { addToast } from '~/core/apolloClient'
@@ -10,14 +9,6 @@ interface ErrorBoundaryProps {
 export class ErrorBoundary extends Component<ErrorBoundaryProps> {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   componentDidCatch(error: { message: string; name: string }, errorInfo: ErrorInfo) {
-    /*withScope((scope) => {
-      Object.keys(errorInfo).forEach((key) => {
-        // @ts-ignore
-        scope.setExtra(key, errorInfo[key])
-      })
-      captureException(error)
-    })*/
-
     addToast({
       severity: 'danger',
       translateKey: 'text_622f7a3dc32ce100c46a5154',

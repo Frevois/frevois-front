@@ -73,7 +73,6 @@ export default defineConfig(({ mode }) => {
           LAGO_OAUTH_PROXY_URL: JSON.stringify('https://proxy.lago.dev'),
           LAGO_DISABLE_SIGNUP: JSON.stringify('false'),
           NANGO_PUBLIC_KEY: JSON.stringify(''),
-          SENTRY_DSN: JSON.stringify('https://sentry.io/'),
         }
       : {
           APP_ENV: JSON.stringify(env.APP_ENV),
@@ -83,7 +82,6 @@ export default defineConfig(({ mode }) => {
           LAGO_OAUTH_PROXY_URL: JSON.stringify(env.LAGO_OAUTH_PROXY_URL),
           LAGO_DISABLE_SIGNUP: JSON.stringify(env.LAGO_DISABLE_SIGNUP),
           NANGO_PUBLIC_KEY: JSON.stringify(env.NANGO_PUBLIC_KEY),
-          SENTRY_DSN: JSON.stringify(env.SENTRY_DSN),
         },
     resolve: {
       alias: {

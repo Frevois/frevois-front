@@ -9,7 +9,6 @@ interface EnvGlobal {
   disableSignUp: boolean
   appVersion: string
   nangoPublicKey: string
-  sentryDsn: string
 }
 
 const apiUrl = !!window.API_URL
@@ -25,5 +24,4 @@ export const envGlobalVar = makeVar<EnvGlobal>({
   disableSignUp: (window.LAGO_DISABLE_SIGNUP || LAGO_DISABLE_SIGNUP) === 'true',
   appVersion: APP_VERSION,
   nangoPublicKey: window.NANGO_PUBLIC_KEY || NANGO_PUBLIC_KEY,
-  sentryDsn: window.SENTRY_DSN || SENTRY_DSN,
 })
