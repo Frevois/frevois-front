@@ -87,16 +87,19 @@ export const Popper = forwardRef<PopperRef, PopperProps>(
         <div className={tw(className)}>
           {typeof opener === 'function'
             ? cloneElement(opener({ isOpen }), {
+                // @ts-expect-error React 19 changed the types here
                 onClick: (e: MouseEvent<HTMLDivElement>) => {
                   const element = opener({ isOpen })
 
+                  // @ts-expect-error React 19 changed the types here
                   element?.props?.onClick && element.props.onClick(e)
                   toggle()
                 },
                 ref: openerRef,
               })
             : !!opener
-              ? cloneElement(opener, { onClick: toggle, ref: openerRef })
+              ? // @ts-expect-error React 19 changed the types here
+                cloneElement(opener, { onClick: toggle, ref: openerRef })
               : null}
           <MuiPopper
             className={tw(displayInDialog ? 'z-dialog' : 'z-popper')}

@@ -50,6 +50,7 @@ export const MultipleComboBoxVirtualizedList = (props: MultipleComboBoxVirtualiz
   useEffect(() => {
     if (gridRef && value && gridRef.current) {
       const valueIndex = elements.findIndex(
+        // @ts-expect-error React 19 changed the types here
         (el) => el.props?.children?.props?.option?.value === value,
       )
 

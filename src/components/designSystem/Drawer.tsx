@@ -68,6 +68,7 @@ export const Drawer = forwardRef<DrawerRef, DrawerProps>(
 
     return (
       <>
+        {/* @ts-expect-error React 19 changed the types here */}
         {!!opener && cloneElement(opener, { onClick: () => setIsOpen((prev) => !prev) })}
         <MuiDrawer
           open={isOpen}

@@ -30,7 +30,7 @@ interface FixedFeeSectionProps {
   canBeEdited?: boolean
   isInSubscriptionForm?: boolean
   subscriptionFormType?: keyof typeof FORM_TYPE_ENUM
-  editInvoiceDisplayNameRef: RefObject<EditInvoiceDisplayNameRef>
+  editInvoiceDisplayNameRef: RefObject<EditInvoiceDisplayNameRef | null>
   formikProps: FormikProps<PlanFormInput>
   isEdition?: boolean
   isInitiallyOpen?: boolean

@@ -41,7 +41,7 @@ type AnrokIntegrationItemsListBillableMetricsProps = {
   integrationId: string
   searchTerm: InputMaybe<string> | undefined
   isLoading: boolean
-  anrokIntegrationMapItemDialogRef: RefObject<AnrokIntegrationMapItemDialogRef>
+  anrokIntegrationMapItemDialogRef: RefObject<AnrokIntegrationMapItemDialogRef | null>
 }
 
 const AnrokIntegrationItemsListBillableMetrics = ({

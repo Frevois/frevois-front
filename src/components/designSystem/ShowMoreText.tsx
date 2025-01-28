@@ -33,6 +33,7 @@ export const ShowMoreText = ({ text, limit, showMore, ...props }: ShowMoreTextPr
           </button>
         ) : (
           !!showMore &&
+          // @ts-expect-error React 19 changed the types here
           cloneElement(showMore as ReactElement, { onClick: () => setIsTextTruncated(false) })
         )}
       </span>

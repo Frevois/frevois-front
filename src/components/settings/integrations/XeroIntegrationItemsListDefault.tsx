@@ -26,7 +26,7 @@ type XeroIntegrationItemsListDefaultProps = {
   hasError: boolean
   integrationId: string
   isLoading: boolean
-  xeroIntegrationMapItemDialogRef: RefObject<XeroIntegrationMapItemDialogRef>
+  xeroIntegrationMapItemDialogRef: RefObject<XeroIntegrationMapItemDialogRef | null>
 }
 
 const XeroIntegrationItemsListDefault = ({

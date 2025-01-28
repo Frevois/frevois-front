@@ -52,7 +52,7 @@ export const ComboBox = ({
 
   // we need a ref to the previous data (see the following `useEffect()`)
   //  to compute if some options were deleted and update the `value` accordingly
-  const prevRawDataRef = useRef<ComboBoxData[] | undefined>()
+  const prevRawDataRef = useRef<ComboBoxData[] | undefined>(undefined)
 
   useEffect(() => {
     prevRawDataRef.current = rawData

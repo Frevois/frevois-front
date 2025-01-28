@@ -15,7 +15,7 @@ import { theme } from '~/styles'
 
 type AddOktaDialogProps = Partial<{
   integration: AddOktaIntegrationDialogFragment
-  deleteModalRef: RefObject<DeleteOktaIntegrationDialogRef>
+  deleteModalRef: RefObject<DeleteOktaIntegrationDialogRef | null>
   deleteDialogCallback: Function
   callback?: UseOktaIntegrationProps['onSubmit']
 }>

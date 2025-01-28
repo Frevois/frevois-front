@@ -47,16 +47,6 @@ const CreateDunning = () => {
 
   const { organization: { defaultCurrency } = {} } = useOrganizationInfos()
 
-  useEffect(() => {
-    if (errorCode === FORM_ERRORS_ENUM.existingCode) {
-      formikProps.setFieldError('code', 'text_632a2d437e341dcc76817556')
-      const rootElement = document.getElementById('root')
-
-      if (!rootElement) return
-      rootElement.scrollTo({ top: 0 })
-    }
-  }, [errorCode, formikOrops])
-
   const formikProps = useFormik<DunningCampaignFormInput>({
     initialValues: {
       name: campaign?.name || '',
@@ -105,6 +95,16 @@ const CreateDunning = () => {
     validateOnMount: true,
     onSubmit: onSave,
   })
+
+  useEffect(() => {
+    if (errorCode === FORM_ERRORS_ENUM.existingCode) {
+      formikProps.setFieldError('code', 'text_632a2d437e341dcc76817556')
+      const rootElement = document.getElementById('root')
+
+      if (!rootElement) return
+      rootElement.scrollTo({ top: 0 })
+    }
+  }, [errorCode, formikProps])
 
   const [shouldDisplayDescription, setShouldDisplayDescription] = useState(
     !!formikProps.initialValues.description,

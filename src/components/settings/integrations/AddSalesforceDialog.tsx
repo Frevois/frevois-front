@@ -47,7 +47,7 @@ gql`
 `
 
 type TAddSalesforceDialogProps = Partial<{
-  deleteModalRef: RefObject<DeleteSalesforceIntegrationDialogRef>
+  deleteModalRef: RefObject<DeleteSalesforceIntegrationDialogRef | null>
   provider: SalesforceForCreateDialogFragment
   deleteDialogCallback: () => void
 }>

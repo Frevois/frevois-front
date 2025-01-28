@@ -71,7 +71,7 @@ gql`
 `
 
 type TAddCashfreeDialogProps = Partial<{
-  deleteModalRef: RefObject<DeleteCashfreeIntegrationDialogRef>
+  deleteModalRef: RefObject<DeleteCashfreeIntegrationDialogRef | null>
   provider: AddCashfreeProviderDialogFragment
   deleteDialogCallback: Function
 }>

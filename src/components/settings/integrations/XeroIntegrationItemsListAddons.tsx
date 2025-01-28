@@ -37,7 +37,7 @@ type XeroIntegrationItemsListAddonsProps = {
   integrationId: string
   searchTerm: InputMaybe<string> | undefined
   isLoading: boolean
-  xeroIntegrationMapItemDialogRef: RefObject<XeroIntegrationMapItemDialogRef>
+  xeroIntegrationMapItemDialogRef: RefObject<XeroIntegrationMapItemDialogRef | null>
 }
 
 const XeroIntegrationItemsListAddons = ({

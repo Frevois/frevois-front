@@ -43,8 +43,8 @@ interface InvoiceFeeArrearsDetailsTableProps {
   canHaveUnitPrice: boolean
   isDraftInvoice: boolean
   currency: CurrencyEnum
-  editFeeDrawerRef: RefObject<EditFeeDrawerRef>
-  deleteAdjustedFeeDialogRef: RefObject<DeleteAdjustedFeeDialogRef>
+  editFeeDrawerRef: RefObject<EditFeeDrawerRef | null>
+  deleteAdjustedFeeDialogRef: RefObject<DeleteAdjustedFeeDialogRef | null>
 }
 
 export const InvoiceFeeArrearsDetailsTable = memo(

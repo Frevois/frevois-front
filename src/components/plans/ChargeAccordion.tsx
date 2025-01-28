@@ -164,8 +164,8 @@ interface ChargeAccordionProps {
   id: string
   index: number
   isUsedInSubscription?: boolean
-  editInvoiceDisplayNameRef: RefObject<EditInvoiceDisplayNameRef>
-  removeChargeWarningDialogRef?: RefObject<RemoveChargeWarningDialogRef>
+  editInvoiceDisplayNameRef: RefObject<EditInvoiceDisplayNameRef | null>
+  removeChargeWarningDialogRef?: RefObject<RemoveChargeWarningDialogRef | null>
   subscriptionFormType?: keyof typeof FORM_TYPE_ENUM
   shouldDisplayAlreadyUsedChargeAlert: boolean
 }

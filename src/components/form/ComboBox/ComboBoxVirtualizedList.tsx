@@ -32,6 +32,7 @@ export const ComboBoxVirtualizedList = (props: ComboBoxVirtualizedListProps) => 
   const getHeight = () => {
     const hasAnyGroupHeader = elements.some((el) => (el.key as string).includes(GROUP_ITEM_KEY))
     const hasDescription = elements.some(
+      // @ts-expect-error React 19 changed the types here
       (el) => (el.props?.children?.props?.option?.description as string)?.length > 0,
     )
 
@@ -56,6 +57,7 @@ export const ComboBoxVirtualizedList = (props: ComboBoxVirtualizedListProps) => 
   useEffect(() => {
     if (gridRef && value && gridRef.current) {
       const valueIndex = elements.findIndex(
+        // @ts-expect-error React 19 changed the types here
         (el) => el.props?.children?.props?.option?.value === value,
       )
 

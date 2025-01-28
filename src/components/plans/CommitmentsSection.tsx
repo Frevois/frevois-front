@@ -40,7 +40,7 @@ gql`
 `
 
 type CommitmentsSectionProps = {
-  editInvoiceDisplayNameRef: RefObject<EditInvoiceDisplayNameRef>
+  editInvoiceDisplayNameRef: RefObject<EditInvoiceDisplayNameRef | null>
   formikProps: FormikProps<PlanFormInput>
 }
 

@@ -94,8 +94,8 @@ type InvoiceDetailsTableBodyLineProps = {
   fee: TExtendedRemainingFee | undefined
   isDraftInvoice: boolean
   hideVat?: boolean
-  editFeeDrawerRef?: RefObject<EditFeeDrawerRef>
-  deleteAdjustedFeeDialogRef?: RefObject<DeleteAdjustedFeeDialogRef>
+  editFeeDrawerRef?: RefObject<EditFeeDrawerRef | null>
+  deleteAdjustedFeeDialogRef?: RefObject<DeleteAdjustedFeeDialogRef | null>
   succeededDate?: string
   hasTaxProviderError?: boolean
 }

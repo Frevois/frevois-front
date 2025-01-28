@@ -142,8 +142,8 @@ gql`
 interface InvoiceDetailsTableProps {
   customer: Customer
   invoice: InvoiceForDetailsTableFragment
-  editFeeDrawerRef: RefObject<EditFeeDrawerRef>
-  deleteAdjustedFeeDialogRef: RefObject<DeleteAdjustedFeeDialogRef>
+  editFeeDrawerRef: RefObject<EditFeeDrawerRef | null>
+  deleteAdjustedFeeDialogRef: RefObject<DeleteAdjustedFeeDialogRef | null>
 }
 
 export const InvoiceDetailsTable = memo(

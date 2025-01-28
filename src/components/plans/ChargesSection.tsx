@@ -73,7 +73,7 @@ gql`
 
 interface ChargesSectionProps {
   alreadyExistingCharges?: LocalChargeInput[] | null
-  editInvoiceDisplayNameRef: RefObject<EditInvoiceDisplayNameRef>
+  editInvoiceDisplayNameRef: RefObject<EditInvoiceDisplayNameRef | null>
   canBeEdited?: boolean
   isInitiallyOpen?: boolean
   isInSubscriptionForm?: boolean
