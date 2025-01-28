@@ -180,12 +180,12 @@ export const MultipleComboBox = ({
           <MultipleComboBoxItemWrapper
             multipleComboBoxProps={props}
             id={`option-${option.value}`}
-            key={`option-${option.value}`}
             option={option}
             selected={state.selected}
             virtualized={virtualized}
             addValueRedirectionUrl={option.addValueRedirectionUrl}
             {...props}
+            key={`option-${option.value}`}
           />
         )
       }}

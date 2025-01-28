@@ -156,12 +156,12 @@ export const ComboBox = ({
           <ComboBoxItemWrapper
             comboboxProps={props}
             id={`option-${option.value}`}
-            key={`option-${option.value}`}
             option={option}
             selected={state.selected}
             virtualized={virtualized}
             addValueRedirectionUrl={option.addValueRedirectionUrl}
             {...props}
+            key={`option-${option.value}`}
           />
         )
       }}
